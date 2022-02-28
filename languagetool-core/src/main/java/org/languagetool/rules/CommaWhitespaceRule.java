@@ -34,7 +34,6 @@ import static org.languagetool.tools.StringTools.isEmpty;
  * 
  * @author Daniel Naber
  */
-/* need better messages */
 public class CommaWhitespaceRule extends Rule {
 
   private boolean quotesWhitespaceCheck;
@@ -63,7 +62,6 @@ public class CommaWhitespaceRule extends Rule {
     this.quotesWhitespaceCheck = true;
   }
 
-
   @Override
   public String getId() {
     return "COMMA_PARENTHESIS_WHITESPACE";
@@ -79,8 +77,6 @@ public class CommaWhitespaceRule extends Rule {
   }
 
   /**
-   * @param tokens
-   * @param tokenIdx
    * @return Returns true if there exception to this rule
    * @since 5.3
    */
@@ -98,7 +94,8 @@ public class CommaWhitespaceRule extends Rule {
     for (int i = 0; i < tokens.length; i++) {
       String token = tokens[i].getToken();
       boolean isWhitespace = isWhitespaceToken(tokens[i]);
-
+      boolean twoSuggestions = false;
+      
       String msg = null;
       String suggestionText = null;
       if (isWhitespace && isLeftBracket(prevToken)) {
@@ -109,7 +106,8 @@ public class CommaWhitespaceRule extends Rule {
         }
       } else if (isWhitespace && isQuote(prevToken) && this.quotesWhitespaceCheck && prevPrevToken.equals(" ")) {
           msg = messages.getString("no_space_around_quotes");
-          suggestionText = "";
+          suggestionText = prevToken;
+          twoSuggestions = true;
       } else if (!isWhitespace && prevToken.equals(getCommaCharacter())
           && !isQuote(token)
           && !isHyphenOrComma(token)
@@ -149,9 +147,17 @@ public class CommaWhitespaceRule extends Rule {
       }
       if (msg != null && ! isException(tokens, i) ) {
         int fromPos = tokens[i - 1].getStartPos();
+        if (twoSuggestions) {
+          fromPos = tokens[i - 2].getStartPos();
+        }
         int toPos = tokens[i].getEndPos();
         RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos, toPos, msg);
-        ruleMatch.setSuggestedReplacement(suggestionText);
+        if (twoSuggestions) {
+          ruleMatch.addSuggestedReplacement(suggestionText + " ");
+          ruleMatch.addSuggestedReplacement(" " + suggestionText);
+        } else {
+          ruleMatch.setSuggestedReplacement(suggestionText);  
+        }
         ruleMatches.add(ruleMatch);
       }
       prevPrevToken = prevToken;

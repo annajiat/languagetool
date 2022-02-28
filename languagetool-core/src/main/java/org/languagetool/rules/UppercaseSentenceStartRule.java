@@ -42,7 +42,8 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
   private static final Pattern WHITESPACE_OR_QUOTE = Pattern.compile("[ \"'„«»‘’“”\\n]"); //only ending quote is necessary?
   private static final Pattern SENTENCE_END1 = Pattern.compile("[.?!…]|");
   private static final Set<String> EXCEPTIONS = new HashSet<>(Arrays.asList(
-          "x86"
+          "x86",
+          "cc" // cc @daniel => "Cc @daniel" is strange
   ));
 
   private final Language language;
@@ -127,8 +128,10 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
       if (!SENTENCE_END1.matcher(lastParagraphString).matches() && !isSentenceEnd(lastToken)) {
         preventError = true;
       }
-
-      lastParagraphString = lastToken;
+      
+      if (!sentence.getText().replace('\u00A0', ' ').trim().isEmpty()) {
+        lastParagraphString = lastToken;
+      }
 
       //allows enumeration with lowercase letters: a), iv., etc.
       if (matchTokenPos+1 < tokens.length

@@ -23,12 +23,16 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.*;
 import org.languagetool.language.CanadianEnglish;
+import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.ngrams.FakeLanguageModel;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static java.util.Collections.*;
 import static org.hamcrest.CoreMatchers.is;
@@ -51,6 +55,21 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
     CanadianEnglish canadianEnglish = new CanadianEnglish();
     caRule = new MorfologikCanadianSpellerRule(TestTools.getMessages("en"), canadianEnglish, null, emptyList());
     caLangTool = new JLanguageTool(canadianEnglish);
+  }
+
+  @Test
+  public void testNamedEntityIgnore() throws IOException {
+    Language language = Languages.getLanguageForShortCode("en-US");
+    Map<String, Integer> map = new HashMap<>();
+    map.put("Peter", 100);
+    map.put("Petr", 10);
+    LanguageModel lm = new FakeLanguageModel(map);
+    Rule rule = new MorfologikAmericanSpellerRule(TestTools.getMessages("en"), language, null, null, null, lm, null);
+    //String s = "He was the son of Mehmed II (1432–81) and Valide Sultan Gülbahar Hatun, who died in 1492.";
+    //String s = "This is a test with Elmar Reimann.";
+    String s = "This is a test with Petr Smith.";
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(s));
+    //System.out.println(Arrays.toString(matches));
   }
 
   @Test
@@ -105,8 +124,30 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
     assertEquals(0, rule.match(lt.getAnalyzedSentence("This is English text 🗺.")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Yes ma'am.")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Yes ma’am.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("'twas but a dream of thee")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("fo'c'sle")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("O'Connell, O’Connell, O'Connor, O’Neill")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("viva voce, a fortiori, in vitro")).length);
+    // non-ASCII characters
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("5¼\" floppy disk drive")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("a visual magnitude of -2½")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Water freezes at 0º C. 175ºC")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("33°5′40″N and 32°59′0″E.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("It's up to 5·10-³ meters.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("141°00′7.128″W")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("1031－1095")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("It is thus written 1″.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("a 30½-inch scale length.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("symbolically stated as A ∈ ℝ3.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Thus ℵ0 is a regular cardinal.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("the classical space B(ℓ2)")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("🏽")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("🧡🚴🏽♂️ , 🎉💛✈️")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("компьютерная")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("中文維基百科 中文维基百科")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("The statements¹ of⁷ the⁵⁰ government⁹‽")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("At 3 o'clock.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("At 3 o’clock.")).length);
     
     // test words in language-specific spelling_en-US.txt
     assertEquals(0, rule.match(lt.getAnalyzedSentence("USTestWordToBeIgnored")).length);
@@ -141,7 +182,17 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
     assertEquals(0, rule.match(lt.getAnalyzedSentence("A web-feature-driven-car software.")).length);
     assertEquals(1, rule.match(lt.getAnalyzedSentence("A web-feature-drivenx-car software.")).length);
 
-    assertAllMatches(lt, rule, "timezones", "timezone", "time zones");
+    assertAllMatches(lt, rule, "robinson", "Robinson", "robin son", "robins on", "Robson", "Robeson", "robins", "Roberson");
+    
+    // contractions with apostrophe
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("You're only foolin' round.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("You’re only foolin’ round.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("This is freakin' hilarious.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("It's the meal that keeps on givin'.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Don't Stop Believin'.")).length);
+    
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("wrongwordin'")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("wrongwordin’")).length);
   }
 
   @Test
@@ -338,6 +389,18 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
         System.out.println("  getErrorLimitLang: " + match.getErrorLimitLang());
       }
     }
+  }
+
+  @Test
+  public void testGetOnlySuggestions() throws IOException {
+    assertThat(rule.getOnlySuggestions("cemetary").size(), is(1));
+    assertThat(rule.getOnlySuggestions("cemetary").get(0).getReplacement(), is("cemetery"));
+    assertThat(rule.getOnlySuggestions("Cemetary").size(), is(1));
+    assertThat(rule.getOnlySuggestions("Cemetary").get(0).getReplacement(), is("Cemetery"));
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("cemetary"));
+    assertThat(matches.length, is(1));
+    assertThat(matches[0].getSuggestedReplacements().size(), is(1));
+    assertThat(matches[0].getSuggestedReplacements().get(0), is("cemetery"));
   }
 
   private void assertSuggestion(String input, String... expectedSuggestions) throws IOException {

@@ -65,6 +65,7 @@ public final class StringTools {
   private static final Pattern XML_PATTERN = Pattern.compile("(?<!<)<[^<>]+>", Pattern.DOTALL);
   public static final Set<String> UPPERCASE_GREEK_LETTERS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList("Α","Β","Γ","Δ","Ε","Ζ","Η","Θ","Ι","Κ","Λ","Μ","Ν","Ξ","Ο","Π","Ρ","Σ","Τ","Υ","Φ","Χ","Ψ","Ω")));
   public static final Set<String> LOWERCASE_GREEK_LETTERS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList("α","β","γ","δ","ε","ζ","η","θ","ι","κ","λ","μ","ν","ξ","ο","π","ρ","σ","τ","υ","φ","χ","ψ","ω")));
+  private static final Pattern PUNCTUATION_PATTERN = Pattern.compile("[\\p{IsPunctuation}']", Pattern.DOTALL);
 
   private StringTools() {
     // only static stuff
@@ -139,7 +140,7 @@ public final class StringTools {
   }
 
   /**
-   * Returns true if <code>str</code> is made up of all-lowercase characters
+   * Returns true if <code>str</code> is not made up of all-lowercase characters
    * (ignoring characters for which no upper-/lowercase distinction exists).
    * @since 2.5
    */
@@ -490,6 +491,10 @@ public final class StringTools {
     String s = Normalizer.normalize(str, Normalizer.Form.NFD);
     return s.replaceAll("[\\p{InCombiningDiacriticalMarks}]", "");
   }
+  
+  public static String normalizeNFKC(String str) {
+    return Normalizer.normalize(str, Normalizer.Form.NFKC);
+  }
 
   public static String removeTashkeel(String str) {
     String s = Normalizer.normalize(str, Normalizer.Form.NFD);
@@ -574,5 +579,13 @@ public final class StringTools {
    */
   public static boolean isCamelCase(String token) {
     return token.matches("[a-z]+[A-Z][A-Za-z]+");
+  }
+  
+  /**
+   * Whether the string is a punctuation mark
+   * @since 5.5
+   */
+  public static boolean isPunctuationMark(String input) {
+    return PUNCTUATION_PATTERN.matcher(input).matches();
   }
 }

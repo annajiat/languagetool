@@ -272,3 +272,4 @@ B: preposition: B: for Beh, K: for Kaf, L: for Lam, by default we use B, -: none
 L/H: definite article, L: for AL,  H: attached pronouns  -: none.
     H: define the extended words added to the lexem: الضمائر المضافة
     H: if have encletic
+

@@ -61,7 +61,7 @@ public class HunspellRule extends SpellingCheckRule {
   protected static final String FILE_EXTENSION = ".dic";
 
   private volatile boolean needsInit = true;
-  protected volatile Hunspell hunspell = null;
+  protected volatile HunspellDictionary hunspell = null;
 
   private static final Logger logger = LoggerFactory.getLogger(HunspellRule.class);
   private static final ConcurrentLinkedQueue<String> activeChecks = new ConcurrentLinkedQueue<>();
@@ -70,7 +70,7 @@ public class HunspellRule extends SpellingCheckRule {
   private static final boolean monitorRules = System.getProperty("monitorActiveRules") != null;
 
   //300 most common Portuguese words. They are used to avoid wrong split suggestions
-  private final List<String> commonPortugueseWords = Arrays.asList("de", "e", "a", "o", "da", "do", "em", "que", "uma", "um", "com", "no", "se", "na", "para", "por", "os", "foi", "como", "dos", "as", "ao", "mais", "sua", "das", "não", "ou", "km", "seu", "pela", "ser", "pelo", "são", "também", "anos", "cidade", "entre", "era", "tem", "mas", "habitantes", "nos", "seus", "área", "até", "ele", "onde", "foram", "população", "região", "sobre", "nas", "nome", "parte", "quando", "ano", "aos", "grande", "mesmo", "pode", "primeiro", "segundo", "sendo", "suas", "ainda", "dois", "estado", "está", "família", "já", "muito", "outros", "americano", "depois", "durante", "maior", "primeira", "forma", "apenas", "banda", "densidade", "dia", "então", "município", "norte", "tempo", "após", "duas", "num", "pelos", "qual", "século", "ter", "todos", "três", "vez", "água", "acordo", "cobertos", "comuna", "contra", "ela", "grupo", "principal", "quais", "sem", "tendo", "às", "álbum", "alguns", "assim", "asteróide", "bem", "brasileiro", "cerca", "desde", "este", "localizada", "mundo", "outras", "período", "seguinte", "sido", "vida", "através", "cada", "conhecido", "final", "história", "partir", "país", "pessoas", "sistema", "terra", "teve", "tinha", "época", "administrativa", "censo", "departamento", "dias", "esta", "filme", "francesa", "música", "província", "série", "vezes", "além", "antes", "eles", "eram", "espécie", "governo", "podem", "vários", "censos", "distrito", "estão", "exemplo", "hoje", "início", "jogo", "lhe", "lugar", "muitos", "média", "novo", "numa", "número", "pois", "possui", "sob", "só", "todo", "tornou", "trabalho", "algumas", "devido", "estava", "fez", "filho", "fim", "grandes", "há", "isso", "lado", "local", "morte", "orbital", "outro", "passou", "países", "quatro", "representa", "seja", "sempre", "sul", "várias", "capital", "chamado", "começou", " enquanto", "fazer", "lançado", "meio", "nova", "nível", "pelas", "poder", "presidente", "redor", "rio", "tarde", "todas", "carreira", "casa", "década", "estimada", "guerra", "havia", "livro", "localidades", "maioria", "muitas", "obra", "origem", "pai", "pouco", "principais", "produção", "programa", "qualquer", "raio", "seguintes", "sucesso", "título", "aproximadamente", "caso", "centro", "conhecida", "construção", "desta", "diagrama", "faz", "ilha", "importante", "mar", "melhor", "menos", "mesma", "metros", "mil", "nacional", "populacional", "quase", "rei", "sede", "segunda", "tipo", "toda", "uso", "velocidade", "vizinhança", "volta", "base", "brasileira", "clube", "desenvolvimento", "deste", "diferentes", "diversos", "empresa", "entanto", "futebol", "geral", "junto", "longo", "obras", "outra", "pertencente", "política", "português", "principalmente", "processo", "quem", "seria", "têm", "versão", "TV", "acima", "atual", "bairro", "chamada", "cinco", "conta", "corpo", "dentro", "deve");
+  private final List<String> commonPortugueseWords = Arrays.asList("eu", "ja", "so", "de", "e", "a", "o", "da", "do", "em", "que", "uma", "um", "com", "no", "se", "na", "para", "por", "os", "foi", "como", "dos", "as", "ao", "mais", "sua", "das", "não", "ou", "km", "seu", "pela", "ser", "pelo", "são", "também", "anos", "cidade", "entre", "era", "tem", "mas", "habitantes", "nos", "seus", "área", "até", "ele", "onde", "foram", "população", "região", "sobre", "nas", "nome", "parte", "quando", "ano", "aos", "grande", "mesmo", "pode", "primeiro", "segundo", "sendo", "suas", "ainda", "dois", "estado", "está", "família", "já", "muito", "outros", "americano", "depois", "durante", "maior", "primeira", "forma", "apenas", "banda", "densidade", "dia", "então", "município", "norte", "tempo", "após", "duas", "num", "pelos", "qual", "século", "ter", "todos", "três", "vez", "água", "acordo", "cobertos", "comuna", "contra", "ela", "grupo", "principal", "quais", "sem", "tendo", "às", "álbum", "alguns", "assim", "asteróide", "bem", "brasileiro", "cerca", "desde", "este", "localizada", "mundo", "outras", "período", "seguinte", "sido", "vida", "através", "cada", "conhecido", "final", "história", "partir", "país", "pessoas", "sistema", "terra", "teve", "tinha", "época", "administrativa", "censo", "departamento", "dias", "esta", "filme", "francesa", "música", "província", "série", "vezes", "além", "antes", "eles", "eram", "espécie", "governo", "podem", "vários", "censos", "distrito", "estão", "exemplo", "hoje", "início", "jogo", "lhe", "lugar", "muitos", "média", "novo", "numa", "número", "pois", "possui", "sob", "só", "todo", "tornou", "trabalho", "algumas", "devido", "estava", "fez", "filho", "fim", "grandes", "há", "isso", "lado", "local", "morte", "orbital", "outro", "passou", "países", "quatro", "representa", "seja", "sempre", "sul", "várias", "capital", "chamado", "começou", " enquanto", "fazer", "lançado", "meio", "nova", "nível", "pelas", "poder", "presidente", "redor", "rio", "tarde", "todas", "carreira", "casa", "década", "estimada", "guerra", "havia", "livro", "localidades", "maioria", "muitas", "obra", "origem", "pai", "pouco", "principais", "produção", "programa", "qualquer", "raio", "seguintes", "sucesso", "título", "aproximadamente", "caso", "centro", "conhecida", "construção", "desta", "diagrama", "faz", "ilha", "importante", "mar", "melhor", "menos", "mesma", "metros", "mil", "nacional", "populacional", "quase", "rei", "sede", "segunda", "tipo", "toda", "uso", "velocidade", "vizinhança", "volta", "base", "brasileira", "clube", "desenvolvimento", "deste", "diferentes", "diversos", "empresa", "entanto", "futebol", "geral", "junto", "longo", "obras", "outra", "pertencente", "política", "português", "principalmente", "processo", "quem", "seria", "têm", "versão", "TV", "acima", "atual", "bairro", "chamada", "cinco", "conta", "corpo", "dentro", "deve");
 
   public static Queue<String> getActiveChecks() {
     return activeChecks;
@@ -177,6 +177,7 @@ public class HunspellRule extends SpellingCheckRule {
       int misspelledButEnglish = 0;
       for (int i = 0; i < tokens.length; i++) {
         String word = tokens[i];
+        int dashCorr = 0;
         if ((ignoreWord(Arrays.asList(tokens), i) || ignoreWord(word)) && !isProhibited(cutOffDot(word))) {
           prevStartPos = len;
           len += word.length() + 1;
@@ -187,17 +188,26 @@ public class HunspellRule extends SpellingCheckRule {
             misspelledButEnglish++;
           }
           String cleanWord = word.endsWith(".") ? word.substring(0, word.length() - 1) : word;
+          if (word.startsWith("-")) {
+            if (!isMisspelled(cleanWord.substring(1)) || cleanWord.matches("-+")) {
+              len += word.length() + 1;
+              continue;
+            } else {
+              dashCorr++;
+            }
+          }
           if (i > 0 && prevStartPos != -1) {
             String prevWord = tokens[i-1];
             boolean ignoreSplitting = false;
-            if (this.language.getShortCode().equals("pt") && commonPortugueseWords.contains(prevWord.toLowerCase())) {
+            if (this.language.getShortCode().equals("pt") && (commonPortugueseWords.contains(prevWord.toLowerCase())
+                || commonPortugueseWords.contains(word.toLowerCase()))) {
               ignoreSplitting = true;
             }
             if (!ignoreSplitting && prevWord.length() > 0) {
               // "thanky ou" -> "thank you"
               String sugg1a = prevWord.substring(0, prevWord.length()-1);
               String sugg1b = cutOffDot(prevWord.substring(prevWord.length()-1) + word);
-              if (!isMisspelled(sugg1a) && !isMisspelled(sugg1b)) {
+              if (!isMisspelled(sugg1a) && !isMisspelled(sugg1b) && acceptSuggestion(sugg1a + " " + sugg1b)) {
                 RuleMatch rm = createWrongSplitMatch(sentence, ruleMatches, len, cleanWord, sugg1a, sugg1b, prevStartPos);
                 if (rm != null) {
                   ruleMatches.add(rm);
@@ -206,7 +216,7 @@ public class HunspellRule extends SpellingCheckRule {
               // "than kyou" -> "thank you"
               String sugg2a = prevWord + word.charAt(0);
               String sugg2b = cutOffDot(word.substring(1));
-              if (!isMisspelled(sugg2a) && !isMisspelled(sugg2b)) {
+              if (!isMisspelled(sugg2a) && !isMisspelled(sugg2b) && acceptSuggestion(sugg2a + " " + sugg2b)) {
                 RuleMatch rm = createWrongSplitMatch(sentence, ruleMatches, len, cleanWord, sugg2a, sugg2b, prevStartPos);
                 if (rm != null) {
                   ruleMatches.add(rm);
@@ -216,14 +226,19 @@ public class HunspellRule extends SpellingCheckRule {
           }
           
           RuleMatch ruleMatch = new RuleMatch(this, sentence,
-            len, len + cleanWord.length(),
+            len + dashCorr, len + cleanWord.length(),
             messages.getString("spelling"),
             messages.getString("desc_spelling_short"));
           ruleMatch.setType(RuleMatch.Type.UnknownWord);
+          String cleanWord2 = cleanWord.substring(dashCorr);
           if (userConfig == null || userConfig.getMaxSpellingSuggestions() == 0 || ruleMatches.size() <= userConfig.getMaxSpellingSuggestions()) {
             ruleMatch.setLazySuggestedReplacements(() -> {
               try {
-                return calcSuggestions(word, cleanWord);
+                List<SuggestedReplacement> sugg = calcSuggestions(word, cleanWord2);
+                if (isFirstItemHighConfidenceSuggestion(word, sugg)) {
+                  sugg.get(0).setConfidence(HIGH_CONFIDENCE);
+                }
+                return sugg;
               } catch (IOException e) {
                 throw new RuntimeException(e);
               }
@@ -251,7 +266,7 @@ public class HunspellRule extends SpellingCheckRule {
             }
           }
         }
-        prevStartPos = len;
+        prevStartPos = len + dashCorr;
         len += word.length() + 1;
       }
     } finally {
@@ -262,7 +277,40 @@ public class HunspellRule extends SpellingCheckRule {
     /*if (sentence.getErrorLimitReached()) {
       return toRuleMatchArray(Collections.emptyList());
     }*/
+    /*if (language.getShortCode().equals("de")) {
+      for (RuleMatch ruleMatch : ruleMatches) {
+        int i = 1;
+        for (String repl : ruleMatch.getSuggestedReplacements()) {
+          if (i <= 5 && repl.matches("[A-ZÖÄÜ][a-zöäüß]+ [a-zöäüß]+")) {
+            // potential word with "Deppenleerzeichen":
+            System.out.println("repl: " + sentence.getText().substring(ruleMatch.getFromPos(), ruleMatch.getToPos()) + " => " +  repl + " - " + i);
+          }
+          i++;
+        }
+      }
+    }*/
     return toRuleMatchArray(ruleMatches);
+  }
+
+  protected boolean acceptSuggestion(String suggestion) {
+    return true;
+  }
+
+  boolean isFirstItemHighConfidenceSuggestion(String word, List<SuggestedReplacement> sugg) {
+    // finds cases like "HAus", where "Haus" is surely the proper suggestion:
+    if (sugg.size() > 0 &&
+        !word.equals("IPs") &&
+        word.equalsIgnoreCase(sugg.get(0).getReplacement()) &&
+        word.matches("[A-Z][A-Z]\\p{javaLowerCase}+") &&
+        language.getShortCode().equals("de")) {
+      System.out.println("speller high conf case: " + word + "; " + sugg.get(0).getReplacement() + "; " + language.getShortCodeWithCountryAndVariant());
+      if (word.endsWith("s") && StringUtils.isAllUpperCase(sugg.get(0).getReplacement())) {
+        // e.g. "DMs" could mean plural of "DM"
+        return false;
+      }
+      return true;
+    }
+    return false;
   }
 
   private boolean isEnglish(String word) throws IOException {
@@ -284,6 +332,10 @@ public class HunspellRule extends SpellingCheckRule {
   }
 
   private List<SuggestedReplacement> calcSuggestions(String word, String cleanWord) throws IOException {
+    List<SuggestedReplacement> onlySuggestions = getOnlySuggestions(cleanWord);
+    if (!onlySuggestions.isEmpty()) {
+      return onlySuggestions;
+    }
     List<SuggestedReplacement> suggestions = SuggestedReplacement.convert(getSuggestions(cleanWord));
     if (word.endsWith(".")) {
       int pos = 1;
@@ -320,6 +372,7 @@ public class HunspellRule extends SpellingCheckRule {
         suggestions.addAll(additionalSuggestions);
       }
     }
+    suggestions = suggestions.stream().filter(k -> acceptSuggestion(k.getReplacement())).collect(Collectors.toList());
     suggestions = filterDupes(filterSuggestions(suggestions));
     // Find potentially missing compounds with privacy-friendly logging: we only log a single unknown word with no
     // meta data and only if it's made up of two valid words, similar to the "UNKNOWN" logging in
@@ -441,13 +494,13 @@ public class HunspellRule extends SpellingCheckRule {
         hunspell = null;
       } else {
         affPath = Paths.get(path + ".aff");
-        hunspell = Hunspell.getInstance(Paths.get(path + ".dic"), affPath);
+        hunspell = Hunspell.getDictionary(Paths.get(path + ".dic"), affPath);
         addIgnoreWords();
       }
     } else if (new File(shortDicPath + ".dic").exists()) {
       // for dynamic languages
       affPath = Paths.get(shortDicPath + ".aff");
-      hunspell = Hunspell.getInstance(Paths.get(shortDicPath + ".dic"), affPath);
+      hunspell = Hunspell.getDictionary(Paths.get(shortDicPath + ".dic"), affPath);
     }
     if (affPath != null) {
       try(Scanner sc = new Scanner(affPath)){
@@ -472,8 +525,6 @@ public class HunspellRule extends SpellingCheckRule {
   }
 
   private void addIgnoreWords() throws IOException {
-    wordsToBeIgnored.add(SpellingCheckRule.LANGUAGETOOL);
-    wordsToBeIgnored.add(SpellingCheckRule.LANGUAGETOOLER);
     URL ignoreUrl = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(getIgnoreFileName());
     List<String> ignoreLines = Resources.readLines(ignoreUrl, StandardCharsets.UTF_8);
     for (String ignoreLine : ignoreLines) {
@@ -481,6 +532,15 @@ public class HunspellRule extends SpellingCheckRule {
         wordsToBeIgnored.add(ignoreLine);
       }
     }
+  }
+
+  @Override
+  protected boolean isInIgnoredSet(String word) {
+    return super.isInIgnoredSet(word) ||
+           // We don't add these words to the main set to prevent startsWithIgnoredWord honoring them,
+           // and thus to avoid the bogus "LanguageToolaccount" suggestion in AgreementRuleTest.
+           // A better way might be nice.
+           SpellingCheckRule.LANGUAGETOOL.equals(word) || SpellingCheckRule.LANGUAGETOOLER.equals(word);
   }
 
   private static String getDictionaryPath(String dicName,

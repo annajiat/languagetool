@@ -2476,4 +2476,4 @@ VW1;M3Y-pa-;---
 VW1;M3Y-pa-;--H
 VW1;M3Y-pp-;---
 VW1;M3Y-pp-;--H
-is invalid verb 
+is invalid verb

@@ -35,6 +35,8 @@ import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.rules.spelling.suggestions.SuggestionsChanges;
 import org.languagetool.rules.translation.TranslationEntry;
 import org.languagetool.rules.translation.Translator;
+import org.languagetool.tools.StringTools;
+import org.languagetool.tools.Tools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -131,6 +133,28 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       int startPos = token.getStartPos();
       // if we use token.getToken() we'll get ignored characters inside and speller will choke
       String word = token.getAnalyzedToken(0).getToken();
+      
+      /*String normalizedWord = StringTools.normalizeNFKC(word);
+      if (word.length() > 1 && !word.equals(normalizedWord) && !normalizedWord.contains(" ")
+          && isMisspelled(speller1, word)) {
+        if (!isMisspelled(speller1, normalizedWord)) {
+          // The normalized word is a good suggestion
+          RuleMatch ruleMatch = new RuleMatch(this, sentence, startPos, startPos + word.length(),
+              messages.getString("spelling"), messages.getString("desc_spelling_short"));
+          ruleMatch.addSuggestedReplacement(normalizedWord);
+          ruleMatches.add(ruleMatch);
+        } else {
+          // Try to find suggestions from the normalized word.
+          List<String> suggestions = speller1.getSuggestions(normalizedWord);
+          RuleMatch ruleMatch = new RuleMatch(this, sentence, startPos, startPos + word.length(),
+              messages.getString("spelling"), messages.getString("desc_spelling_short"));
+          ruleMatch.addSuggestedReplacements(suggestions);
+          ruleMatches.add(ruleMatch);
+        }
+        // Keep it simple. Don't do translations, split words, etc.
+        continue;
+      }*/   
+      
       int newRuleIdx = ruleMatches.size();
       Pattern pattern = tokenizingPattern();
       if (pattern == null) {
@@ -244,14 +268,26 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
    * @since 2.4
    */
   protected boolean isMisspelled(MorfologikMultiSpeller speller, String word) {
-    if (!speller.isMisspelled(word)) {
-      return false;
+    if (speller == null && Tools.isExternSpeller()) {  // use of external speller for LO/OO extension
+      if (Tools.getLinguisticServices().isCorrectSpell(word, language)) {
+        return false;
+      }
+    } else {
+      if (!speller.isMisspelled(word)) {
+        return false;
+      }
     }
     if (checkCompound && compoundRegex.matcher(word).find()) {
       String[] words = compoundRegex.split(word);
       for (String singleWord: words) {
-        if (speller.isMisspelled(singleWord)) {
-          return true;
+        if (speller == null && Tools.isExternSpeller()) {  // use of external speller for LO/OO extension
+          if (!Tools.getLinguisticServices().isCorrectSpell(singleWord, language)) {
+            return true;
+          }
+        } else {
+          if (speller.isMisspelled(singleWord)) {
+            return true;
+          }
         }
       }
       return false;
@@ -466,6 +502,10 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   }
 
   private List<SuggestedReplacement> calcSpellerSuggestions(String word, boolean fullResults) throws IOException {
+    List<SuggestedReplacement> onlySuggestions = getOnlySuggestions(word);
+    if (!onlySuggestions.isEmpty()) {
+      return onlySuggestions;
+    }
     List<SuggestedReplacement> defaultSuggestions = SuggestedReplacement.convert(speller1.getSuggestionsFromDefaultDicts(word));
     List<SuggestedReplacement> userSuggestions = SuggestedReplacement.convert(speller1.getSuggestionsFromUserDicts(word));
     //System.out.println("speller1: " + suggestions);
@@ -613,4 +653,24 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       this.endPos = endPos;
     }
   }
+  
+  /*
+   * Get suggestions for a single word, using all the features of the Morfologik
+   * spelling rule
+   * 
+   * @since 5.6
+   */
+  public List<String> getSpellingSuggestions(String w) throws IOException {
+    List<String> suggestions = new ArrayList<>();
+    AnalyzedTokenReadings[] atk = new AnalyzedTokenReadings[1];
+    AnalyzedToken token = new AnalyzedToken(w, null, null);
+    atk[0] = new AnalyzedTokenReadings(token);
+    AnalyzedSentence sentence = new AnalyzedSentence(atk);
+    RuleMatch[] matches = this.match(sentence);
+    if (matches.length > 0) {
+      suggestions.addAll(matches[0].getSuggestedReplacements());
+    }
+    return suggestions;
+  }
+  
 }

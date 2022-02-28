@@ -25,8 +25,8 @@ import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.language.Arabic;
 import org.languagetool.tagging.BaseTagger;
+import org.languagetool.tools.ArabicStringTools;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -37,17 +37,13 @@ import java.util.Locale;
 public class ArabicTagger extends BaseTagger {
 
   private final ArabicTagManager tagmanager = new ArabicTagManager();
-  private  boolean newStylePronounTag = false;
+  private boolean newStylePronounTag = false;
 
   public ArabicTagger() {
     super("/ar/arabic.dict", new Locale("ar"));
   }
 
-  /* a temporary attribute to be compatible with existing pronoun tag style */
-  public void enableNewStylePronounTag()
-  {
-    newStylePronounTag = true;
-  }
+
   @Override
   public List<AnalyzedTokenReadings> tag(List<String> sentenceTokens) {
     List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
@@ -55,7 +51,7 @@ public class ArabicTagger extends BaseTagger {
     int pos = 0;
     for (String word : sentenceTokens) {
       List<AnalyzedToken> l = new ArrayList<>();
-      String striped = word.replaceAll("[" + Arabic.TASHKEEL_CHARS + "]", "");
+      String striped = ArabicStringTools.removeTashkeel(word);
       List<AnalyzedToken> taggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(striped));
       addTokens(taggerTokens, l);
       // additional tagging with prefixes
@@ -75,7 +71,7 @@ public class ArabicTagger extends BaseTagger {
 
   @Nullable
   protected List<AnalyzedToken> additionalTags(String word, IStemmer stemmer) {
-    String striped = word.replaceAll("[" + Arabic.TASHKEEL_CHARS + "]", "");
+    String striped = ArabicStringTools.removeTashkeel(word);
     List<AnalyzedToken> additionalTaggedTokens = new ArrayList<>();
     List<Integer> prefix_index_list = getPrefixIndexList(striped);
     List<Integer> suffix_index_list = getSuffixIndexList(striped);
@@ -112,6 +108,8 @@ public class ArabicTagger extends BaseTagger {
       l.addAll(taggedTokens);
     }
   }
+
+
   private List<Integer> getSuffixIndexList(String possibleWord) {
     List<Integer> suffix_indexes = new ArrayList<>();
     suffix_indexes.add(possibleWord.length());
@@ -133,7 +131,6 @@ public class ArabicTagger extends BaseTagger {
       else
         suffix_pos -= 2;
       suffix_indexes.add(suffix_pos);
-
     }
     return suffix_indexes;
   }
@@ -209,10 +206,6 @@ public class ArabicTagger extends BaseTagger {
   }
 
 
-//  public List<String> getTags(String word) {
-//    return getTags(word, 0, word.length());
-//  }
-
   private List<String> getTags(String word, int posStart, int posEnd) {
     List<String> tags = new ArrayList<>();
     // extract tags from word
@@ -242,75 +235,62 @@ public class ArabicTagger extends BaseTagger {
       tags.add("PRONOUN;D");
     }
     // suffixes
-    // TODO : suffixes if needed
-    boolean NewStyle;
-    NewStyle= true;
-//    NewStyle = false;
-  if (!newStylePronounTag)
-  {
-    switch(suffix)
+    if (!newStylePronounTag) {
+      switch (suffix) {
+        case "ني":
+        case "نا":
+        case "ك":
+        case "كما":
+        case "كم":
+        case "كن":
+        case "ه":
+        case "ها":
+        case "هما":
+        case "هم":
+        case "هن":
+          tags.add("PRONOUN;H");
+          break;
+      }
+    } else // if newStyle
     {
-//      case "ي" :
-      case "ني" :
-      case "نا" :
-      case "ك" :
-      case "كما" :
-      case "كم" :
-      case "كن" :
-      case "ه" :
-      case "ها" :
-      case "هما" :
-      case "هم" :
-      case "هن" :
-        tags.add("PRONOUN;H");
-        break;
-      //default:
-    }
-  }
-    else // if newStyle
-    {
-    switch(suffix)
-    {
-//      case "ي" :
-//        tags.add("PRONOUN;a");
-//        break;
-      case "ني" :
-        tags.add("PRONOUN;b");
-        break;
-      case "نا" :
-        tags.add("PRONOUN;c");
-        break;
-      case "ك" :
-        tags.add("PRONOUN;d");
-        break;
-      case "كما" :
-        tags.add("PRONOUN;e");
-        break;
-      case "كم" :
-        tags.add("PRONOUN;f");
-        break;
-      case "كن" :
-        tags.add("PRONOUN;g");
-        break;
-      case "ه" :
-        tags.add("PRONOUN;H");
-        break;
-      case "ها" :
-        tags.add("PRONOUN;i");
-        break;
-      case "هما" :
-        tags.add("PRONOUN;j");
-        break;
-      case "هم" :
-        tags.add("PRONOUN;k");
-        break;
-      case "هن" :
-        tags.add("PRONOUN;n");
-    }
+      switch (suffix) {
+        case "ني":
+          tags.add("PRONOUN;b");
+          break;
+        case "نا":
+          tags.add("PRONOUN;c");
+          break;
+        case "ك":
+          tags.add("PRONOUN;d");
+          break;
+        case "كما":
+          tags.add("PRONOUN;e");
+          break;
+        case "كم":
+          tags.add("PRONOUN;f");
+          break;
+        case "كن":
+          tags.add("PRONOUN;g");
+          break;
+        case "ه":
+          tags.add("PRONOUN;H");
+          break;
+        case "ها":
+          tags.add("PRONOUN;i");
+          break;
+        case "هما":
+          tags.add("PRONOUN;j");
+          break;
+        case "هم":
+          tags.add("PRONOUN;k");
+          break;
+        case "هن":
+          tags.add("PRONOUN;n");
+      }
     }
 
 
-   return tags;
+    return tags;
   }
 
   /**
@@ -328,8 +308,9 @@ public class ArabicTagger extends BaseTagger {
 
   private String getPrefix(String word, int pos) {
     return word.substring(0, pos);
-  } private String getSuffix(String word, int pos) {
-//    return word.substring(0, pos, word.length()-1);
+  }
+
+  private String getSuffix(String word, int pos) {
     return word.substring(pos);
   }
 
@@ -341,7 +322,6 @@ public class ArabicTagger extends BaseTagger {
     if (posEnd != word.length()) { // convert attached pronouns to one model form
       stem = stem.replaceAll("(ك|ها|هما|هم|هن|كما|كم|كن|نا|ي)$", "ه");
     }
-
     // correct some stems
     // correct case of للاسم
     String prefix = getPrefix(word, posStart);
@@ -352,5 +332,14 @@ public class ArabicTagger extends BaseTagger {
     stemList.add(stem);  // لاسم أو ل+لاعب
     return stemList;
   }
+
+
+  /*
+   * a temporary attribute to be compatible with existing pronoun tag style
+   */
+  public void enableNewStylePronounTag() {
+    newStylePronounTag = true;
+  }
 }
+
 

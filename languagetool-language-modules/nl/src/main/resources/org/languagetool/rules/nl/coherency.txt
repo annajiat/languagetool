@@ -74,3 +74,8 @@ kinema;cinema
 keramisch;ceramisch
 kentaur;centaur
 akkvietje;akkefietje
+rekwest;rekest
+
+#je;u
+#uw;je
+uw;jouw

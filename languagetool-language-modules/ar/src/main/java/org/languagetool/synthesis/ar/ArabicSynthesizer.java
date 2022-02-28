@@ -122,20 +122,22 @@ public class ArabicSynthesizer extends BaseSynthesizer {
     String mypostag = postag;
     if (postag == null) return null;
     // remove attached pronouns
-
     mypostag = tagmanager.setConjunction(mypostag, "-");
+
     // remove Alef Lam definite article
     mypostag = tagmanager.setDefinite(mypostag, "-");
+
     // change all pronouns to one kind
     mypostag = tagmanager.unifyPronounTag(mypostag);
 
     return mypostag;
   }
+
   @Override
-  public String getPosTagCorrection(String posTag)
-  {
+  public String getPosTagCorrection(String posTag) {
     return correctTag(posTag);
   }
+
 
   /* correct stem to generate stems to be attached with pronouns  */
   public String correctStem(String stem, String postag) {
@@ -143,8 +145,6 @@ public class ArabicSynthesizer extends BaseSynthesizer {
     if (postag == null) return stem;
     if (tagmanager.isAttached(postag)) {
       correct_stem = correct_stem.replaceAll("ه$", "");
-//      String suffix = tagmanager.getPronounSuffix(postag);
-//      correct_stem = correct_stem + suffix;
     }
 
     if (tagmanager.isDefinite(postag)) {
@@ -165,7 +165,6 @@ public class ArabicSynthesizer extends BaseSynthesizer {
 
 
 }
-
 
 
 
