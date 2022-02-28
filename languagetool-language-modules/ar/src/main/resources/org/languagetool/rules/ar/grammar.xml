@@ -63,6 +63,7 @@ USA
     <!ENTITY allah_names "الآخر|الحميد|الحفيظ|اللطيف|المحيي|الجامع|الباطن|الولي|المقسط|الغفار|الودود|الوهاب|المانع|الشكور|الحليم|المتكبر|الحسيب|الجليل|النافع|الصبور|النور|المصور|الفتاح|مالك|الحي|الغني|الحق|الواسع|الجبار|المغني|العظيم|الباقي|الوارث|الرزاق|المهيمن|الضار|المقيت|الهادي|المتعالي|الوالي|المقتدر|المعز|الأول|القادر|الصمد|السميع|المذل|الكريم|ذو|البصير|العلي|السلام|المميت|العدل|الرافع|التواب|القهار|القابض|المعيد|المبدئ|الرشيد|المؤخر|المؤمن|الجلال|الظاهر|القيوم|الخبير|الوكيل|العزيز|الرحيم|الواجد|البر|المقدم|البديع|الغفور|الرقيب|الأحد|القدوس|الباسط|الجميل|والإكرام|المجيد|الرحمن|الرؤوف|المجيب|القوي|الخالق|الواحد|المنتقم|الملك|المعطي|المحصي|الكبير|العفو|المتين|الباعث|الماجد|الخافض|الحكم|العليم|البارئ|الشهي">
     <!ENTITY wrong_feminine "ذقن|رفات">
     <!ENTITY wrong_masculine "كتف|فخذ|ساق|ريح|بئر|يمين|ضبع|سن">
+    <!ENTITY neutral_gender "بعض|من">
     ]>
 
 <rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -132,10 +133,17 @@ USA
         <example correction="هذه سلامة" type="incorrect"><marker>هذا سلامة</marker></example>
       </rule>
       <rule id="gender_0002_hadhihi" name="تطابق النوع مع هذه">
+        <antipattern>
+            <token inflected="yes">هذه</token>
+         <token regexp="yes">&neutral_gender;</token> 
+        </antipattern>
+      
         <pattern>
           <marker>
             <token inflected="yes">هذه</token>
-            <token postag="N.*;M1.*;--.*" postag_regexp="yes"/>
+            <token postag="N.*;M1.*;--.*" postag_regexp="yes">
+                    <exception postag="N.*;F.*;--.*" postag_regexp="yes"/>
+      	 </token>
         </marker>
         </pattern>
         <message>الكلمة "\2"  مذكرة، ضع اسم اشارة مذكرًا: 
@@ -184,6 +192,10 @@ USA
       </rule>
       <rule id="gender_0007_tilka" name="تطابق النوع مع تلك">
         <pattern>
+                <antipattern>
+            <token inflected="yes">تلك</token>
+            <token regexp="yes">&neutral_gender;</token>
+        </antipattern>
           <marker>
             <token inflected="yes">تلك</token>
             <token postag="N.*;M1.*;--.*" postag_regexp="yes"/>
@@ -578,14 +590,14 @@ USA
     <rulegroup id="VerbalOperator" name="العوامل الداخلة على الأفعال">
       <rule id="grammar_0010_jazem_lm" name="حروف الجزم لم">
         <antipattern>
-			<token>لم</token>
+            <token>لم</token>
             <token postag="V..;.*f.0;---" postag_regexp="yes"/>
         </antipattern>
 
         <pattern>
           <marker>
 
-	<token>لم</token>
+    <token>لم</token>
             <token postag="V..;.*f.[^0];---" postag_regexp="yes"/>
 
           </marker>
@@ -601,14 +613,14 @@ USA
       <!-- grammar_0010_jazem_lamma حروف الجزم لما-->
       <rule id="grammar_0010_jazem_lamma" name="حروف الجزم لما">
         <antipattern>
-			<token>لما</token>
+            <token>لما</token>
             <token postag="V..;.*f.0;---" postag_regexp="yes"/>
         </antipattern>
 
         <pattern>
           <marker>
 
-			<token>لما</token>
+            <token>لما</token>
             <token postag="V..;.*f.[^0];---" postag_regexp="yes"/>
 
           </marker>
@@ -625,12 +637,12 @@ USA
       <!-- grammar_0010_jazem_lam_nahia  حروف الجزم لا الناهية-->
       <rule id="grammar_0010_jazem_la_nahia" name="حروف الجزم لا الناهية">
         <antipattern>
-			<token>لا</token>
+            <token>لا</token>
             <token postag="V..;..Y.f.0;---" postag_regexp="yes"/>
         </antipattern>
         <pattern>
           <marker>
-			<token>لا</token>
+            <token>لا</token>
             <token postag="V..;..Y.f.[^0];---" postag_regexp="yes"/>
           </marker>
         </pattern>
@@ -2246,18 +2258,42 @@ END RULEGROUP Masdar errors
         <example correction="من" type="incorrect"> معصوم <marker>عن</marker> الخطأ </example>
         <example type="correct"> معصومٌ من الخطأ </example>
       </rule>
+      
       <rule id="syntax_0515_raghba_li" name="رغبة ل">
+                <!--   حلة رغبة لاسم مصدر نكرة أو معرف بالإضافة 
+                مثل رغبة في كتابة الروايات
+                رغبة في كتابتها
+                مثال آخر: رغبة للكتابة: مدعوم في التنويعة الثانية للقاعدة-->
         <pattern>
           <token inflected="yes" skip="1">رغبة</token>
           <marker>
-            <token postag="N.*;-L.?" postag_regexp="yes"/>
+            <token postag="NM.*;-L[^L]" postag_regexp="yes"/>
           </marker>
         </pattern>
         <message>يفضل أن يقال: \1
             <suggestion>في&nbsp;<match no="2" regexp_match="^ل" regexp_replace=""/></suggestion>
         </message>
         <example correction="في كتابة" type="incorrect"> لديه رغبة شديدة <marker>لكتابة</marker> الروايات </example>
-        <example type="correct"> لديه رَغْبَةٌ شديدة في الكتابة </example>
+        <example correction="في كتابتها" type="incorrect"> لديه رغبة شديدة <marker>لكتابتها</marker> </example>
+        <example type="correct"> لديه رَغْبَةٌ شديدة في كتابة الرواية</example>
+      </rule>
+      
+      <rule id="syntax_0515_raghba_li_2" name="رغبة ل">
+                <!--   حلة رغبة لاسم مصدر نكرة أو معرف بالإضافة 
+                مثل رغبة في كتابة الروايات
+                رغبة في كتابتها
+                مثال آخر: رغبة للكتابة: مدعوم في التنويعة الثانية للقاعدة-->
+        <pattern>
+          <token inflected="yes" skip="1">رغبة</token>
+          <marker>
+            <token postag="NM.*;-LL" postag_regexp="yes"/>
+          </marker>
+        </pattern>
+        <message>يفضل أن يقال: \1
+            <suggestion>في&nbsp;<match no="2" regexp_match="^ل" regexp_replace="ا"/></suggestion>
+        </message>
+        <example correction="في الكتابة" type="incorrect"> لديه رغبة شديدة <marker>للكتابة</marker> </example>
+        <example type="correct"> لديه رَغْبَةٌ شديدة في الكتابة الرواية</example>
       </rule>
     </rulegroup>
 <!--
@@ -4656,7 +4692,7 @@ END RULEGROUP Masdar errors
       <marker>
       <token regexp="yes">(&proclitics;)?مشبوه</token>
       </marker>
-	<token/>
+    <token/>
     </pattern>
     <message>يفضل أن يقال:
     <suggestion>مُشْتَبَه فيه</suggestion>
@@ -8252,7 +8288,7 @@ END RULEGROUP Masdar errors
     <pattern>
       <marker>
         <token inflected="yes" postag="V4.*" postag_regexp="yes" skip="1">أَصْحَبَ</token>
-	    <token postag="N.*;.*;-B.?" postag_regexp="yes"/>
+        <token postag="N.*;.*;-B.?" postag_regexp="yes"/>
       </marker>
     </pattern>
     <message>(أصحب) يتعدّى بنفسه إلى مفعولين
@@ -8270,10 +8306,10 @@ END RULEGROUP Masdar errors
     <pattern>
       <marker>
         <token inflected="yes" postag="V.*" postag_regexp="yes" skip="1">أَعْطَى</token>
-	  <or>
-	 <token regexp="yes">&forms_lih;</token>
+      <or>
+     <token regexp="yes">&forms_lih;</token>
       <token postag="N.*;.*;-L." postag_regexp="yes"/>
-	 </or>
+     </or>
       </marker>
     </pattern>
     <message>(أعطى) يتعدّى بنفسه إلى مفعولين
@@ -8335,10 +8371,10 @@ END RULEGROUP Masdar errors
     <pattern>
       <marker>
         <token inflected="yes" postag="V4.*" postag_regexp="yes" skip="1">غَرَّمَ</token>
-		<or>
+        <or>
         <token postag="N.*;.*;-B.?" postag_regexp="yes"/>
         <token regexp="yes">&forms_bih;</token>
-		</or>
+        </or>
       </marker>
     </pattern>
     <message>(غرّم) يتعدّى بنفسه إلى مفعولين
@@ -8357,10 +8393,10 @@ END RULEGROUP Masdar errors
     <pattern>
       <marker>
         <token inflected="yes" postag="V4.*" postag_regexp="yes" skip="1">كَلَّفَ</token>
-		<or>
+        <or>
         <token postag="N.*;.*;-B." postag_regexp="yes"/>
         <token regexp="yes">&forms_bih;</token>
-		</or>
+        </or>
       </marker>
     </pattern>
     <message>(كلّف) فعل متعدّ بنفسه إلى مفعولين
