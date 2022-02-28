@@ -149,8 +149,8 @@ USA
         <message>الكلمة "\2"  مذكرة، ضع اسم اشارة مذكرًا: 
  <suggestion><match no="1" regexp_match="هذه" regexp_replace="هذا"/>&nbsp;\2</suggestion>
                 </message>
-        <example correction="هذا السلام" type="incorrect"><marker>هذه السلام</marker></example>
-        <example correction="هذا سلام" type="incorrect"><marker>هذه سلام</marker></example>
+        <example correction="هذا الباب" type="incorrect"><marker>هذه الباب</marker></example>
+        <example correction="هذا باب" type="incorrect"><marker>هذه باب</marker></example>
       </rule>
       <rule id="gender_0003_hadha" name="تطابق هذا مع الكلمات ملتبسة النوع">
         <pattern>
@@ -191,12 +191,12 @@ USA
         <example correction="تلك سلامة" type="incorrect"><marker>ذلك سلامة</marker></example>
       </rule>
       <rule id="gender_0007_tilka" name="تطابق النوع مع تلك">
-        <pattern>
+   
                 <antipattern>
             <token inflected="yes">تلك</token>
             <token regexp="yes">&neutral_gender;</token>
         </antipattern>
-          <marker>
+             <pattern>  <marker>
             <token inflected="yes">تلك</token>
             <token postag="N.*;M1.*;--.*" postag_regexp="yes"/>
         </marker>
