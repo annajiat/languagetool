@@ -149,8 +149,8 @@ USA
         <message>الكلمة "\2"  مذكرة، ضع اسم اشارة مذكرًا: 
  <suggestion><match no="1" regexp_match="هذه" regexp_replace="هذا"/>&nbsp;\2</suggestion>
                 </message>
-        <example correction="هذا السلام" type="incorrect"><marker>هذه السلام</marker></example>
-        <example correction="هذا سلام" type="incorrect"><marker>هذه سلام</marker></example>
+        <example correction="هذا البطل" type="incorrect"><marker>هذه البطل</marker></example>
+        <example correction="هذا البطل" type="incorrect"><marker>هذه البطل</marker></example>
       </rule>
       <rule id="gender_0003_hadha" name="تطابق هذا مع الكلمات ملتبسة النوع">
         <pattern>
@@ -191,11 +191,12 @@ USA
         <example correction="تلك سلامة" type="incorrect"><marker>ذلك سلامة</marker></example>
       </rule>
       <rule id="gender_0007_tilka" name="تطابق النوع مع تلك">
-        <pattern>
+       
                 <antipattern>
             <token inflected="yes">تلك</token>
             <token regexp="yes">&neutral_gender;</token>
         </antipattern>
+        <pattern>
           <marker>
             <token inflected="yes">تلك</token>
             <token postag="N.*;M1.*;--.*" postag_regexp="yes"/>
@@ -2259,42 +2260,7 @@ END RULEGROUP Masdar errors
         <example type="correct"> معصومٌ من الخطأ </example>
       </rule>
       
-      <rule id="syntax_0515_raghba_li" name="رغبة ل">
-                <!--   حلة رغبة لاسم مصدر نكرة أو معرف بالإضافة 
-                مثل رغبة في كتابة الروايات
-                رغبة في كتابتها
-                مثال آخر: رغبة للكتابة: مدعوم في التنويعة الثانية للقاعدة-->
-        <pattern>
-          <token inflected="yes" skip="1">رغبة</token>
-          <marker>
-            <token postag="NM.*;-L[^L]" postag_regexp="yes"/>
-          </marker>
-        </pattern>
-        <message>يفضل أن يقال: \1
-            <suggestion>في&nbsp;<match no="2" regexp_match="^ل" regexp_replace=""/></suggestion>
-        </message>
-        <example correction="في كتابة" type="incorrect"> لديه رغبة شديدة <marker>لكتابة</marker> الروايات </example>
-        <example correction="في كتابتها" type="incorrect"> لديه رغبة شديدة <marker>لكتابتها</marker> </example>
-        <example type="correct"> لديه رَغْبَةٌ شديدة في كتابة الرواية</example>
-      </rule>
-      
-      <rule id="syntax_0515_raghba_li_2" name="رغبة ل">
-                <!--   حلة رغبة لاسم مصدر نكرة أو معرف بالإضافة 
-                مثل رغبة في كتابة الروايات
-                رغبة في كتابتها
-                مثال آخر: رغبة للكتابة: مدعوم في التنويعة الثانية للقاعدة-->
-        <pattern>
-          <token inflected="yes" skip="1">رغبة</token>
-          <marker>
-            <token postag="NM.*;-LL" postag_regexp="yes"/>
-          </marker>
-        </pattern>
-        <message>يفضل أن يقال: \1
-            <suggestion>في&nbsp;<match no="2" regexp_match="^ل" regexp_replace="ا"/></suggestion>
-        </message>
-        <example correction="في الكتابة" type="incorrect"> لديه رغبة شديدة <marker>للكتابة</marker> </example>
-        <example type="correct"> لديه رَغْبَةٌ شديدة في الكتابة الرواية</example>
-      </rule>
+ 
     </rulegroup>
 <!--
   END RULEGROUP bad use of preposition
@@ -7615,8 +7581,51 @@ END RULEGROUP Masdar errors
     <example correction="أنه" type="incorrect"> ذكر <marker>بأنه</marker> مريض </example>
     <example type="correct"> ذكرت أنه مريض </example>
   </rule>
+       <rule id="syntax_0515_raghba_li" name="رغبة ل">
+                <!--   حلة رغبة لاسم مصدر نكرة أو معرف بالإضافة 
+                مثل رغبة في كتابة الروايات
+                رغبة في كتابتها
+                مثال آخر: رغبة للكتابة: مدعوم في التنويعة الثانية للقاعدة-->
+                        <antipattern>
+          <token inflected="yes" skip="1">رغبة</token>
+            <token postag="NM.*;-LL" postag_regexp="yes"/>
+        </antipattern>
+        <pattern>
+          <token inflected="yes" skip="1">رغبة</token>
+          <marker>
+            <token postag="NM.*;-L.?" postag_regexp="yes"/>
+          </marker>
+        </pattern>
+        <message>يفضل أن يقال: \1
+            <suggestion>في&nbsp;<match no="2" regexp_match="^ل" regexp_replace=""/></suggestion>
+               <suggestion><match no="2" regexp_match="^ل" regexp_replace="ب"/></suggestion>
+        </message>
+        <example correction="في كتابة|بكتابة" type="incorrect"> لديه رغبة شديدة <marker>لكتابة</marker> الروايات </example>
+        <example correction="في كتابتها|بكتابتها" type="incorrect"> لديه رغبة شديدة <marker>لكتابتها</marker> </example>
+        <example type="correct"> لديه رَغْبَةٌ شديدة في كتابة الرواية</example>
+      </rule>
+      
+      <rule id="syntax_0515_raghba_li_2" name="رغبة ل">
+                <!--   حلة رغبة لاسم مصدر نكرة أو معرف بالإضافة 
+                مثل رغبة في كتابة الروايات
+                رغبة في كتابتها
+                مثال آخر: رغبة للكتابة: مدعوم في التنويعة الثانية للقاعدة-->
+        <pattern>
+          <token inflected="yes" skip="1">رغبة</token>
+          <marker>
+            <token postag="NM.*;-LL" postag_regexp="yes"/>
+          </marker>
+        </pattern>
+        <message>يفضل أن يقال: \1
+            <suggestion>في&nbsp;<match no="2" regexp_match="^ل" regexp_replace="ا"/></suggestion>
+            <suggestion><match no="2" regexp_match="^ل" regexp_replace="با"/></suggestion>
+        </message>
+        <example correction="في الكتابة|بالكتابة" type="incorrect"> لديه رغبة شديدة <marker>للكتابة</marker> </example>
+        <example type="correct"> لديه رَغْبَةٌ شديدة في الكتابة </example>
+      </rule>
 <!-- trans_442_rgbt_shdydt_l رَغْبَةٌ شديدة ل -->
-  <rule id="trans_442_rgbt_shdydt_l" name="رغبة شديدة ل">
+<!--  <rule id="trans_442_rgbt_shdydt_l" name="رغبة شديدة ل">
+
     <pattern>
       <token inflected="yes" skip="1">رغبة</token>
       <marker>
@@ -7630,6 +7639,7 @@ END RULEGROUP Masdar errors
     <example correction="في كتابة|بكتابة" type="incorrect"> لديه رغبة شديدة <marker>لكتابة</marker> الشعر </example>
     <example type="correct"> لديه رغبة شديدة في الكتابة </example>
   </rule>
+  -->
 <!-- trans_442_rgbt_shdydt_l رَغْبَةٌ شديدة ل -->
   <rule id="trans_442_rgbt_shdydt_l_2" name="رغبة شديدة ل">
     <pattern>
