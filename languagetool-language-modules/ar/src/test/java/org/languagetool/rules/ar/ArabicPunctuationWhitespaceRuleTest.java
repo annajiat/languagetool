@@ -21,6 +21,7 @@ package org.languagetool.rules.ar;
   import org.junit.Before;
   import org.junit.Test;
   import org.languagetool.JLanguageTool;
+  import org.languagetool.Languages;
   import org.languagetool.TestTools;
   import org.languagetool.rules.*;
   import java.io.IOException;
@@ -35,7 +36,7 @@ public class ArabicPunctuationWhitespaceRuleTest {
   @Before
   public void setUp() {
     rule = new ArabicPunctuationWhitespaceRule(TestTools.getEnglishMessages(), true);
-    langTool = new JLanguageTool(TestTools.getDemoLanguage());
+    langTool = new JLanguageTool(Languages.getLanguageForShortCode("ar"));
   }
 
   @Test
