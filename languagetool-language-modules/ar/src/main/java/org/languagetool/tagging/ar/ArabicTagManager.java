@@ -60,18 +60,18 @@ public class ArabicTagManager {
   private static final int VERB_FLAG_POS_PRONOUN = 14;
 
   // CONSTANT for particle flags position
-  private static final int PARTICLE_TAG_LENGTH = 12;
+  private static final int PARTICLE_TAG_LENGTH = 11;
   private static final int PARTICLE_FLAG_POS_WORDTYPE = 0;
   private static final int PARTICLE_FLAG_POS_CATEGORY = 1;
 
   private static final int PARTICLE_FLAG_POS_GENDER = 4;
   private static final int PARTICLE_FLAG_POS_NUMBER = 5;
   private static final int PARTICLE_FLAG_POS_CASE = 6;
-  private static final int PARTICLE_FLAG_POS_INFLECT_MARK = 7;
+//  private static final int PARTICLE_FLAG_POS_INFLECT_MARK = 7;
 
-  private static final int PARTICLE_FLAG_POS_CONJ = 9;
-  private static final int PARTICLE_FLAG_POS_JAR = 10;
-  private static final int PARTICLE_FLAG_POS_PRONOUN = 11;
+  private static final int PARTICLE_FLAG_POS_CONJ = 8;
+  private static final int PARTICLE_FLAG_POS_JAR = 9;
+  private static final int PARTICLE_FLAG_POS_PRONOUN = 10;
 
   private final HashMap<String, Integer> mapFlagPos = new HashMap<>();
 
@@ -297,6 +297,7 @@ public class ArabicTagManager {
    */
   public boolean isAttached(String postag) {
     return ((isNoun(postag) || (isVerb(postag))) && (getFlag(postag, "PRONOUN") == 'H'));
+//    return (getFlag(postag, "PRONOUN") != '-');
   }
 
   /**
@@ -527,9 +528,11 @@ public class ArabicTagManager {
       pos = PARTICLE_FLAG_POS_NUMBER;
     } else if (key.equals("PARTICLE_FLAG_POS_CASE")) {
       pos = PARTICLE_FLAG_POS_CASE;
-    } else if (key.equals("PARTICLE_FLAG_POS_INFLECT_MARK")) {
-      pos = PARTICLE_FLAG_POS_INFLECT_MARK;
-    } else if (key.equals("PARTICLE_FLAG_POS_CONJ")) {
+    }
+//    else if (key.equals("PARTICLE_FLAG_POS_INFLECT_MARK")) {
+//      pos = PARTICLE_FLAG_POS_INFLECT_MARK;
+//    }
+    else if (key.equals("PARTICLE_FLAG_POS_CONJ")) {
       pos = PARTICLE_FLAG_POS_CONJ;
     } else if (key.equals("PARTICLE_FLAG_POS_JAR")) {
       pos = PARTICLE_FLAG_POS_JAR;
@@ -548,7 +551,14 @@ public class ArabicTagManager {
   public String setFlag(String postag, String flagType, char flag) {
     /* a flag value for flagtype from postag */
     StringBuilder tmp = new StringBuilder(postag);
-    tmp.setCharAt(getFlagPos(postag, flagType), flag);
+    try {
+      tmp.setCharAt(getFlagPos(postag, flagType), flag);
+    }
+    catch(StringIndexOutOfBoundsException e){
+      int pos = getFlagPos(postag, flagType);
+      // debug only
+      System.out.println("ArabicTagmanager:Exception: pos flag"+ Integer.toString(pos)+" postag:"+tmp+ " len:"+Integer.toString(tmp.length()));
+    }
     return tmp.toString();
 
   }
@@ -588,10 +598,12 @@ public class ArabicTagManager {
     mapFlagPos.put("VERB_PRONOUN", 14);
 
     // CONSTANT for particle flags position
-    mapFlagPos.put("PARTICLE_TAG_LENGTH", 12);
+    mapFlagPos.put("PARTICLE_TAG_LENGTH", 11);
     mapFlagPos.put("PARTICLE_WORDTYPE", 0);
     mapFlagPos.put("PARTICLE_CATEGORY", 1);
     mapFlagPos.put("PARTICLE_OPTION", 2);
+    mapFlagPos.put("PARTICLE_CONJ", 8);
+    mapFlagPos.put("PARTICLE_JAR", 9);
     mapFlagPos.put("PARTICLE_PRONOUN", 10);
   }
 
@@ -615,5 +627,32 @@ public class ArabicTagManager {
     return pos;
   }
 
+  /* remove procletic flags in a given postag*/
+
+  public String setProcleticFlags(String postag)
+  {
+    if(postag.isEmpty())
+      return "";
+    String newposTag = postag;
+    if(isVerb(postag)) {
+      newposTag = setFlag(newposTag, "CONJ", '-');
+      newposTag = setFlag(newposTag, "ISTIQBAL", '-');
+    }
+    else if (isNoun(postag))
+    {
+      newposTag = setFlag(newposTag, "CONJ", '-');
+      newposTag = setFlag(newposTag, "JAR", '-');
+    }
+    else if (isStopWord(postag) )
+    {
+      newposTag = setFlag(newposTag, "CONJ", '-');
+      newposTag = setFlag(newposTag, "JAR", '-');
+    }
+
+    else
+      return postag;
+    return newposTag;
+
+  }
 }
 

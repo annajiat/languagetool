@@ -340,6 +340,161 @@ public class ArabicTagger extends BaseTagger {
   public void enableNewStylePronounTag() {
     newStylePronounTag = true;
   }
-}
 
+
+  /**
+   * @return if have a flag which is a noun and has pronoun, return the suffix letters for this case
+   */
+  public String getEnclitic(String postag, String word) {
+    if (postag.isEmpty())
+      return "";
+    char flag = tagmanager.getFlag(postag, "PRONOUN");
+    String suffix = "";
+    if(flag!='-')
+    {
+      if(word.endsWith("ه"))
+        suffix = "ه";
+      else if(word.endsWith("ها"))
+        suffix = "ها";
+      else if(word.endsWith("هما"))
+        suffix = "هما";
+      else if(word.endsWith("هم"))
+        suffix = "هم";
+      else if(word.endsWith("هن"))
+        suffix = "هن";
+      else if(word.endsWith("ك"))
+        suffix = "ك";
+
+      else if(word.endsWith("كما"))
+        suffix = "كما";
+      else if(word.endsWith("كم"))
+        suffix = "كم";
+      else if(word.endsWith("كن"))
+        suffix = "كن";
+      else if(word.endsWith("ني"))
+        suffix = "ني";
+      else if(word.endsWith("نا"))
+        suffix = "نا";
+      // case of some prepositon like مني منا، عني عنّا
+      else if((word.equals("عني") ||  word.equals("مني") ) && word.endsWith("ني"))
+        suffix = "ني";
+      else if((word.equals("عنا")|| word.equals("منا") ) && word.endsWith("نا"))
+        suffix = "نا";
+      else
+        suffix = "";
+    }
+    else
+      return tagmanager.getPronounSuffix(postag);
+
+    return suffix;
+  }
+
+
+  /**
+   * @return if have a flag which is a noun/verb and has procletics, return the first prefix named procletic letters for this case
+   */
+  public String getProcletic(String postag, String word) {
+    if (postag.isEmpty())
+      return "";
+    // if the word is Verb
+    // extract conjuction and IStiqbal procletic
+    String prefix = "";
+    if(tagmanager.isVerb(postag)) {
+      char conjflag = tagmanager.getFlag(postag, "CONJ");
+      char istqbalflag = tagmanager.getFlag(postag, "ISTIQBAL");
+      // if the two flags are set, return 2 letters prefix
+      int prefix_length = 0;
+      if(conjflag=='W')
+        prefix_length +=1;
+      if (istqbalflag =='S')
+        prefix_length +=1;
+      prefix = getPrefix(word, prefix_length);
+    }
+    return prefix;
+    }
+  /**
+   * @return if have a flag which is a noun/verb and has procletics, return the first prefix named procletic letters for this case
+   */
+  public String getProcletic(AnalyzedToken token) {
+    String postag = token.getPOSTag();
+    String word = token.getToken();
+    if (postag.isEmpty())
+      return "";
+    // if the word is Verb
+    // extract conjuction and IStiqbal procletic
+    String prefix = "";
+    if(tagmanager.isVerb(postag)) {
+      char conjflag = tagmanager.getFlag(postag, "CONJ");
+      char istqbalflag = tagmanager.getFlag(postag, "ISTIQBAL");
+      // if the two flags are set, return 2 letters prefix
+      int prefix_length = 0;
+      if(conjflag=='W')
+        prefix_length +=1;
+      if (istqbalflag =='S')
+        prefix_length +=1;
+      prefix = getPrefix(word, prefix_length);
+    }
+    return prefix;
+  }
+
+  /**
+   * @return if have a flag which is a noun and has pronoun, return the suffix letters for this case
+   */
+  public String getEnclitic(AnalyzedToken token) {
+    String postag = token.getPOSTag();
+    String word = token.getToken();
+    if (postag.isEmpty())
+      return "";
+    char flag = tagmanager.getFlag(postag, "PRONOUN");
+    String suffix = "";
+    if(flag!='-')
+    {
+      if(word.endsWith("ه"))
+        suffix = "ه";
+      else if(word.endsWith("ها"))
+        suffix = "ها";
+      else if(word.endsWith("هما"))
+        suffix = "هما";
+      else if(word.endsWith("هم"))
+        suffix = "هم";
+      else if(word.endsWith("هن"))
+        suffix = "هن";
+      else if(word.endsWith("ك"))
+        suffix = "ك";
+
+      else if(word.endsWith("كما"))
+        suffix = "كما";
+      else if(word.endsWith("كم"))
+        suffix = "كم";
+      else if(word.endsWith("كن"))
+        suffix = "كن";
+      else if(word.endsWith("ني"))
+        suffix = "ني";
+      else if(word.endsWith("نا"))
+        suffix = "نا";
+        // case of some prepositon like مني منا، عني عنّا
+      else if((word.equals("عني") ||  word.equals("مني") ) && word.endsWith("ني"))
+        suffix = "ني";
+      else if((word.equals("عنا")|| word.equals("منا") ) && word.endsWith("نا"))
+        suffix = "نا";
+      else
+        suffix = "";
+    }
+    else
+      return tagmanager.getPronounSuffix(postag);
+
+    return suffix;
+  }
+  /**
+   * @return set a new enclitic for the given word,
+   */
+  public String setEnclitic(AnalyzedToken token, String suffix) {
+    String postag = token.getPOSTag();
+    String word = token.getToken();
+    if (postag.isEmpty() || suffix.isEmpty())
+      return word;
+    String newWord = word+suffix;
+    return word+suffix;
+  }
+}
 

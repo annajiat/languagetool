@@ -21,9 +21,11 @@ package org.languagetool.synthesis.ar;
 import morfologik.stemming.IStemmer;
 import morfologik.stemming.WordData;
 import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.synthesis.BaseSynthesizer;
 import org.languagetool.tagging.ar.ArabicTagManager;
+import org.languagetool.tagging.ar.ArabicTagger;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -51,6 +53,7 @@ public class ArabicSynthesizer extends BaseSynthesizer {
   private static final String TAGS_FILE_NAME = "/ar/arabic_tags.txt";
 
   private final ArabicTagManager tagmanager = new ArabicTagManager();
+  private final ArabicTagger tagger = new ArabicTagger();
 
   public ArabicSynthesizer(Language lang) {
     super(RESOURCE_FILENAME, TAGS_FILE_NAME, lang);
@@ -73,6 +76,8 @@ public class ArabicSynthesizer extends BaseSynthesizer {
     for (WordData wd : wordData) {
       // ajust some stems
       stem = correctStem(wd.getStem().toString(), posTag);
+      //debug only
+//      System.out.println("ArabicSynthesizer:stem:"+stem+" "+ posTag);
       wordForms.add(stem);
     }
     return wordForms.toArray(new String[0]);
@@ -163,6 +168,54 @@ public class ArabicSynthesizer extends BaseSynthesizer {
     return correct_stem;
   }
 
+  /**
+   * @return set a new enclitic for the given word,
+   */
+  public String setEnclitic(AnalyzedToken token, String suffix) {
+    // if the suffix is not empty
+    // save procletic
+    // ajust postag to get synthesed words
+    // set enclitic flag
+    // synthesis => lookup for stems with similar postag and has enclitic flag
+    // Add procletic and enclitic to stem
+    // return new word
+    String postag = token.getPOSTag();
+    String word = token.getToken();
+    if (postag.isEmpty())
+      return word;
+    /* The flag is by defaul equal to '-' , if suffix => "H" */
+    char flag = (suffix.isEmpty()) ? '-':'H';
+    // save procletic
+    String procletic = tagger.getProcletic(token);
+    // set enclitic flag
+    String newposTag = tagmanager.setFlag(postag, "PRONOUN", flag);
+    //adjust procletics
+    newposTag = tagmanager.setProcleticFlags(newposTag);
+    // synthesis => lookup for stems with similar postag and has enclitic flag
+    String lemma = token.getLemma();
+    AnalyzedToken newToken = new AnalyzedToken(lemma, newposTag, lemma);
+    String[] newwordList = synthesize(newToken, newposTag);
+
+    String stem = "";
+    if (newwordList.length != 0) {
+      stem = newwordList[0];
+      //FIXME: make a general solution
+      if(tagmanager.isStopWord(newposTag) && flag =='H')
+        stem = stem.replaceAll("ه$", "");
+//      stem = correctStem(stem, postag);
+      //debug only
+//      for(int k=0; k<newwordList.length; k++) {
+//        System.out.println("ArabicSynthesizer:setEnclitic()" + newwordList[k] + " " + newposTag);
+//      }
+    }
+    else // no word generated
+    //FIXME: handle stopwords generation
+      stem  = "("+word+")";
+    //debug only
+//    System.out.println("ArabicSynthesizer:setEnclitic(), lemma:" + lemma + " postag:" + newposTag);
+    String newWord = procletic+stem+suffix;
+    return newWord;
+  }
 
 }
 
