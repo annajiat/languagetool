@@ -327,6 +327,15 @@ public class ArabicTagManager {
   public boolean isDefinite(String postag) {
     return isNoun(postag) && (getFlag(postag, "PRONOUN") == 'L');
   }
+/**
+   * @return true if a word has procletics like conj and jar
+   */
+//  public boolean isBreak(String postag) {
+//    return (( isStopWord(postag) && !hasConjunction(postag)) // a stopword without conjunction
+//      || (isNoun(postag) && (!hasJar(postag)&& !hasConjunction(postag))) // a noun without conjucntion and jar
+//      || (isVerb(postag) && (!hasConjunction(postag)))); // a verb without conjucntion and istiqbal
+//
+//  }
 
   /**
    * @return true if the postag has a Jar
@@ -341,7 +350,9 @@ public class ArabicTagManager {
   public boolean hasConjunction(String postag) {
     char flag = getFlag(postag, "CONJ");
     return (isNoun(postag) && (flag != '-'))
-      || (isVerb(postag) && (flag != '-'));
+      || (isVerb(postag) && (flag != '-'))
+      || ((isStopWord(postag) && (flag != '-'))
+    );
   }
 
   /**
@@ -545,7 +556,10 @@ public class ArabicTagManager {
 
   public char getFlag(String postag, String flagType) {
     /* a flag value for flagtype from postag */
-    return postag.charAt(getFlagPos(postag, flagType));
+    int pos = getFlagPos(postag, flagType);
+    if (pos<postag.length())
+      return postag.charAt(pos);
+    else   return '-';
   }
 
   public String setFlag(String postag, String flagType, char flag) {

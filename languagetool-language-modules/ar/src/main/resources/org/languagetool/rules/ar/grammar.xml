@@ -7408,7 +7408,7 @@ END RULEGROUP Masdar errors
     <example type="correct"> تربصنا به </example>
   </rule>
 <!-- trans_415_trdd_Ela تَرَدَّدَ على -->
-  <rule id="trans_415_trdd_Ela" name="تردد على">
+ <!-- <rule id="trans_415_trdd_Ela" name="تردد على">
     <pattern>
       <token inflected="yes" skip="1">تَرَدَّدَ</token>
       <marker>
@@ -7421,7 +7421,7 @@ END RULEGROUP Masdar errors
     <example correction="إلى" type="incorrect"> تردد <marker>على</marker> المكتبة </example>
     <example type="correct"> ترددت إلى مكتبي </example>
   </rule>
-
+-->
  <!-- trans_417_tEAlwA_EndnA تعالَوْا عندنا -->
   <rule id="trans_417_tEAlwA_EndnA" name="تعالوا عندنا">
     <pattern>
