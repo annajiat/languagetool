@@ -27,7 +27,7 @@ import java.util.Scanner;
 import java.util.Set;
 
 /**
- * Data for {@link ArabicTransVerbRule}.
+ * Data for {@link ArabicTransVerbDirectToIndirectRule}.
  * Loads exceptions (e.g. "hour" as in "an hour") from external files.
  * 
  * @author Daniel Naber

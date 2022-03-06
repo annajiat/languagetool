@@ -31,12 +31,12 @@ import java.io.IOException;
 import static org.junit.Assert.assertEquals;
 
 public class ArabicIntransVerbRuleTest {
-  private ArabicIntransVerbRule rule;
+  private ArabicTransVerbIndirectToDirectRule rule;
   private JLanguageTool lt;
 
   @Before
   public void setUp() throws IOException {
-    rule = new ArabicIntransVerbRule(TestTools.getEnglishMessages());
+    rule = new ArabicTransVerbIndirectToDirectRule(TestTools.getEnglishMessages());
     lt = new JLanguageTool(Languages.getLanguageForShortCode("ar"));
   }
 

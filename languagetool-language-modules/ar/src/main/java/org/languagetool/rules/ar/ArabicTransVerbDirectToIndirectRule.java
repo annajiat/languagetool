@@ -30,11 +30,11 @@ import org.languagetool.tagging.ar.ArabicTagger;
 
 import java.util.*;
 
-public class ArabicTransVerbRule extends AbstractSimpleReplaceRule2 {
+public class ArabicTransVerbDirectToIndirectRule extends AbstractSimpleReplaceRule2 {
 
-  public static final String AR_VERB_TRANS_INDIRECT_REPLACE = "AR_VERB_TRANSITIVE_INDIRECT";
+  public static final String AR_VERB_TRANS_DIRECT_TO_INDIRECT_REPLACE = "AR_VERB_TRANSITIVE_DIRECT_TO_INDIRECT";
 
-  private static final String FILE_NAME = "/ar/verb_trans_to_intrans.txt";
+  private static final String FILE_NAME = "/ar/verb_trans_direct_to_indirect.txt";
   private static final Locale AR_LOCALE = new Locale("ar");
 
   private final ArabicTagger tagger;
@@ -42,7 +42,7 @@ public class ArabicTransVerbRule extends AbstractSimpleReplaceRule2 {
   private final ArabicSynthesizer synthesizer;
   private final List<Map<String, SuggestionWithMessage>> wrongWords;
 
-  public ArabicTransVerbRule(ResourceBundle messages) {
+  public ArabicTransVerbDirectToIndirectRule(ResourceBundle messages) {
     super(messages, new Arabic());
     tagger = new ArabicTagger();
     tagger.enableNewStylePronounTag();
@@ -60,7 +60,7 @@ public class ArabicTransVerbRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getId() {
-    return AR_VERB_TRANS_INDIRECT_REPLACE;
+    return AR_VERB_TRANS_DIRECT_TO_INDIRECT_REPLACE;
   }
 
   @Override

@@ -30,11 +30,11 @@ import org.languagetool.tagging.ar.ArabicTagger;
 
 import java.util.*;
 
-public class ArabicIntransIndirectVerbRule extends AbstractSimpleReplaceRule2 {
+public class ArabicTransVerbIndirectToIndirectRule extends AbstractSimpleReplaceRule2 {
 
-  public static final String AR_VERB_INTRANS_INDIRECT_REPLACE = "AR_VERB_INTRANSITIVE_INDIRECT";
+  public static final String AR_VERB_TRANS_INDIRECT_TO_INDIRECT_REPLACE = "AR_VERB_TRANSITIVE_INDIRECT_TO_INDIRECT";
 
-  private static final String FILE_NAME = "/ar/verb_intrans_to_intrans.txt";
+  private static final String FILE_NAME = "/ar/verb_trans_indirect_to_indirect.txt";
   private static final Locale AR_LOCALE = new Locale("ar");
 
   private final ArabicTagger tagger;
@@ -42,7 +42,7 @@ public class ArabicIntransIndirectVerbRule extends AbstractSimpleReplaceRule2 {
   private final ArabicSynthesizer synthesizer;
   private final List<Map<String, SuggestionWithMessage>> wrongWords;
 
-  public ArabicIntransIndirectVerbRule(ResourceBundle messages) {
+  public ArabicTransVerbIndirectToIndirectRule(ResourceBundle messages) {
     super(messages, new Arabic());
     tagger = new ArabicTagger();
     tagger.enableNewStylePronounTag();
@@ -61,7 +61,7 @@ public class ArabicIntransIndirectVerbRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getId() {
-    return AR_VERB_INTRANS_INDIRECT_REPLACE;
+    return AR_VERB_TRANS_INDIRECT_TO_INDIRECT_REPLACE;
   }
 
   @Override
@@ -110,27 +110,35 @@ public class ArabicIntransIndirectVerbRule extends AbstractSimpleReplaceRule2 {
 
       if (prevTokenStr != null) {
         // test if the first token is a verb
-        boolean is_candidate_verb = isCandidateVerb(prevToken, token);
+//        boolean is_candidate_verb = isCandidateVerb(prevToken, token);
 
         // if the string composed of two tokens is candidate,
         // get suggestion preposition
-        if(is_candidate_verb) {
+//        if(is_candidate_verb) {
           // test if the preposition token is suitable for verb token (previous)
           List <String> prepositions = new ArrayList<>();
           String sug_msg = "";
           StringBuilder replacement = new StringBuilder("");
-          SuggestionWithMessage prepositionsWithMessage = getSuggestedPreposition(prevToken, token);
-          if(prepositionsWithMessage!=null)
-          {
-            prepositions = Arrays.asList(prepositionsWithMessage.getSuggestion().split("\\|"));
-            sug_msg = prepositionsWithMessage.getMessage();
-            sug_msg = sug_msg != null ? sug_msg : "";
-          for(String prep : prepositions)
-          {
-            String inflectPrep = inflectSuggestedPreposition(token, prep);
-            replacement.append( "<suggestion>"+prevTokenStr+" "+ inflectPrep +"</suggestion>");
-          }
-          }
+          // browse each verb with each preposition
+          for(AnalyzedToken verbTok: prevToken.getReadings()) {
+            if(tagmanager.isVerb(verbTok.getPOSTag())) {
+            for(AnalyzedToken prepTok: token.getReadings()) {
+              SuggestionWithMessage prepositionsWithMessage = getSuggestedPreposition(verbTok, prepTok);
+//              System.out.println("ArabicIntransIndirectVerbRule.java: verb"+verbTok.getLemma()+" replaced: "+prepTok.getToken()+" math:"+Boolean.toString(prepositionsWithMessage != null));
+
+              if (prepositionsWithMessage != null) {
+                prepositions = Arrays.asList(prepositionsWithMessage.getSuggestion().split("\\|"));
+                sug_msg = prepositionsWithMessage.getMessage();
+                sug_msg = sug_msg != null ? sug_msg : "";
+                for (String prep : prepositions) {
+                  String inflectPrep = inflectSuggestedPreposition(prepTok, prep);
+//                  System.out.println("ArabicIntransIndirectVerbRule.java: verb"+verbTok.getLemma()+" replaced: "+prepTok.getToken()+" prep:"+prep +" suggestion:"+inflectPrep);
+                  replacement.append("<suggestion>" + prevTokenStr + " " + inflectPrep + "</suggestion>");
+                }
+              }
+            }// if verb
+            } // for pretok
+          } // for verbtok
 //          String sug_msg = "Taha";
 
 //          String replacement = "<suggestion>Taha Zerrouki</suggestion>";
@@ -176,7 +184,7 @@ public class ArabicIntransIndirectVerbRule extends AbstractSimpleReplaceRule2 {
           ruleMatches.add(match);
         }
         */
-      }
+//      }
 
       if (nextToken!=null && isCandidateVerb(token, nextToken)) {
         prevTokenIndex = i;
@@ -209,19 +217,39 @@ public class ArabicIntransIndirectVerbRule extends AbstractSimpleReplaceRule2 {
           String prepPostag = prepTok.getPOSTag();
           //FIXME: add isBreak to tagmannager
           // problem with pos tagging system for Partical
-          boolean isNotBreak = tagmanager.getFlag(prepPostag, "CONJ") != 'W';
+//          boolean isNotBreak = tagmanager.getFlag(prepPostag, "CONJ") != 'W';
 //          char flagw = tagmanager.getFlag(prepPostag, "CONJ");
           //debug only
 //          System.out.println("ArabicIntransIndirectVerbRule.java: word:"+ prepTok.getToken()+" postag:"+prepPostag + " flag"+flagw);
 //          System.out.println("ArabicIntransIndirectVerbRule.java: is not Break: isNotbreak:"+ Boolean.toString(isNotBreak));
-          if (prepPostag != null && tagmanager.isStopWord(prepPostag) && isNotBreak)
+          if (prepPostag != null && tagmanager.isStopWord(prepPostag) && !tagmanager.isBreak(prepPostag))
           {
             // the candidate string is composed of verb + preposition
             String candidateString = verbLemma + " " + prepLemma;
             // lookup in WrongWords
             SuggestionWithMessage verbLemmaMatch = wrongWords.get(wrongWords.size() - 1).get(candidateString);
           // The lemma is found in the dictionary file
-          return verbLemmaMatch;
+            if(verbLemmaMatch!=null)
+              return verbLemmaMatch;
+        }
+          // case of Lam Jar and Beh Jar as indirect transitive preposition
+          // a noun with a jar but without conjugation
+          // لعبت بالكرة:right
+          // لعبت وبالكرةWrong
+          else if (prepPostag != null && tagmanager.isNoun(prepPostag) &&
+            (tagmanager.hasJar(prepPostag) && !tagmanager.hasConjunction(prepPostag)))
+          {
+            // the candidate string is composed of verb + preposition
+            prepLemma = tagger.getProcletic(prepTok);
+            String candidateString = verbLemma + " " + prepLemma;
+
+            // lookup in WrongWords
+            SuggestionWithMessage verbLemmaMatch = wrongWords.get(wrongWords.size() - 1).get(candidateString);
+          // The lemma is found in the dictionary file
+            //debug only
+//            System.out.println("ArabicIntransIndirectVerbRule.java:"+prepTok.getToken()+" procletic:"+prepLemma+" verb"+verbTok.getLemma()+ " match:"+Boolean.toString(verbLemmaMatch!=null));
+            if(verbLemmaMatch!=null)
+              return verbLemmaMatch;
         }
       }
 
@@ -229,19 +257,117 @@ public class ArabicIntransIndirectVerbRule extends AbstractSimpleReplaceRule2 {
   }
     return null;
   }
+ /* lookup for candidat verbs with preposition */
+  private SuggestionWithMessage getSuggestedPreposition(AnalyzedToken verbTok, AnalyzedToken prepTok) {
+
+//    List<AnalyzedToken> verbTokenList = mytoken.getReadings();
+//    List<AnalyzedToken> prepTokenList = nexttoken.getReadings();
+//    for (AnalyzedToken verbTok : verbTokenList) {
+      String verbLemma = verbTok.getLemma();
+      String verbPostag = verbTok.getPOSTag();
+
+      // if postag is attached
+      // test if verb is in the verb list
+      if (verbPostag != null && tagmanager.isVerb(verbPostag)) {
+//        for (AnalyzedToken prepTok : prepTokenList) {
+          String prepLemma = prepTok.getLemma();
+          String prepPostag = prepTok.getPOSTag();
+          //FIXME: add isBreak to tagmannager
+          // problem with pos tagging system for Partical
+//          boolean isNotBreak = tagmanager.getFlag(prepPostag, "CONJ") != 'W';
+//          char flagw = tagmanager.getFlag(prepPostag, "CONJ");
+          //debug only
+//          System.out.println("ArabicIntransIndirectVerbRule.java: word:"+ prepTok.getToken()+" postag:"+prepPostag + " flag"+flagw);
+//          System.out.println("ArabicIntransIndirectVerbRule.java: is not Break: isNotbreak:"+ Boolean.toString(isNotBreak));
+          if (prepPostag != null && tagmanager.isStopWord(prepPostag) && !tagmanager.isBreak(prepPostag))
+          {
+            // the candidate string is composed of verb + preposition
+            String candidateString = verbLemma + " " + prepLemma;
+            // lookup in WrongWords
+            SuggestionWithMessage verbLemmaMatch = wrongWords.get(wrongWords.size() - 1).get(candidateString);
+          // The lemma is found in the dictionary file
+            if(verbLemmaMatch!=null)
+              return verbLemmaMatch;
+        }
+          // case of Lam Jar and Beh Jar as indirect transitive preposition
+          // a noun with a jar but without conjugation
+          // لعبت بالكرة:right
+          // لعبت وبالكرةWrong
+          else if (prepPostag != null && tagmanager.isNoun(prepPostag) &&
+            (tagmanager.hasJar(prepPostag) && !tagmanager.hasConjunction(prepPostag)))
+          {
+            // the candidate string is composed of verb + preposition
+            prepLemma = tagger.getProcletic(prepTok);
+            String candidateString = verbLemma + " " + prepLemma;
+
+            // lookup in WrongWords
+            SuggestionWithMessage verbLemmaMatch = wrongWords.get(wrongWords.size() - 1).get(candidateString);
+          // The lemma is found in the dictionary file
+            //debug only
+//            System.out.println("ArabicIntransIndirectVerbRule.java:"+prepTok.getToken()+" procletic:"+prepLemma+" verb"+verbTok.getLemma()+ " match:"+Boolean.toString(verbLemmaMatch!=null));
+            if(verbLemmaMatch!=null)
+              return verbLemmaMatch;
+        }
+//      }
+
+    }
+//  }
+    return null;
+  }
 
 
 
   /* generate a new form according to a specific postag, this form is Attached*/
-  private String inflectSuggestedPreposition(AnalyzedTokenReadings currentPrepToken, String suggPrepLemma) {
+  private String inflectSuggestedPreposition(AnalyzedToken currentPrepTok, String suggPrepLemma) {
+//  private String inflectSuggestedPreposition(AnalyzedTokenReadings currentPrepToken, String suggPrepLemma) {
     // extract verb postag
     // extract preposition postag
     // get pronoun flag
     // regenerate verb form with original postag and new flag to add Pronoun if exists
-    String postag = "PRD;---;---";
-    String suffix = tagger.getEnclitic(currentPrepToken.getAnalyzedToken(0));
-    AnalyzedToken suggPrepToken= new AnalyzedToken(suggPrepLemma, postag ,suggPrepLemma);
-    String newWord = synthesizer.setEnclitic(suggPrepToken,suffix);
+    // أربع حالات
+    //1- الحالي حرف منفصل والتصحيح حرف منفصل
+    //2- الحالي حرف منفصل والتصحيح حرف متصل
+    //3- الحالي اسما مجرورا والتصحيح حرف منفصل
+    //4- الحالي اسما مجرورا والتصحيح حرف متصل
+
+    // الجالة الأولى
+//    AnalyzedToken currentPrepTok = currentPrepToken.getAnalyzedToken(0)
+    String postag = currentPrepTok.getPOSTag();
+    String currentWord = currentPrepTok.getToken();
+    boolean isAttachedJar = (suggPrepLemma.equals("ب") || suggPrepLemma.equals("ل"));
+    String suffix = tagger.getEnclitic(currentPrepTok);
+    String newWord="";
+    //1- الحالي حرف منفصل والتصحيح حرف منفصل
+    if(tagmanager.isStopWord(postag)){
+      if(!isAttachedJar) {
+        String newpostag = "PRD;---;---";
+        AnalyzedToken suggPrepToken = new AnalyzedToken(suggPrepLemma, newpostag, suggPrepLemma);
+        newWord = synthesizer.setEnclitic(suggPrepToken, suffix);
+      }
+      else {     //2- الحالي حرف منفصل والتصحيح حرف متصل
+        newWord = suggPrepLemma + suffix;
+        //FIXME : add the Attached jar preposition to next word
+      }
+
+    }
+    //3- الحالي اسما مجرورا والتصحيح حرف منفصل
+    else if (tagmanager.isNoun(postag)) {
+    if(!isAttachedJar)
+    {
+      // remove jar procletic if exists
+      // add unattached jar and a space
+      currentWord = synthesizer.setJarProcletic(currentPrepTok, "");
+      newWord = suggPrepLemma + " "+ currentWord;
+    }
+    else
+    {
+      //4- الحالي اسما مجرورا والتصحيح حرف متصل
+      // Add the attached Jar to the current Noun
+      newWord = synthesizer.setJarProcletic(currentPrepTok, suggPrepLemma);
+//      newWord = suggPrepLemma + "+"+ currentWord;
+    }
+    }
+
     //debug only
 //    System.out.println("Synthesizer:"+newWord);
     return newWord;

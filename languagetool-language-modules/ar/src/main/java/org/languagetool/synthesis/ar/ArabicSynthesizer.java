@@ -216,6 +216,78 @@ public class ArabicSynthesizer extends BaseSynthesizer {
     String newWord = procletic+stem+suffix;
     return newWord;
   }
+  /**
+   * @return set a new procletic for the given word,
+   */
+ public String setJarProcletic(AnalyzedToken token, String prefix) {
+    // if the preffix is not empty
+    // save enclitic
+    // ajust postag to get synthesed words
+    // set procletic flags
+    // synthesis => lookup for stems with similar postag
+    // Add procletic and enclitic to stem
+    // return new word
+    String postag = token.getPOSTag();
+    String word = token.getToken();
+    if (postag.isEmpty())
+      return word;
+    // case of definate word:
+   // إضافة الجار إلى أل التعريف
+   if(tagmanager.isDefinite(postag)) {
+     if (prefix.equals("ل"))
+       prefix += "ل";
+     else //  if(prefprefix.equals("ب")||prefix.equals("ك"))
+     // case of Beh Jar, Kaf Jar, empty Jar
+       prefix += "ال";
+   }
+   return setProcletic(token, prefix);
+
+  }/**
+   * @return set a new procletic for the given word,
+   */
+ public String setProcletic(AnalyzedToken token, String prefix) {
+    // if the preffix is not empty
+    // save enclitic
+    // ajust postag to get synthesed words
+    // set procletic flags
+    // synthesis => lookup for stems with similar postag
+    // Add procletic and enclitic to stem
+    // return new word
+    String postag = token.getPOSTag();
+    String word = token.getToken();
+    if (postag.isEmpty())
+      return word;
+    // save enclitic
+    String enclitic = tagger.getEnclitic(token);
+    String newposTag = postag;
+    //remove procletics
+    newposTag = tagmanager.setProcleticFlags(newposTag);
+
+    // synthesis => lookup for stems with similar postag and has enclitic flag
+    String lemma = token.getLemma();
+    AnalyzedToken newToken = new AnalyzedToken(lemma, newposTag, lemma);
+//    System.out.println("ArabicSynthesizer.java: Lemma"+lemma+" "+newposTag);
+    String[] newwordList = synthesize(newToken, newposTag);
+
+    String stem = "";
+    if (newwordList.length != 0) {
+      stem = newwordList[0];
+      if(tagmanager.hasPronoun(newposTag))
+        stem = stem.replaceAll("ه$", "");
+//      stem = correctStem(stem, postag);
+      //debug only
+//      for(int k=0; k<newwordList.length; k++) {
+//        System.out.println("ArabicSynthesizer:setEnclitic()" + newwordList[k] + " " + newposTag);
+//      }
+    }
+    else // no word generated
+    //FIXME: handle stopwords generation
+      stem  = "("+word+")";
+    //debug only
+//    System.out.println("ArabicSynthesizer:setEnclitic(), lemma:" + lemma + " postag:" + newposTag);
+    String newWord = prefix+stem+enclitic;
+    return newWord;
+  }
 
 }
 

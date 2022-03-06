@@ -330,18 +330,24 @@ public class ArabicTagManager {
 /**
    * @return true if a word has procletics like conj and jar
    */
-//  public boolean isBreak(String postag) {
-//    return (( isStopWord(postag) && !hasConjunction(postag)) // a stopword without conjunction
-//      || (isNoun(postag) && (!hasJar(postag)&& !hasConjunction(postag))) // a noun without conjucntion and jar
-//      || (isVerb(postag) && (!hasConjunction(postag)))); // a verb without conjucntion and istiqbal
-//
-//  }
+  public boolean isBreak(String postag) {
+    return (( isStopWord(postag) && !hasConjunction(postag)) // a stopword without conjunction
+      || (isNoun(postag) && (!hasJar(postag)&& !hasConjunction(postag))) // a noun without conjucntion and jar
+      || (isVerb(postag) && (!hasConjunction(postag)))); // a verb without conjucntion and istiqbal
+
+  }
 
   /**
    * @return true if the postag has a Jar
    */
   public boolean hasJar(String postag) {
     return isNoun(postag) && (getFlag(postag, "JAR") != '-');
+  }
+  /**
+   * @return true if the postag has a Jar
+   */
+  public boolean hasPronoun(String postag) {
+    return (getFlag(postag, "PRONOUN") == 'H');
   }
 
   /**
@@ -351,7 +357,8 @@ public class ArabicTagManager {
     char flag = getFlag(postag, "CONJ");
     return (isNoun(postag) && (flag != '-'))
       || (isVerb(postag) && (flag != '-'))
-      || ((isStopWord(postag) && (flag != '-'))
+      || ((isStopWord(postag) && (flag != 'W'))
+      //FIXME: for stopwrod after normalizing postag
     );
   }
 
@@ -656,6 +663,9 @@ public class ArabicTagManager {
     {
       newposTag = setFlag(newposTag, "CONJ", '-');
       newposTag = setFlag(newposTag, "JAR", '-');
+      // if the word is a definated word, set the definition flag
+      if (isDefinite(postag))
+        newposTag = setFlag(newposTag, "PRONOUN", '-');
     }
     else if (isStopWord(postag) )
     {

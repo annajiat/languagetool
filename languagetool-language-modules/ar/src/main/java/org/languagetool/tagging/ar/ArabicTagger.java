@@ -433,6 +433,16 @@ public class ArabicTagger extends BaseTagger {
       if (istqbalflag =='S')
         prefix_length +=1;
       prefix = getPrefix(word, prefix_length);
+    } else   if(tagmanager.isNoun(postag)) {
+      char conjflag = tagmanager.getFlag(postag, "CONJ");
+      char jarflag = tagmanager.getFlag(postag, "JAR");
+      // if the two flags are set, return 2 letters prefix
+      int prefix_length = 0;
+      if(conjflag!='-')
+        prefix_length +=1;
+      if (jarflag !='-')
+        prefix_length +=1;
+      prefix = getPrefix(word, prefix_length);
     }
     return prefix;
   }
@@ -484,6 +494,33 @@ public class ArabicTagger extends BaseTagger {
       return tagmanager.getPronounSuffix(postag);
 
     return suffix;
+  }
+
+  /**
+   * @return if have a flag which is a noun and has procletics, return the first prefix named procletic letters for this case
+   */
+  public String getJarProcletic(AnalyzedToken token) {
+    String postag = token.getPOSTag();
+    String word = token.getToken();
+    if (postag.isEmpty())
+      return "";
+    // if the word is Verb
+    // extract conjuction and IStiqbal procletic
+    String prefix = "";
+    if(tagmanager.isNoun(postag)) {
+      char conjflag = tagmanager.getFlag(postag, "CONJ");
+      char jarflag = tagmanager.getFlag(postag, "JAR");
+      // if the two flags are set, return 2 letters prefix
+      int prefix_length = 0;
+      if(conjflag !='-')
+        prefix_length +=1;
+      if (jarflag !='-')
+        prefix_length +=1;
+
+      if(prefix_length>0)
+      prefix = word.substring(prefix_length-1, prefix_length);
+    }
+    return prefix;
   }
   /**
    * @return set a new enclitic for the given word,
