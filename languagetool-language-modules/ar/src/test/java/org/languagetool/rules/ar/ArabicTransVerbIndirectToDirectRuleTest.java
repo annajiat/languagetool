@@ -30,7 +30,7 @@ import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 
-public class ArabicIntransVerbRuleTest {
+public class ArabicTransVerbIndirectToDirectRuleTest {
   private ArabicTransVerbIndirectToDirectRule rule;
   private JLanguageTool lt;
 
@@ -42,23 +42,15 @@ public class ArabicIntransVerbRuleTest {
 
   @Test
   public void testRule() throws IOException {
-  // FIXME: to be inverted
-//    // correct sentences:
-//    assertCorrect("كان أَفَاضَ في الحديث");
-//
+    // Correct sentences:
+    assertCorrect("تحرى الموضوع");
+    assertCorrect("تحرى الضابط القضية");
+    assertCorrect("تحرى  المسألة");
+    assertCorrect("يتحرونه");
 //    // errors:
-//    assertIncorrect("كان أفاض من الحديث");
-//    assertIncorrect("لقد أفاضت من الحديث");
-//    assertIncorrect("لقد أفاضت الحديث");
-//    assertIncorrect("كان أفاضها الحديث");
-//    assertIncorrect("إذ استعجل الأمر");
-    // Incorrect sentences:
-    assertCorrect("كان أفاض من الحديث");
-    assertCorrect("لقد أفاضت من الحديث");
-    assertCorrect("لقد أفاضت الحديث");
-    assertCorrect("كان أفاضها الحديث");
-//    // errors:
-    assertIncorrect("كان أَفَاضَ في الحديث");
+    assertIncorrect("تحرى الضابط عن القضية", 1);
+    assertIncorrect("تحرى عن المسألة", 1);
+    assertIncorrect("يتحرون عنه", 4);
   }
 
   private void assertCorrect(String sentence) throws IOException {
@@ -66,9 +58,9 @@ public class ArabicIntransVerbRuleTest {
     assertEquals(0, matches.length);
   }
 
-  private void assertIncorrect(String sentence) throws IOException {
+  private void assertIncorrect(String sentence, int index) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(sentence));
-    assertEquals(1, matches.length);
+    assertEquals(index, matches.length);
   }
 
 }

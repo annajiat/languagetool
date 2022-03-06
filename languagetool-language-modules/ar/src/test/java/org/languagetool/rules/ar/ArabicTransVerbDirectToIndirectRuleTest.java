@@ -30,7 +30,7 @@ import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 
-public class ArabicTransVerbRuleTest {
+public class ArabicTransVerbDirectToIndirectRuleTest {
   private ArabicTransVerbDirectToIndirectRule rule;
   private JLanguageTool lt;
 
@@ -47,10 +47,10 @@ public class ArabicTransVerbRuleTest {
     assertCorrect("كان أَفَاضَ في الحديث");
 
     // errors:
-    assertIncorrect("كان أفاض من الحديث");
-    assertIncorrect("لقد أفاضت من الحديث");
-    assertIncorrect("لقد أفاضت الحديث");
-    assertIncorrect("كان أفاضها الحديث");
+    assertIncorrect("كان أفاض من الحديث",3);
+    assertIncorrect("لقد أفاضت من الحديث",1);
+    assertIncorrect("لقد أفاضت الحديث",1);
+    assertIncorrect("كان أفاضها الحديث",1);
 //    assertIncorrect("إذ استعجل الأمر");
   }
 
@@ -59,9 +59,9 @@ public class ArabicTransVerbRuleTest {
     assertEquals(0, matches.length);
   }
 
-  private void assertIncorrect(String sentence) throws IOException {
+  private void assertIncorrect(String sentence, int index) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(sentence));
-    assertEquals(1, matches.length);
+    assertEquals(index, matches.length);
   }
 
 }
