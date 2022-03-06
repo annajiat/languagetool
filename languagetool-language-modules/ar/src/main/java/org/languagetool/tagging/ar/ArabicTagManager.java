@@ -311,7 +311,7 @@ public class ArabicTagManager {
    * @return true if have flag noun
    */
   public boolean isNoun(String postag) {
-    return postag.startsWith("N");
+    return ((postag!=null) && postag.startsWith("N"));
   }
 
   /**

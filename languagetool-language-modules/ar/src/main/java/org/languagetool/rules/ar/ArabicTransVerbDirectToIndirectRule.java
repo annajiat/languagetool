@@ -100,96 +100,133 @@ public class ArabicTransVerbDirectToIndirectRule extends AbstractSimpleReplaceRu
       return toRuleMatchArray(ruleMatches);
     }
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
-    int prevTokenIndex = 0;
+//    int prevTokenIndex = 0;
     for (int i = 1; i < tokens.length; i++) {  // ignoring token 0, i.e., SENT_START
       AnalyzedTokenReadings token = tokens[i];
+      int prevTokenIndex = i-1;
       AnalyzedTokenReadings prevToken = prevTokenIndex > 0 ? tokens[prevTokenIndex] : null;
       String prevTokenStr = prevTokenIndex > 0 ? tokens[prevTokenIndex].getToken() : null;
 
       if (prevTokenStr != null) {
-        // test if the first token is a verb
-        boolean is_attached_verb_transitive = isAttachedTransitiveVerb(prevToken);
+        // browse each verb with each preposition
+        for (AnalyzedToken verbTok : prevToken.getReadings()) {
+          // test if the first token is a verb
+          boolean is_candidate_verb = isCandidateVerb(verbTok);
 
-        // test if the preposition token is suitable for verb token (previous)
-        List <String> prepositions = new ArrayList<>();
-        String sug_msg = "";
-        SuggestionWithMessage prepositionsWithMessage = getProperPrepositionForTransitiveVerb(prevToken);
-        if(prepositionsWithMessage!=null)
-        {
-          prepositions = Arrays.asList(prepositionsWithMessage.getSuggestion().split("\\|"));
-          sug_msg = prepositionsWithMessage.getMessage();
-          sug_msg = sug_msg != null ? sug_msg : "";
-        }
-        // the current token can be a preposition or any words else
-        // test if the token is in the suitable prepositions
-        // browse all next  tokens to assure that proper preposition doesn't exist
-        boolean is_right_preposition = false;
-        for(int next_i=i; next_i <tokens.length;next_i ++ ) {
-          AnalyzedTokenReadings current_token = tokens[next_i];
-          is_right_preposition = isRightPreposition(current_token, prepositions);
-          if(is_right_preposition) break;
-        }
-        // the verb is attached and the next token is not the suitable preposition
-        // we give the correct new form
-        if (is_attached_verb_transitive && !is_right_preposition) {
-          String verb = getCorrectVerbForm(prevToken);
-          // generate suggestion according to suggested prepositions
-          // FIXED: test all suggestions
-          StringBuilder replacement = new StringBuilder("");
-          for(String a_preposition : prepositions)
-          {
-            String newPreposition = getCorrectPrepositionForm(a_preposition, prevToken);
-
-            replacement.append("<suggestion>" + verb + " " + newPreposition + "</suggestion>&nbsp;");
+          // test if the preposition token is suitable for verb token (previous)
+          List<String> prepositions = new ArrayList<>();
+          String sug_msg = "";
+          SuggestionWithMessage prepositionsWithMessage = getSuggestedPreposition(verbTok);
+          if (prepositionsWithMessage != null) {
+            prepositions = Arrays.asList(prepositionsWithMessage.getSuggestion().split("\\|"));
+            sug_msg = prepositionsWithMessage.getMessage();
+            sug_msg = sug_msg != null ? sug_msg : "";
           }
-          String msg =  "' الفعل " + prevTokenStr + " ' متعدٍ بحرف،" + sug_msg +". فهل تقصد؟"+ replacement.toString();
-          RuleMatch match = new RuleMatch(
-            this, sentence, prevToken.getStartPos(), prevToken.getEndPos(),
-            prevToken.getStartPos(), token.getEndPos(), msg, "خطأ في الفعل المتعدي بحرف");
-          ruleMatches.add(match);
-        }
-      }
+          // the current token can be a preposition or any words else
+          // test if the token is in the suitable prepositions
+          // browse all next  tokens to assure that proper preposition doesn't exist
+          boolean is_right_preposition = false;
+          AnalyzedTokenReadings current_token_reading = token;
+          AnalyzedToken current_token = token.getReadings().get(0);
 
-      if (isAttachedTransitiveVerb(token)) {
-        prevTokenIndex = i;
-      } else {
-        prevTokenIndex = 0;
-      }
+//          for (int next_i = i; next_i < tokens.length; next_i++) {
+//            current_token_reading = tokens[next_i];
+//            is_right_preposition = isRightPreposition(current_token_reading, prepositions);
+//            if (is_right_preposition) break;
+//          }
+          int[] next_indexes = getNextMatch(tokens, i, prepositions);
+//            System.out.println("Indexes " + Arrays.toString(next_indexes));
+          String skippedString = "";
+          if (next_indexes[0] != -1)
+          {
+
+            int tokReadingPos = next_indexes[0];
+            int tokPos = next_indexes[1];
+            is_right_preposition = true;
+            current_token_reading = tokens[tokReadingPos];
+            current_token  = current_token_reading.getReadings().get(tokPos);
+            skippedString = getSkippedString(tokens, i, tokReadingPos);
+//              System.out.println(" Skipped2:"+skippedString + " skipped:"+ skippedString.toString());
+//              System.out.println(" current token:"+current_token_reading.getToken() + " lemma:"+ current_token.getLemma());
+          }
+          // the verb is attached and the next token is not the suitable preposition
+          // we give the correct new form
+          if (is_candidate_verb && !is_right_preposition) {
+            String verb = inflectVerb(verbTok);
+            // generate suggestion according to suggested prepositions
+            // FIXED: test all suggestions
+            StringBuilder replacement = new StringBuilder("");
+            for (String a_preposition : prepositions) {
+              String newPreposition = inflectSuggestedPreposition(a_preposition, verbTok);
+
+              replacement.append("<suggestion>" + verb + " " + newPreposition + "</suggestion>&nbsp;");
+            }
+            String msg = "' الفعل " + prevTokenStr + " ' متعدٍ بحرف،" + sug_msg + ". فهل تقصد؟" + replacement.toString();
+            RuleMatch match = new RuleMatch(
+              this, sentence, prevToken.getStartPos(), prevToken.getEndPos(),
+              prevToken.getStartPos(), current_token_reading.getEndPos(), msg, "خطأ في الفعل المتعدي بحرف");
+            ruleMatches.add(match);
+          }
+        }
+      } // end verbTok
+//      if (isCandidateVerb(token)) {
+//        prevTokenIndex = i;
+//      } else {
+//        prevTokenIndex = 0;
+//      }
     }
     return toRuleMatchArray(ruleMatches);
   }
 
-  private boolean isAttachedTransitiveVerb(AnalyzedTokenReadings mytoken) {
-    List<AnalyzedToken> verbTokenList = mytoken.getReadings();
-
-    for (AnalyzedToken verbTok : verbTokenList) {
-      String verbLemma = verbTok.getLemma();
-      String verbPostag = verbTok.getPOSTag();
-
-      // if postag is attached
-      // test if verb is in the verb list
-      if (verbPostag != null)// && verbPostag.endsWith("H"))
-      {
-        // lookup in WrongWords
-        SuggestionWithMessage verbLemmaMatch = wrongWords.get(wrongWords.size() - 1).get(verbLemma);
-        // The lemma is found in the dictionary file
-        if (verbLemmaMatch != null)
-          return true;
-      }
-
+  private String getSkippedString(AnalyzedTokenReadings[] tokens, int start, int end)
+  {
+    StringBuilder skipped = new StringBuilder("");
+    for(int i=start; i<end; i++) {
+      skipped.append(tokens[i].getToken());
+      skipped.append(" ");
     }
-    return false;
+
+    return skipped.toString();
+
+  }
+//  private boolean isCandidateVerb(AnalyzedTokenReadings mytoken) {
+//
+//    if(getSuggestedPreposition(mytoken)!=null)
+//      return true;
+//    else
+//      return false;
+//  }
+  private boolean isCandidateVerb(AnalyzedToken mytoken) {
+
+    if(getSuggestedPreposition(mytoken)!=null)
+      return true;
+    else
+      return false;
   }
 
   /* if the word is a transitive verb, we get proper preposition in order to test it*/
 
-  private SuggestionWithMessage getProperPrepositionForTransitiveVerb(AnalyzedTokenReadings mytoken) {
-    List<AnalyzedToken> verbTokenList = mytoken.getReadings();
+//  private SuggestionWithMessage getSuggestedPreposition(AnalyzedTokenReadings mytoken) {
+//    List<AnalyzedToken> verbTokenList = mytoken.getReadings();
+//
+//    // keep the suitable postags
+////    List<String> replacements = new ArrayList<>();
+//
+//    for (AnalyzedToken verbTok : verbTokenList) {
+//      SuggestionWithMessage verbLemmaMatch = getSuggestedPreposition(verbTok);
+//        // The lemma is found in the dictionary file
+//        if (verbLemmaMatch != null) {
+//          return verbLemmaMatch;
+//        }
+//      }
+//
+//    return null;
+//  }
+  /* if the word is a transitive verb, we get proper preposition in order to test it*/
 
+  private SuggestionWithMessage getSuggestedPreposition(AnalyzedToken mytoken) {
     // keep the suitable postags
-//    List<String> replacements = new ArrayList<>();
-
-    for (AnalyzedToken verbTok : verbTokenList) {
+    AnalyzedToken verbTok = mytoken;
       String verbLemma = verbTok.getLemma();
       String verbPostag = verbTok.getPOSTag();
 
@@ -205,81 +242,105 @@ public class ArabicTransVerbDirectToIndirectRule extends AbstractSimpleReplaceRu
           return verbLemmaMatch;
         }
       }
-    }
+
     return null;
   }
 
-  private static boolean isRightPreposition(AnalyzedTokenReadings nextToken, List<String> prepositionList) {
+//  private static boolean isRightPreposition(AnalyzedTokenReadings nextToken, List<String> prepositionList) {
+//    //FIXME: test if the next token  is the suitable preposition for the previous token as verbtoken
+//    String nextTokenStr = nextToken.getReadings().get(0).getLemma();
+//    return prepositionList.contains(nextTokenStr);
+//  }
+  private static boolean isRightPreposition(AnalyzedToken nextToken, List<String> prepositionList) {
     //FIXME: test if the next token  is the suitable preposition for the previous token as verbtoken
-    String nextTokenStr = nextToken.getReadings().get(0).getLemma();
+    String nextTokenStr = nextToken.getLemma();
     return prepositionList.contains(nextTokenStr);
   }
 
-  private String getCorrectVerbForm(AnalyzedTokenReadings token) {
-    return generateUnattachedNewForm(token);
-  }
+  /* Lookup for next token matched */
+  public int[] getNextMatch(AnalyzedTokenReadings[] tokens, int current_index, List<String> prepositions)
+  {
+    int tokRead_index = current_index;
+    int tokIndex = 0;
+    int [] indexes = {-1,-1};
+    // browse all next  tokens to assure that proper preposition doesn't exist
+    boolean is_right_preposition = false;
+    // used to save skipped tokens
+    // initial as first token
+    AnalyzedTokenReadings current_token_reading = tokens[current_index];
+    AnalyzedToken current_token = current_token_reading.getReadings().get(0);
 
-  private String getCorrectPrepositionForm(String prepositionLemma, AnalyzedTokenReadings prevtoken) {
-    return generateAttachedNewForm(prepositionLemma, prevtoken);
-  }
+    while(tokRead_index<tokens.length && !is_right_preposition)
+    {
+      current_token_reading = tokens[tokRead_index];
+      tokIndex = 0;
+      while(tokIndex<current_token_reading.getReadings().size() && !is_right_preposition)
+      {
+        AnalyzedToken curTok = current_token_reading.getReadings().get(tokIndex);
+        is_right_preposition = isRightPreposition(curTok, prepositions);
+        if(is_right_preposition) {
+          if(is_right_preposition) {
+            indexes[0] = tokRead_index;
+            indexes[1] = tokIndex;
+          }
+          return indexes;
+        }
+        tokIndex ++;
+      } // end while 2
+      // increment
+      tokRead_index++;
+    } // end while 1
 
-//  /* generate a new form according to a specific postag*/
-//  private String generateNewForm(String word, String posTag, char flag) {
-//    // generate new from word form
-//    String newposTag = tagmanager.setFlag(posTag, "PRONOUN", flag);
-//    // generate the new preposition according to modified postag
-//    AnalyzedToken prepAToken = new AnalyzedToken(word, newposTag, word);
-//    String[] newwordList = synthesizer.synthesize(prepAToken, newposTag);
-//    String newWord = "";
-//    if (newwordList.length != 0) {
-//      newWord = newwordList[0];
-//    }
-//    return newWord;
+    return  indexes;
+  }
+//  private String inflectVerb(AnalyzedTokenReadings token) {
+//    return generateUnattachedNewForm(token);
+//  }
+//  private String inflectVerb(AnalyzedToken token) {
+//    return generateUnattachedNewForm(token);
 //  }
 
+//  private String inflectSuggestedPreposition(String prepositionLemma, AnalyzedTokenReadings prevtoken) {
+//    return generateAttachedNewForm(prepositionLemma, prevtoken);
+//  }
+
+
   /* generate a new form according to a specific postag, this form is Un-Attached*/
-  private String generateUnattachedNewForm(AnalyzedTokenReadings token) {
-    String word2 = synthesizer.setEnclitic(token.getAnalyzedToken(0), "");
-    //debug only
-//    System.out.println("synthesizer:"+word2);
-    return word2;
-//    String lemma = token.getReadings().get(0).getLemma();
-//    String postag = token.getReadings().get(0).getPOSTag();
-//    String prefix = tagger.getProcletic(postag, token.getToken());
-//    // set conjunction flag
-//    String newpostag = postag;
-//    if(tagmanager.isVerb(postag)) {
-//      String posTag = tagmanager.setFlag(newpostag, "CONJ", '-');
-//      newpostag = tagmanager.setFlag(newpostag, "ISTIQBAL", '-');
-//    }
-//    String verbStem = generateNewForm(lemma, newpostag, '-');
-//    String verbWord = prefix+verbStem;
+//  private String inflectVerb(AnalyzedTokenReadings token) {
 //    String word2 = synthesizer.setEnclitic(token.getAnalyzedToken(0), "");
-//    System.out.println("synthesizer:"+word2+" OldVerb:"+verbWord);
-//    return verbWord;
+//    return word2;
+//  }
+  /* generate a new form according to a specific postag, this form is Un-Attached*/
+  private String inflectVerb(AnalyzedToken token) {
+    String word2 = synthesizer.setEnclitic(token, "");
+    return word2;
   }
 
+//  /* generate a new form according to a specific postag, this form is Attached*/
+//  private String inflectSuggestedPreposition(String prepositionLemma, AnalyzedTokenReadings prevtoken) {
+//    // FIXME ; generate multiple cases
+//
+//    String postag2 = "PRD;---;---";
+//    String suffix = tagger.getEnclitic(prevtoken.getAnalyzedToken(0));
+//    //FiXME: unify tag of preposition
+//    if(suffix.isEmpty())
+//      postag2 = "PR-;---;---";
+//    AnalyzedToken token = new AnalyzedToken(prepositionLemma, postag2, prepositionLemma);
+//    String word2 = synthesizer.setEnclitic(token, suffix);
+//    return word2;
+//
+//  }
   /* generate a new form according to a specific postag, this form is Attached*/
-  private String generateAttachedNewForm(String prepositionLemma, AnalyzedTokenReadings prevtoken) {
+  private String inflectSuggestedPreposition(String prepositionLemma, AnalyzedToken prevtoken) {
     // FIXME ; generate multiple cases
-//    String postag = "PR-;---;---";
+
     String postag2 = "PRD;---;---";
-//    String postag3 = "PRD;---;---";
-//    String prevPosTag = prevtoken.getReadings().get(0).getPOSTag();
-//    char flag = tagmanager.getFlag(prevPosTag, "PRONOUN");
-//    String newword = generateNewForm(prepositionLemma, postag2, flag);
-    String suffix = tagger.getEnclitic(prevtoken.getAnalyzedToken(0));
+    String suffix = tagger.getEnclitic(prevtoken);
     //FiXME: unify tag of preposition
     if(suffix.isEmpty())
       postag2 = "PR-;---;---";
-//    newword =  newword+suffix;
-    //debug
     AnalyzedToken token = new AnalyzedToken(prepositionLemma, postag2, prepositionLemma);
     String word2 = synthesizer.setEnclitic(token, suffix);
-  // debug only
-//    System.out.println("synthesizer:"+word2+" lemma"+prepositionLemma );
-
-//    System.out.println("synthesizer:"+word2+" Oldprep:"+newword+ " lemma"+prepositionLemma );
     return word2;
 
   }

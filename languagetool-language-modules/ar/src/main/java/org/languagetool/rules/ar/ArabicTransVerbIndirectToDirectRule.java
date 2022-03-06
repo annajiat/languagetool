@@ -27,6 +27,7 @@ import org.languagetool.rules.*;
 import org.languagetool.synthesis.ar.ArabicSynthesizer;
 import org.languagetool.tagging.ar.ArabicTagManager;
 import org.languagetool.tagging.ar.ArabicTagger;
+import sun.security.util.ArrayUtil;
 
 import java.util.*;
 
@@ -142,36 +143,53 @@ public class ArabicTransVerbIndirectToDirectRule extends AbstractSimpleReplaceRu
             // initial as first token
             AnalyzedTokenReadings current_token_reading = token;
             AnalyzedToken current_token = token.getReadings().get(0);
-            // used to save skipped tokens
-            StringBuilder skippedString = new StringBuilder("");
-            int next_i = i;
-            while(next_i<tokens.length && !is_wrong_preposition)
-            {
-              current_token_reading = tokens[next_i];
-              int next_j = 0;
-              while(next_j<current_token_reading.getReadings().size() && !is_wrong_preposition)
-              {
-                AnalyzedToken curTok = current_token_reading.getReadings().get(next_j);
-                is_wrong_preposition = isWrongPreposition(curTok, prepositions);
-                if(is_wrong_preposition)
-                  current_token = curTok;
-                next_j ++;
-              } // end while 2
-              // save skipped string to be used to generate suggestion
-              if(!is_wrong_preposition)
-              skippedString.append(current_token_reading.getToken());
-              // increment
-              next_i++;
-            } // end while 1
+//            // used to save skipped tokens
+//            StringBuilder skippedString = new StringBuilder("");
+//            int next_i = i;
+//            while(next_i<tokens.length && !is_wrong_preposition)
+//            {
+//              current_token_reading = tokens[next_i];
+//              int next_j = 0;
+//              while(next_j<current_token_reading.getReadings().size() && !is_wrong_preposition)
+//              {
+//                AnalyzedToken curTok = current_token_reading.getReadings().get(next_j);
+//                is_wrong_preposition = isWrongPreposition(curTok, prepositions);
+//                if(is_wrong_preposition)
+//                  current_token = curTok;
+//                next_j ++;
+//              } // end while 2
+//              // save skipped string to be used to generate suggestion
+//              if(!is_wrong_preposition)
+//              skippedString.append(current_token_reading.getToken());
+//              // increment
+//              next_i++;
+//            } // end while 1
+//            // To replace the loop above
 
+
+            int[] next_indexes = getNextMatch(tokens, i, prepositions);
+//            System.out.println("Indexes " + Arrays.toString(next_indexes));
+            String skippedString = "";
+            if (next_indexes[0] != -1)
+            {
+
+              int tokReadingPos = next_indexes[0];
+              int tokPos = next_indexes[1];
+              is_wrong_preposition = true;
+              current_token_reading = tokens[tokReadingPos];
+              current_token  = current_token_reading.getReadings().get(tokPos);
+              skippedString = getSkippedString(tokens, i, tokReadingPos);
+//              System.out.println(" Skipped2:"+skippedString + " skipped:"+ skippedString.toString());
+//              System.out.println(" current token:"+current_token_reading.getToken() + " lemma:"+ current_token.getLemma());
+            }
             // the verb is not attached and the next token is a preposition to be removed
             // we give the correct new form
             if (is_candidate_verb && is_wrong_preposition) {
               // generate suggestion according to prepositions to be removed
               // generate a new form of verb according to current token
-              String verb = inflectVerb(verbTok, current_token, skippedString.toString());
+              String verb = inflectVerb(verbTok, current_token, skippedString);
               replacement.append("<suggestion>" + verb+ "</suggestion>");
-              //FIXME: add the intermediate tokens to the suggestion
+              //FIXED: add the intermediate tokens to the suggestion
               // إذا كانت الكلمتان متباعدتان، إدراج لالجملة الوسيطة في الاقتراحات
               String msg = "' الفعل " + prevTokenStr + " ' متعدٍ بنفسه،" + sug_msg + ". فهل تقصد؟" + replacement.toString();
               RuleMatch match = new RuleMatch(
@@ -196,7 +214,17 @@ public class ArabicTransVerbIndirectToDirectRule extends AbstractSimpleReplaceRu
   private boolean isCandidateVerb(AnalyzedToken mytoken) {
     return (getSuggestedPreposition(mytoken)!=null);
   }
+  private String getSkippedString(AnalyzedTokenReadings[] tokens, int start, int end)
+  {
+    StringBuilder skipped = new StringBuilder("");
+   for(int i=start; i<end; i++) {
+     skipped.append(tokens[i].getToken());
+     skipped.append(" ");
+   }
 
+   return skipped.toString();
+
+  }
   private SuggestionWithMessage getSuggestedPreposition(AnalyzedToken verbTok) {
 
     // keep the suitable postags
@@ -260,12 +288,49 @@ public class ArabicTransVerbIndirectToDirectRule extends AbstractSimpleReplaceRu
     return newWord;
 
   }
-//  private String getCorrectVerbForm(AnalyzedTokenReadings token) {
+
+  /* Lookup for next token matched */
+    public int[] getNextMatch(AnalyzedTokenReadings[] tokens, int current_index, List<String> prepositions)
+  {
+    int tokRead_index = current_index;
+    int tokIndex = 0;
+    int [] indexes = {-1,-1};
+    // browse all next  tokens to assure that proper preposition doesn't exist
+    boolean is_wrong_preposition = false;
+    // used to save skipped tokens
+    // initial as first token
+    AnalyzedTokenReadings current_token_reading = tokens[current_index];
+    AnalyzedToken current_token = current_token_reading.getReadings().get(0);
+
+    while(tokRead_index<tokens.length && !is_wrong_preposition)
+    {
+      current_token_reading = tokens[tokRead_index];
+      tokIndex = 0;
+      while(tokIndex<current_token_reading.getReadings().size() && !is_wrong_preposition)
+      {
+        AnalyzedToken curTok = current_token_reading.getReadings().get(tokIndex);
+        is_wrong_preposition = isWrongPreposition(curTok, prepositions);
+        if(is_wrong_preposition) {
+          if(is_wrong_preposition) {
+            indexes[0] = tokRead_index;
+            indexes[1] = tokIndex;
+          }
+          return indexes;
+        }
+        tokIndex ++;
+      } // end while 2
+      // increment
+      tokRead_index++;
+    } // end while 1
+
+    return  indexes;
+  }
+//  private String inflectVerb(AnalyzedTokenReadings token) {
 //
 //    return generateUnattachedNewForm(token);
 //  }
 //
-//  private String getCorrectPrepositionForm(String prepositionLemma, AnalyzedTokenReadings prevtoken) {
+//  private String inflectSuggestedPreposition(String prepositionLemma, AnalyzedTokenReadings prevtoken) {
 //    return generateAttachedNewForm(prepositionLemma, prevtoken);
 //  }
 //
