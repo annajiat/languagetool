@@ -311,10 +311,8 @@ public class ArabicTransVerbIndirectToDirectRule extends AbstractSimpleReplaceRu
         AnalyzedToken curTok = current_token_reading.getReadings().get(tokIndex);
         is_wrong_preposition = isWrongPreposition(curTok, prepositions);
         if(is_wrong_preposition) {
-          if(is_wrong_preposition) {
             indexes[0] = tokRead_index;
             indexes[1] = tokIndex;
-          }
           return indexes;
         }
         tokIndex ++;

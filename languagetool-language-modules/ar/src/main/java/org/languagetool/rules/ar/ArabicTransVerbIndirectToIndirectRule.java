@@ -101,9 +101,10 @@ public class ArabicTransVerbIndirectToIndirectRule extends AbstractSimpleReplace
       return toRuleMatchArray(ruleMatches);
     }
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
-    int prevTokenIndex = 0;
+
     for (int i = 1; i < tokens.length; i++) {  // ignoring token 0, i.e., SENT_START
       AnalyzedTokenReadings token = tokens[i];
+      int prevTokenIndex  = i-1;
       AnalyzedTokenReadings prevToken = prevTokenIndex > 0 ? tokens[prevTokenIndex] : null;
       AnalyzedTokenReadings nextToken = i+1 < tokens.length ? tokens[i+1] : null;
       String prevTokenStr = prevTokenIndex > 0 ? tokens[prevTokenIndex].getToken() : null;
@@ -119,35 +120,61 @@ public class ArabicTransVerbIndirectToIndirectRule extends AbstractSimpleReplace
           List <String> prepositions = new ArrayList<>();
           String sug_msg = "";
           StringBuilder replacement = new StringBuilder("");
+          AnalyzedTokenReadings current_token_reading = token;
           // browse each verb with each preposition
           for(AnalyzedToken verbTok: prevToken.getReadings()) {
             if(tagmanager.isVerb(verbTok.getPOSTag())) {
-            for(AnalyzedToken prepTok: token.getReadings()) {
-              SuggestionWithMessage prepositionsWithMessage = getSuggestedPreposition(verbTok, prepTok);
-//              System.out.println("ArabicIntransIndirectVerbRule.java: verb"+verbTok.getLemma()+" replaced: "+prepTok.getToken()+" math:"+Boolean.toString(prepositionsWithMessage != null));
+
+            // browse all instance of tokens
+              String skippedString = "";
+              boolean is_candidate_case = false;
+              // initial as first token
+
+              AnalyzedToken current_token = token.getReadings().get(0);
+              int [] next_indexes = getNextMatch(tokens, i, verbTok);
+
+              if (next_indexes[0] != -1)
+              {
+               int tokReadingPos = next_indexes[0];
+                int tokPos = next_indexes[1];
+                is_candidate_case = true;
+                current_token_reading = tokens[tokReadingPos];
+                current_token  = current_token_reading.getReadings().get(tokPos);
+                skippedString = getSkippedString(tokens, i, tokReadingPos);
+//              System.out.println(" Skipped2:"+skippedString + " skipped:"+ skippedString.toString());
+//              System.out.println(" current token:"+current_token_reading.getToken() + " lemma:"+ current_token.getLemma());
+              }
+//            for(AnalyzedToken current_token: token.getReadings()) {
+              SuggestionWithMessage prepositionsWithMessage = getSuggestedPreposition(verbTok, current_token);
+//              System.out.println("ArabicIntransIndirectVerbRule.java: verb"+verbTok.getLemma()+" replaced: "+current_token.getToken()+" math:"+Boolean.toString(prepositionsWithMessage != null));
 
               if (prepositionsWithMessage != null) {
+
+//              if (is_candidate_case) {
                 prepositions = Arrays.asList(prepositionsWithMessage.getSuggestion().split("\\|"));
                 sug_msg = prepositionsWithMessage.getMessage();
                 sug_msg = sug_msg != null ? sug_msg : "";
                 for (String prep : prepositions) {
-                  String inflectPrep = inflectSuggestedPreposition(prepTok, prep);
-//                  System.out.println("ArabicIntransIndirectVerbRule.java: verb"+verbTok.getLemma()+" replaced: "+prepTok.getToken()+" prep:"+prep +" suggestion:"+inflectPrep);
-                  replacement.append("<suggestion>" + prevTokenStr + " " + inflectPrep + "</suggestion>");
+                  String inflectPrep = inflectSuggestedPreposition(current_token, prep);
+//                  System.out.println("ArabicIntransIndirectVerbRule.java: verb"+verbTok.getLemma()+" replaced: "+current_token.getToken()+" prep:"+prep +" suggestion:"+inflectPrep);
+                  replacement.append("<suggestion>" + prevTokenStr + " "+skippedString+ " " + inflectPrep + "</suggestion>");
                 }
-              }
-            }// if verb
-            } // for pretok
-          } // for verbtok
-//          String sug_msg = "Taha";
+//              } // if preposition match
+//            }// if verb
 
-//          String replacement = "<suggestion>Taha Zerrouki</suggestion>";
-          String msg =  "' الفعل " + prevTokenStr + " ' متعدِ بحرف آخر ،" + sug_msg +". فهل تقصد؟"+ replacement.toString();
+//          } // for verbtok
+
+          String msg =  "الفعل ' " + prevTokenStr + " ' متعدِ بحرف آخر ،" + sug_msg +". فهل تقصد؟"+ replacement.toString();
           RuleMatch match = new RuleMatch(
-            this, sentence, prevToken.getStartPos(), token.getEndPos(),
-            prevToken.getStartPos(), token.getEndPos(), msg, "خطأ في الفعل المتعدي بحرف ");
+            this, sentence, prevToken.getStartPos(), current_token_reading.getEndPos(),
+            prevToken.getStartPos(), current_token_reading.getEndPos(), msg, "خطأ في الفعل المتعدي بحرف ");
           ruleMatches.add(match);
         }
+            } // if preposition match
+
+            }// if verb
+    } // for verbtok
+
 /*
         // test if the preposition token is suitable for verb token (previous)
         List <String> prepositions = new ArrayList<>();
@@ -186,11 +213,11 @@ public class ArabicTransVerbIndirectToIndirectRule extends AbstractSimpleReplace
         */
 //      }
 
-      if (nextToken!=null && isCandidateVerb(token, nextToken)) {
-        prevTokenIndex = i;
-      } else {
-        prevTokenIndex = 0;
-      }
+//      if (nextToken!=null && isCandidateVerb(token, nextToken)) {
+//        prevTokenIndex = i;
+//      } else {
+//        prevTokenIndex = 0;
+//      }
     }
     return toRuleMatchArray(ruleMatches);
   }
@@ -200,6 +227,17 @@ public class ArabicTransVerbIndirectToIndirectRule extends AbstractSimpleReplace
   return (getSuggestedPreposition(mytoken, nexttoken)!=null);
   }
 
+  private String getSkippedString(AnalyzedTokenReadings[] tokens, int start, int end)
+  {
+    StringBuilder skipped = new StringBuilder("");
+    for(int i=start; i<end; i++) {
+      skipped.append(tokens[i].getToken());
+      skipped.append(" ");
+    }
+
+    return skipped.toString();
+
+  }
   /* lookup for candidat verbs with preposition */
   private SuggestionWithMessage getSuggestedPreposition(AnalyzedTokenReadings mytoken, AnalyzedTokenReadings nexttoken) {
 
@@ -373,6 +411,45 @@ public class ArabicTransVerbIndirectToIndirectRule extends AbstractSimpleReplace
     return newWord;
     // FIXME: to remove
 
+  }
+
+  /* Lookup for next token matched */
+  public int[] getNextMatch(AnalyzedTokenReadings[] tokens, int current_index, AnalyzedToken verbToken)
+  {
+//    System.out.println("Access getNextMatch");
+    int tokRead_index = current_index;
+    int tokIndex = 0;
+    int [] indexes = {-1,-1};
+    // browse all next  tokens to assure that proper preposition doesn't exist
+    boolean is_wrong_preposition = false;
+    // used to save skipped tokens
+    // initial as first token
+    AnalyzedTokenReadings current_token_reading = tokens[current_index];
+//    AnalyzedToken current_token = current_token_reading.getReadings().get(0);
+
+    while(tokRead_index<tokens.length && !is_wrong_preposition)
+    {
+      current_token_reading = tokens[tokRead_index];
+      tokIndex = 0;
+      while(tokIndex<current_token_reading.getReadings().size() && !is_wrong_preposition)
+      {
+        AnalyzedToken curTok = current_token_reading.getReadings().get(tokIndex);
+        SuggestionWithMessage prepositionsWithMessage = getSuggestedPreposition(verbToken, curTok);
+
+        is_wrong_preposition = (prepositionsWithMessage!=null);
+//        System.out.println("GetNextMatch: verb"+verbToken.getToken()+ " prep"+ curTok.getToken()+" match:"+Boolean.toString(is_wrong_preposition));
+        if(is_wrong_preposition) {
+            indexes[0] = tokRead_index;
+            indexes[1] = tokIndex;
+          return indexes;
+        }
+        tokIndex ++;
+      } // end while 2
+      // increment
+      tokRead_index++;
+    } // end while 1
+
+    return  indexes;
   }
 }
 
