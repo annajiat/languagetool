@@ -304,7 +304,7 @@ public class ArabicTagManager {
    * @return test if word has stopword tagging
    */
   public boolean isStopWord(String postag) {
-    return postag.startsWith("P");
+    return (postag!=null && postag.startsWith("P"));
   }
 
   /**
@@ -318,7 +318,7 @@ public class ArabicTagManager {
    * @return true if have flag verb
    */
   public boolean isVerb(String postag) {
-    return postag.startsWith("V");
+    return (postag!=null && postag.startsWith("V"));
   }
 
   /**

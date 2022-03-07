@@ -101,7 +101,25 @@ public class ArabicTransVerbIndirectToDirectRule extends AbstractSimpleReplaceRu
     if (wrongWords.size() == 0) {
       return toRuleMatchArray(ruleMatches);
     }
+
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
+    // print lemmas
+//    Set<String> lemmasSet = sentence.getLemmaSet();
+//    Set<String> tokenSet = sentence.getTokenSet();
+//    { // just for debug
+//      StringBuilder sb = new StringBuilder("");
+//      StringBuilder sbtok = new StringBuilder("");
+//      for (String l : lemmasSet) {
+//        sb.append(l);
+//        sb.append(" ");
+//      }
+//      for (String l : tokenSet) {
+//        sbtok.append(l);
+//        sbtok.append(" ");
+//      }
+//      System.out.println("ArabicI2D;Lemmas: "+sb.toString());
+//      System.out.println("ArabicI2D:Tokens: "+sbtok.toString());
+//    }
 //    int prevTokenIndex = 0;
     for (int i = 1; i < tokens.length; i++) {  // ignoring token 0, i.e., SENT_START
       int prevTokenIndex = i-1;
@@ -225,23 +243,17 @@ public class ArabicTransVerbIndirectToDirectRule extends AbstractSimpleReplaceRu
    return skipped.toString();
 
   }
+  /* extract suggestions from Rules text file */
   private SuggestionWithMessage getSuggestedPreposition(AnalyzedToken verbTok) {
-
-    // keep the suitable postags
-//    List<String> replacements = new ArrayList<>();
-      String verbLemma = verbTok.getLemma();
-      String verbPostag = verbTok.getPOSTag();
 
       // if postag is attached
       // test if verb is in the verb list
-      if (verbPostag != null) {
-        // lookup in WrongWords
-        SuggestionWithMessage verbLemmaMatch = wrongWords.get(wrongWords.size() - 1).get(verbLemma);
+      if (tagmanager.isVerb(verbTok.getPOSTag())) {
+        // lookup in Text file rules
+        SuggestionWithMessage textRuleMatch = wrongWords.get(wrongWords.size() - 1).get(verbTok.getLemma());
 
-        // The lemma is found in the dictionary file
-        if (verbLemmaMatch != null) {
-          return verbLemmaMatch;
-        }
+        // The lemma is found in the dictionary file and return a list of suggestions
+          return textRuleMatch;
       }
     return null;
   }
@@ -288,9 +300,8 @@ public class ArabicTransVerbIndirectToDirectRule extends AbstractSimpleReplaceRu
     return newWord;
 
   }
-
   /* Lookup for next token matched */
-    public int[] getNextMatch(AnalyzedTokenReadings[] tokens, int current_index, List<String> prepositions)
+  public int[] getNextMatch(AnalyzedTokenReadings[] tokens, int current_index, List<String> prepositions)
   {
     int tokRead_index = current_index;
     int tokIndex = 0;
@@ -301,6 +312,40 @@ public class ArabicTransVerbIndirectToDirectRule extends AbstractSimpleReplaceRu
     // initial as first token
     AnalyzedTokenReadings current_token_reading = tokens[current_index];
     AnalyzedToken current_token = current_token_reading.getReadings().get(0);
+
+    while(tokRead_index<tokens.length && !is_wrong_preposition)
+    {
+      current_token_reading = tokens[tokRead_index];
+      tokIndex = 0;
+      while(tokIndex<current_token_reading.getReadings().size() && !is_wrong_preposition)
+      {
+        AnalyzedToken curTok = current_token_reading.getReadings().get(tokIndex);
+        is_wrong_preposition = isWrongPreposition(curTok, prepositions);
+        if(is_wrong_preposition) {
+          indexes[0] = tokRead_index;
+          indexes[1] = tokIndex;
+          return indexes;
+        }
+        tokIndex ++;
+      } // end while 2
+      // increment
+      tokRead_index++;
+    } // end while 1
+
+    return  indexes;
+  }
+  /* Lookup for next token matched */
+    public int[] getNextMatch_OLD(AnalyzedTokenReadings[] tokens, int current_index, List<String> prepositions)
+  {
+    int tokRead_index = current_index;
+    int tokIndex = 0;
+    int [] indexes = {-1,-1};
+    // browse all next  tokens to assure that proper preposition doesn't exist
+    boolean is_wrong_preposition = false;
+    // used to save skipped tokens
+    // initial as first token
+    AnalyzedTokenReadings current_token_reading = tokens[current_index];
+    AnalyzedToken current_token = current_token_reading.getAnalyzedToken(0);
 
     while(tokRead_index<tokens.length && !is_wrong_preposition)
     {
