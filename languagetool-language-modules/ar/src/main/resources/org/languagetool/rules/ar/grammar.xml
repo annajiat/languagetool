@@ -28,7 +28,7 @@ USA
   <!DOCTYPE rules [
     <!ENTITY apostrophe "['’`´‘]">
     <!ENTITY nbsp " ">
-     <!ENTITY tanwin "&#x064b;">
+     <!ENTITY tanwin_fathatan "&#x064b;">
     <!ENTITY horof_jar "في|من|إلى|على|عن|مع">
     <!ENTITY unbreak_proclitics "ال">
     <!ENTITY proclitics "و|ف|ال|وال|فال|ب|بال|وبال|ك|كال|وكال|فكال|ل|لل|ولل|فلل">
@@ -8525,19 +8525,21 @@ END RULEGROUP Masdar errors
   <!-- ====================================================================== -->
   <!--  WRITING_STYLE -->
   <!-- ====================================================================== -->
-  <category id="WRITING_STYLE" name="مطبعية" type="grammar">
+  <category id="WRITING_STYLE" name="مطبعية" type="typographical">
     <rulegroup id="Tanwin_nasb" name="أخطاء مطبعية">
-      <rule id="spelling_error" name="تنوين النصب">
+      <rule id="typo_000_tanwin_nasb" name="تنوين النصب">
         <pattern>
           <marker>
-            <token regexp="yes">.*ا&tanwin;</token>
+            <token regexp="yes">.*ا&tanwin_fathatan;$</token>
           </marker>
         </pattern>
         <message>لأنه من الأخطاء الشائعة كتابة التنوين على الألف، والصحيح أن تُكتب على الحرف الذي قبل الألف؛ لأن التنوين نون ساكنة والألف ساكنة، فلا يجتمع ساكنان
-: <suggestion><match no="1" regexp_match="ا(&tanwin;)?$" regexp_replace="ً&tanwin;ا"/></suggestion>
+: <suggestion><match no="1" regexp_match="ا(&tanwin_fathatan;)?$" regexp_replace="ً&tanwin_fathatan;ا"/></suggestion>
         </message>
         <example correction="لبنًا" type="incorrect">شرب الطفل <marker>لبناً</marker></example>
       </rule>
+      
+     
         </rulegroup>
           </category>
   <!-- ====================================================================== -->
