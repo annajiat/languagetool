@@ -65,6 +65,13 @@ USA
     <!ENTITY wrong_feminine "ذقن|رفات">
     <!ENTITY wrong_masculine "كتف|فخذ|ساق|ريح|بئر|يمين|ضبع|سن">
     <!ENTITY neutral_gender "بعض|من">
+    <!ENTITY months_solar_syriac "كانون الثاني|شباط|آذار|نيسان|أيار|حزيران|تموز|آب|أيلول|تشرين الأول|تشرين الثاني|كانون الأول">
+    <!ENTITY months_solar_french "جانفي|فيفري|مارس|أفريل|ماي|جوان|جويلية|أوت|سبتمبر|أكتوبر|نوفمبر|ديسمبر">
+   <!ENTITY months_solar_english "يناير|فبراير|مارس|أبريل|مايو|يونيو|يوليو|أغسطس|سبتمبر|أكتوبر|نوفمبر|ديسمبر">
+    <!ENTITY months_solar_english_french "يناير|فبراير|مارس|أبريل|مايو|يونيو|يوليو|جانفي|فيفري|أفريل|ماي|جوان|جويلية|أوت|أغسطس|سبتمبر|أكتوبر|نوفمبر|ديسمبر">
+   <!ENTITY months_solar "&months_solar_syriac;|&months_solar_english_french;">
+    <!ENTITY seasons_years "صيف|ربيع|شتاء|خريف">
+    <!ENTITY week_days "السبت|الأحد|الإثنين|الاثنين|الثلاثاء|الأربعاء|الخميس|الجمعة|سبت|أحد|اثنين|ثلاثاء|أربعاء|خميس|جمعة">
     ]>
 
 <rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -8683,5 +8690,228 @@ END RULEGROUP Masdar errors
     </rule>
 
   </category>
+<!-- ====================================================================== -->
+  <!-- SEMANTICS and Inconsistency -->
+  <!-- ====================================================================== -->
+
+     <category id="SEMANTICS" name="inconsistency">
+        <rulegroup id="WINTER_DDDDD" name="صيف  20222(2022)">
+ 	<rule id="semantic_0000" name="موسم 20222">
+                <pattern>
+                    <token regexp="yes">&months_solar;|&seasons_years;|موسم|مواسم|سنة|لسنة|عام|لعام</token>
+                    <marker>
+                        <token regexp="yes">\d\d\d\d\d</token>
+                    </marker>
+                </pattern>
+                <message>هل تقصد سنة من أربعة أرقام?</message>
+                <example correction="">صيف <marker>20222</marker></example>
+                <example correction="">صيف <marker>20222</marker></example>
+               <example correction="">لسنة <marker>20222</marker></example>
+                <example correction="">لعام <marker>20222</marker></example>
+                <example correction="">عام <marker>20222</marker></example>
+                <example>صيف 2022</example>
+            </rule>
+        </rulegroup>
+             
+        <rulegroup id="DATE_DAY" name="تطابق التاريخ مع اليوم">
+                    <rule id="DATE_IN_WORD_DAY" name="تطابق التاريخ  بالكلمات مع اليوم">
+                <pattern>
+                    <token regexp="yes">&week_days;</token>
+                    <token min="0" max="1">،</token>
+                    <token regexp="yes">[012]?\d|3[01]</token>
+                    <token regexp="yes">&months_solar;</token>
+                    <token regexp="yes">[12]\d\d\d</token>
+                </pattern>
+                <filter class="org.languagetool.rules.ar.DateCheckFilter" args="year:\5 month:\4 day:\3 weekDay:\1"/>
+                <message>التاريخ « \3 \4 \5 » لا يوافق يوم  <match no="1"/> بل هو يوم {realDay}.</message>
+                <example correction=""><marker>الخميس 25 مارس 2022</marker>.</example>
+                <example>الجمعة 25 مارس 2022</example>
+             
+                <example correction=""><marker>الإثنين 13 مارس 2022</marker>.</example>    
+         
+                <example>الأحد 13 مارس 2022.</example>
+                <example correction="">يوم <marker>الإثنين 13 آذار 2022</marker>.</example>
+                <example correction="">يوم <marker>السبت 01 نيسان 2022</marker>.</example>
+                <example>يوم الجمعة 1 نيسان 2022.</example>
+                                <example>يوم الجمعة 1 أبريل 2022.</example>
+                                                                <example>يوم الجمعة 1 أفريل 2022.</example>
+ 
+            </rule>
+                  <rule id="DATE_IN_DIGIT_DAY" name="تطابق التاريخ  بالأرقام مع اليوم">
+                <pattern>
+                    <token regexp="yes">&week_days;</token>
+                    <token min="0" max="1">،</token>
+                    <token regexp="yes">[012]?\d|3[01]</token>
+                    <token min="0" regexp="yes">-|/</token>
+                    <token regexp="yes">0?\d|1[012]</token>
+                     <token min="0" regexp="yes">-|/</token>
+                    <token regexp="yes">[12]\d\d\d</token>
+                </pattern>
+                <filter class="org.languagetool.rules.ar.DateCheckFilter" args="year:\7 month:\5 day:\3 weekDay:\1"/>
+                <message>التاريخ «\3\4\5\6\7» لا يوافق يوم  <match no="1"/> بل هو يوم {realDay}.</message>
+                <example correction=""><marker>الخميس 25/03/2022</marker>.</example>
+                 <example correction=""><marker>الخميس 25-03-2022</marker>.</example>
+                <example>الجمعة 25/03/2022</example>
+             
+                <example correction=""><marker>الإثنين 13-03-2022</marker>.</example>    
+         
+                <example>الأحد 13-03-2022.</example>
+                <example correction="">يوم <marker>السبت 01/04/2022</marker>.</example>
+
+            </rule>
+            
+             <rule id="DATE_MONTH_LAST_DAY" name="تطابق الأشهر مع طولها">
+                <pattern>
+                    <token>31</token>
+                    <token regexp="yes">شباط|نيسان|حزيران|أيلول|تشرين الثاني|فيفري|أفريل|جوان|سبتمبر|نوفمبر|فبراير|أبريل|يونيو</token>
+                </pattern>
+                <message>الشهر « \2 » ليس فيه 31 يوما.</message>
+                <example correction="">ولدت في <marker>31 سبتمبر</marker>.</example>
+                <example>وُلد <marker>31 أكتوبر</marker>.</example>
+                <example>وُلد في <marker>30 سبتمبر</marker>.</example>
+            </rule>
+            
+                <rule id="DATE_MONTH_LAST_DAY_2" name="تطابق الأشهر مع طولها">
+                <pattern>
+                    <token>31</token>
+                    <token>/</token>
+                    <token regexp="yes">شباط|نيسان|حزيران|أيلول|تشرين الثاني|فيفري|أفريل|جوان|سبتمبر|نوفمبر|فبراير|أبريل|يونيو|0?[469]|11</token>
+                    <token>/</token>
+                    <token regexp="yes">\d\d\d\d</token>
+                </pattern>
+                <message>الشهر « \3 » ليس فيه 31 يوما.</message>
+                <example correction="">وُلد في  <marker>31/سبتمبر/1969</marker>.</example>
+                <example correction="">توفي في <marker>31/09/1969</marker>.</example>
+                <example correction="">ولد يوم <marker>31/9/1969</marker>.</example>
+                <example>استشهد في <marker>31/10/1969</marker>.</example>
+            </rule>
+            <rule id="DATE_MONTH_LAST_DAY_3" name="تطابق الأشهر مع طولها">
+                <pattern>
+                    <token>31</token>
+                    <token min="0" regexp="yes">-|/</token>
+                    <token regexp="yes">شباط|نيسان|حزيران|أيلول|تشرين الثاني|فيفري|أفريل|جوان|سبتمبر|نوفمبر|فبراير|أبريل|يونيو|0?[469]|11</token>
+                </pattern>
+                 <message>الشهر « \3 » ليس فيه 31 يوما.</message>
+                <example correction="">وُلد في <marker>31-سبتمبر</marker>-1969.</example>
+                <example correction="">وُلد في <marker>31-09</marker>-1969.</example>
+                <example correction="">وُلد في <marker>31-9</marker>-69.</example>
+                <example>وُلد في <marker>31-8-69</marker>.</example>
+                <example>وُلد في <marker>31-أغسطس-1969</marker>.</example>
+            </rule>
+           <rule id="DATE_MONTH_FAB_1" name="تطابق فبراير مع طوله">
+                <pattern>
+                    <token regexp="yes">3[01]</token>
+                    <token min="0" regexp="yes">-|/</token>
+                    <token regexp="yes">فبراير|فيفري|شباط</token>
+                </pattern>
+                <message>شهر شباط/فبراير به 28 يومًا أو 29 يوما في السنوات الكبيسة.</message>
+                <example correction="">وُلد في <marker>30 فبراير</marker>.</example>
+                <example>وُلد في <marker>28 شباط</marker>.</example>
+            </rule>
+            
+            <rule  id="DATE_MONTH_FAB_2" name="تطابق فبراير مع طوله">
+                <pattern>
+                    <token regexp="yes">3[01]</token>
+                    <token min="0" regexp="yes">-|/</token>
+                    <token regexp="yes">فبراير|فيفري|شباط|0?2</token>
+                    <token min="0" regexp="yes">-|/</token>
+                    <token regexp="yes">\d\d\d\d</token>
+                </pattern>
+                <message>شهر شباط/فبراير به 28 يومًا أو 29 يوما في السنوات الكبيسة.</message>
+                <example correction="">وُلد في <marker>30/فبراير/1969</marker>.</example>
+                <example correction="">وُلد في <marker>30-02-1969</marker>.</example>
+                <example>وُلد في <marker>28-02-1969</marker>.</example>
+                <example>وُلد في <marker>28 شباط</marker>.</example>
+            </rule>
+            
+            <rule  id="DATE_MONTH_FAB_29" name="تطابق فبراير مع طوله في السنوات الكبيسة">
+                <pattern>
+                    <token>29</token>
+                    <token min="0" regexp="yes">-|/</token>
+                    <token regexp="yes">فبراير|فيفري|شباط|0?2</token>
+                    <token min="0" regexp="yes">-|/</token>
+                    <token regexp="yes">\d\d(00|\d[13579]|[02468][26]|[13579][048])
+                        <exception regexp="yes">[13579][26]00|[2468][048]00</exception></token>
+                </pattern>
+                 <message>شهر شباط/فبراير  \5 به 28 يومًا فقط لأن \5 ليست سنة كبيسة.</message>
+                <!-- 1900 is not a leap year (divisible by 100) -->
+  		<example>يوم  <marker>29 فبراير 2000</marker>.</example>
+                <example>يوم  <marker>29/فبراير/2000</marker>.</example>
+                <example>يوم  <marker>29/02/2000</marker>.</example>
+                <example>يوم  <marker>29/2/2000</marker>.</example>
+                <example correction="">يوم  <marker>29 فبراير 2001</marker>.</example>
+                <example correction="">يوم  <marker>29 فبراير 2002</marker>.</example>
+                <example correction="">يوم  <marker>29 فبراير 2003</marker>.</example>
+                <!-- 2004 is a leap year (divisible by 4) -->
+                <example>يوم  <marker>29 فبراير 2004</marker>.</example>
+                <example correction="">يوم  <marker>29 فبراير 2005</marker>.</example>
+                <example correction="">يوم  <marker>29 فبراير 2006</marker>.</example>
+                <example correction="">يوم  <marker>29 فبراير 2007</marker>.</example>
+                <!-- 2008 is a leap year (divisible by 4) -->
+                <example>يوم  <marker>29 فبراير 2008</marker>.</example>
+                <example correction="">يوم  <marker>29 فبراير 2009</marker>.</example>
+                <example correction="">يوم  <marker>29 فبراير 2010</marker>.</example>
+                <example correction="">يوم  <marker>29 فبراير 2011</marker>.</example>
+                <!-- 2012 is a leap year (divisible by 4) -->
+                <example>يوم  <marker>29 فبراير 2012</marker>.</example>
+                <example correction="">يوم  <marker>29 فبراير 2014</marker>.</example>
+                <example>يوم  <marker>29 فبراير 2016</marker>.</example>
+                <example correction="">يوم  <marker>29 فبراير 2018</marker>.</example>
+                <example>يوم  <marker>29 فبراير 2020</marker>.</example>
+                <!-- 2100 is not a leap year (divisible by 100) -->
+                <example correction="">يوم  <marker>29 فبراير 2100</marker>.</example>
+                <example correction="">يوم  <marker>29-02-1900</marker></example>
+                <example correction="">يوم  <marker>29-فبراير-2005</marker></example>
+                <example>يوم  29-فبراير-2004</example>
+            </rule>
+          <rule id="DATE_WORD_ORDER" name="ترتيب الكلمات في عبارة التاريخ">
+            <pattern>
+                <token regexp="yes">[12]\d\d\d</token>
+                <token regexp="yes">&months_solar;</token>
+                <token regexp="yes">\d\d|\d</token>
+            </pattern>
+            <message>عليك ترتيب  أقسام التاريخ.</message>
+            <suggestion>\3 \2 \1</suggestion>
+            <example correction="22 ديسمبر 2022">تاريخ الدورة هو  <marker>2022 ديسمبر 22</marker>.</example>
+        </rule>
+        
+         <rule  id="DATE_WORD_ORDER_2" name="ترتيب الكلمات في عبارة التاريخ">
+            <pattern>
+                <token regexp="yes">[12]\d\d\d<exception scope="previous" regexp="yes">&months_solar;|:</exception></token>
+                <token regexp="yes">&months_solar;</token>
+            </pattern>
+            <message>عليك ترتيب  أقسام التاريخ.</message>
+            <suggestion>\2 \1</suggestion>
+            <example correction="ديسمبر 2022">سيقدم أحمد في  <marker>2022 ديسمبر</marker>.</example>
+        </rule>
+        
+                 <rule  id="DATE_WORD_ORDER_3" name="ترتيب الكلمات في عبارة التاريخ">
+            <pattern>
+                <token regexp="yes">&months_solar;</token>
+                <token regexp="yes">\d\d|\d</token>
+                <token regexp="yes">&week_days;</token>
+            </pattern>
+            <message>عليك ترتيب  أقسام التاريخ</message>
+            <suggestion>\3 \2 \1</suggestion>
+            <example correction="الجمعة 22 ديسمبر">في يوم <marker>ديسمبر 22 الجمعة</marker>.</example>
+        </rule>
+
+
+         <rule  id="DATE_WORD_ORDER_4" name="ترتيب الكلمات في عبارة التاريخ">
+            <pattern>
+                <token regexp="yes">&months_solar;</token>
+                <token min="0" max="1">,</token>
+                <token regexp="yes">\d\d|\d</token>
+                <token min="0" max="1">,</token>
+                <token regexp="yes">[12]\d\d\d</token>
+            </pattern>
+            <message>عليك ترتيب  أقسام التاريخ.</message>
+            <suggestion>\3 \1 \5</suggestion>
+            <example correction="22 ديسمبر 1999">
+            اجتمع في يوم <marker>ديسمبر 22 1999</marker>.
+            </example>
+        </rule>
+         </rulegroup>
+         </category>
 </rules>
 
