@@ -67,9 +67,10 @@ public class DateCheckFilter extends AbstractDateCheckFilter {
   /**
    * @param args a map with values for {@code year}, {@code month}, {@code day} (day of month), {@code weekDay}
    */
-  @Override
-  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> args, int patternTokenPos, AnalyzedTokenReadings[] patternTokens) {
-    return  super.acceptRuleMatch(match, args,  patternTokenPos,  patternTokens);
+  // debug only
+//  @Override
+//  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> args, int patternTokenPos, AnalyzedTokenReadings[] patternTokens) {
+//    return  super.acceptRuleMatch(match, args,  patternTokenPos,  patternTokens);
 // debug only
 //        System.out.println("Ar/DateCheckFilter.java args:" + args.toString());
 //    RuleMatch X =  super.acceptRuleMatch(match, args,  patternTokenPos,  patternTokens);
