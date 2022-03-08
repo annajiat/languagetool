@@ -7325,7 +7325,7 @@ END RULEGROUP Masdar errors
   </rule>
 
   <!-- trans_407_bAdr_l_b بادَرَ ل | ب -->
-  <rule id="trans_407_bAdr_l_b" name="بادر ل|ب">
+<!--  <rule id="trans_407_bAdr_l_b" name="بادر ل|ب">
     <pattern>
       <token inflected="yes" skip="1">بَادَرَ</token>
       <marker>
@@ -7340,9 +7340,9 @@ END RULEGROUP Masdar errors
 </message>
     <example correction="إلى فعل*" type="incorrect"> بادر <marker>لفعل</marker> / بفعل الشيء </example>
     <example type="correct"> بادرت إلى الصدقة </example>
-  </rule>
+  </rule>-->
   <!-- trans_407_bAdr_l_b بادَرَ ل | ب -->
-  <rule id="trans_407_bAdr_l_b_2" name="بادر ل|ب">
+<!--  <rule id="trans_407_bAdr_l_b_2" name="بادر ل|ب">
     <pattern>
       <token inflected="yes" skip="1">بَادَرَ</token>
       <marker>
@@ -7359,7 +7359,7 @@ END RULEGROUP Masdar errors
     <example correction="إليها" type="incorrect"> بادر <marker>بها</marker> / بفعل الشيء </example>
 
     <example type="correct"> بادرت إلى الصدقة </example>
-  </rule>
+  </rule>-->
 
  <!-- trans_411_tHkm_b تَحَكَّمَ ب -->
   <rule id="trans_411_tHkm_b" name="تحكم ب">
@@ -7644,7 +7644,7 @@ END RULEGROUP Masdar errors
   </rule>
   -->
 <!-- trans_442_rgbt_shdydt_l رَغْبَةٌ شديدة ل -->
-  <rule id="trans_442_rgbt_shdydt_l_2" name="رغبة شديدة ل">
+ <!-- <rule id="trans_442_rgbt_shdydt_l_2" name="رغبة شديدة ل">
     <pattern>
       <token inflected="yes" skip="1">رغبة</token>
       <marker>
@@ -7657,7 +7657,7 @@ END RULEGROUP Masdar errors
 </message>
     <example correction="بها|فيها" type="incorrect"> لديه رغبة شديدة <marker>لها</marker> الشعر </example>
     <example type="correct">لديه رغبة شديدة فيها</example>
-  </rule>
+  </rule>-->
  <!-- trans_443_zHf_Ela زَحَفَ على -->
   <rule id="trans_443_zHf_Ela" name="زحف على">
     <pattern>
@@ -8534,7 +8534,7 @@ END RULEGROUP Masdar errors
           </marker>
         </pattern>
         <message>لأنه من الأخطاء الشائعة كتابة التنوين على الألف، والصحيح أن تُكتب على الحرف الذي قبل الألف؛ لأن التنوين نون ساكنة والألف ساكنة، فلا يجتمع ساكنان
-: <suggestion><match no="1" regexp_match="ا(&tanwin_fathatan;)?$" regexp_replace="ً&tanwin_fathatan;ا"/></suggestion>
+: <suggestion><match no="1" regexp_match="ا(&tanwin_fathatan;)?$" regexp_replace="&tanwin_fathatan;ا"/></suggestion>
         </message>
         <example correction="لبنًا" type="incorrect">شرب الطفل <marker>لبناً</marker></example>
       </rule>

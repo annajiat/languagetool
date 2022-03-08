@@ -40,6 +40,7 @@ public class VerbTransRuleTest {
   private ArabicTagManager tagmanager;
   private ArabicWordTokenizer tokenizer;
   private ArabicSynthesizer synthesizer;
+  private boolean debug = false;
 
   @Before
   public void setUp() {
@@ -84,7 +85,7 @@ public class VerbTransRuleTest {
     List<AnalyzedToken> prepositionTokensy = prepositionTokenR.get(0).getReadings();
     String prepositionTag = prepositionTokensy.get(0).getPOSTag();
     String prepositionLemma = prepositionTokensy.get(0).getLemma();
-    System.out.printf("VerbTransRuleTes: verb : [%s, %s]; preposition [%s %s]\n", verbTag, verbLemma, prepositionTag, prepositionLemma);
+    if(debug) System.out.printf("VerbTransRuleTes: verb : [%s, %s]; preposition [%s %s]\n", verbTag, verbLemma, prepositionTag, prepositionLemma);
         if (tagmanager.isAttached(verbTag))
     {
 //      // generate correct verb
@@ -95,7 +96,7 @@ public class VerbTransRuleTest {
       //      // generate new preposition word form
       String newPrepositionTag = tagmanager.setFlag(prepositionTag, "PRONOUN", pronounFlag);
       newPrepositionTag = tagmanager.setFlag(newPrepositionTag, "OPTION", 'D');
-      System.out.printf("VerbTransRuleTes: Tags verb: %s preposition: %s\n", newVerbTag, newPrepositionTag);
+      if(debug) System.out.printf("VerbTransRuleTes: Tags verb: %s preposition: %s\n", newVerbTag, newPrepositionTag);
 
       // String newPreposition = synthesizer.synthesis(verbLemma, newVerbTag)
       AnalyzedToken verbAToken = new AnalyzedToken(verb, newVerbTag, verbLemma);
@@ -104,7 +105,7 @@ public class VerbTransRuleTest {
       String newPreposition = Arrays.toString(synthesizer.synthesize(prepAToken , newPrepositionTag));
       ;
 //      String newVerb = synthesizer.synth(verbLemma, newVerbTag);
-      System.out.printf("VerbTransRuleTes: suggestions verb: %s preposition: %s\n", newVerb, newPreposition);
+      if(debug) System.out.printf("VerbTransRuleTes: suggestions verb: %s preposition: %s\n", newVerb, newPreposition);
 
 
 //
@@ -145,7 +146,7 @@ public class VerbTransRuleTest {
         List<AnalyzedToken> prepositionTokensy = prepositionTokenR.get(0).getReadings();
         String prepositionTag = prepositionTokensy.get(0).getPOSTag();
         String prepositionLemma = prepositionTokensy.get(0).getLemma();
-        System.out.printf("VerbTransRuleTes: verb : [%s, %s]; preposition [%s %s]\n", verbTag, verbLemma, prepositionTag, prepositionLemma);
+        if(debug) System.out.printf("VerbTransRuleTes: verb : [%s, %s]; preposition [%s %s]\n", verbTag, verbLemma, prepositionTag, prepositionLemma);
         if (tagmanager.isAttached(verbTag)) {
     //      // generate correct verb
     //      String newVerbTag = tagmanager.addTag(verbTag, "Pronoun","-");
@@ -155,7 +156,7 @@ public class VerbTransRuleTest {
     //      newPrepositionTag = tagmanager.setFlag(newPrepositionTag, "OPTION", 'D');
     //      String newVerbTag = tagmanager.setFlag(verbTag, "PRONOUN", '-');
 
-    //      System.out.printf("VerbTransRuleTes: Tags verb: %s preposition: %s\n", newVerbTag, newPrepositionTag);
+    //      if(debug) System.out.printf("VerbTransRuleTes: Tags verb: %s preposition: %s\n", newVerbTag, newPrepositionTag);
 
           // Generate new words
           // generate the new verb
@@ -167,8 +168,8 @@ public class VerbTransRuleTest {
 
           String newPreposition = generateAttachedNewForm(preposition, prepositionTag, pronounFlag);
           String newVerb = generateUnattachedNewForm(verbLemma, verbTag);
-    //      System.out.printf("VerbTransRuleTes: suggestions verb: %s == %s preposition: %s == %s\n", newVerb, newve, newPreposition, newpre);
-          System.out.printf("VerbTransRuleTes: suggestions verb: %s preposition: %s \n", newVerb, newPreposition);
+    //      if(debug) System.out.printf("VerbTransRuleTes: suggestions verb: %s == %s preposition: %s == %s\n", newVerb, newve, newPreposition, newpre);
+          if(debug) System.out.printf("VerbTransRuleTes: suggestions verb: %s preposition: %s \n", newVerb, newPreposition);
         }
 
       }  //for
