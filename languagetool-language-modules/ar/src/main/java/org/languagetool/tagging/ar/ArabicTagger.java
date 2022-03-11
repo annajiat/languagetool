@@ -27,6 +27,7 @@ import org.languagetool.language.Arabic;
 import org.languagetool.tagging.BaseTagger;
 import org.languagetool.tools.ArabicStringTools;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -442,6 +443,13 @@ public class ArabicTagger extends BaseTagger {
         prefix_length +=1;
       if (jarflag !='-')
         prefix_length +=1;
+      //
+      if(tagmanager.isDefinite(postag)) {
+        if (jarflag == 'L') // case of لل+بيت
+          prefix_length +=1;
+        else // case of ال+بيت
+          prefix_length +=2;
+      }
       prefix = getPrefix(word, prefix_length);
     }
     return prefix;
@@ -533,5 +541,15 @@ public class ArabicTagger extends BaseTagger {
     String newWord = word+suffix;
     return word+suffix;
   }
+
+
+/* tag a single word */
+  public AnalyzedTokenReadings tag(String word) {
+    List<String> wordlist = new ArrayList<String>();
+    wordlist.add(word);
+
+    List<AnalyzedTokenReadings> ATR = tag(wordlist);
+    return ATR.get(0);
+    }
 }
 

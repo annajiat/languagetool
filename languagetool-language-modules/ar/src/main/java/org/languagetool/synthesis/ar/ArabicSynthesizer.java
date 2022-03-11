@@ -29,6 +29,7 @@ import org.languagetool.tagging.ar.ArabicTagger;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -172,6 +173,10 @@ public class ArabicSynthesizer extends BaseSynthesizer {
    * @return set a new enclitic for the given word,
    */
   public String setEnclitic(AnalyzedToken token, String suffix) {
+    List<String> wordlist = setEncliticMultiple(token, suffix);
+    return wordlist.get(0);
+  }
+  public String setEnclitic2(AnalyzedToken token, String suffix) {
     // if the suffix is not empty
     // save procletic
     // ajust postag to get synthesed words
@@ -209,12 +214,97 @@ public class ArabicSynthesizer extends BaseSynthesizer {
 //      }
     }
     else // no word generated
-    //FIXME: handle stopwords generation
+      //FIXME: handle stopwords generation
       stem  = "("+word+")";
     //debug only
 //    System.out.println("ArabicSynthesizer:setEnclitic(), lemma:" + lemma + " postag:" + newposTag);
     String newWord = procletic+stem+suffix;
     return newWord;
+  }
+  public List<String> setEncliticMultiple(AnalyzedToken token, String suffix) {
+    // if the suffix is not empty
+    // save procletic
+    // ajust postag to get synthesed words
+    // set enclitic flag
+    // synthesis => lookup for stems with similar postag and has enclitic flag
+    // Add procletic and enclitic to stem
+    // return new word list
+    String postag = token.getPOSTag();
+    String word = token.getToken();
+
+    List<String> defaultWordlist = new ArrayList<String>();
+    defaultWordlist.add("("+word+")");
+    if (postag.isEmpty()) {
+      return defaultWordlist;
+    }
+    List<String> wordlist = new ArrayList<String>();
+    /* The flag is by defaul equal to '-' , if suffix => "H" */
+    char flag = (suffix.isEmpty()) ? '-' : 'H';
+    // save procletic
+    String procletic = tagger.getProcletic(token);
+    // set enclitic flag
+    String newposTag = tagmanager.setFlag(postag, "PRONOUN", flag);
+    //adjust procletics
+    newposTag = tagmanager.setProcleticFlags(newposTag);
+    // synthesis => lookup for stems with similar postag and has enclitic flag
+    String lemma = token.getLemma();
+    AnalyzedToken newToken = new AnalyzedToken(lemma, newposTag, lemma);
+    String[] newwordList = synthesize(newToken, newposTag);
+
+    String stem = "";
+      if (newwordList.length != 0) {
+        String newWord="";
+        for (int i = 0; i < newwordList.length; i++)
+        {
+          stem = newwordList[i];
+        //We replace the Heh, because the Tag dictionary represent only Heh Pronouns, for reason of compressin
+          // the other pronoun suffix are added by tagger or synthesizer
+        if (tagmanager.hasPronoun(newposTag) && flag == 'H') {
+          if (stem.endsWith("ي")) {
+            // if the stem is ended by Yeh for 1st person pronoun
+            // if suffix is Yeh pronoun, ignore suffix
+            // else ignore stem
+            if(suffix.equals("ي"))
+              newWord = procletic + stem;
+            else
+              newWord = "";
+          }
+          else if (stem.endsWith("ه")) {
+            stem = stem.replaceAll("ه$", "");
+            newWord = procletic + stem + suffix;
+          }
+          else
+          {
+            newWord = procletic + stem + suffix;
+          }
+
+          // else ignore
+//          else
+//            newWord = procletic + stem;
+        }
+        else
+          newWord = procletic + stem;
+
+        if(!newWord.isEmpty())
+          wordlist.add(newWord);
+//      stem = correctStem(stem, postag);
+        //debug only
+//      for(int k=0; k<newwordList.length; k++) {
+//        System.out.println("ArabicSynthesizer:setEnclitic()" + newwordList[k] + " " + newposTag);
+//      }
+      }
+      } else // no word generated
+      {
+        stem = "(" + word + ")";
+        wordlist.add(stem);
+      }
+    //debug only
+//    System.out.println("ArabicSynthesizer:setEnclitic(), lemma:" + lemma + " postag:" + newposTag);
+//    String newWord = procletic + stem + suffix;
+//    return newWord;
+    if(wordlist.isEmpty())
+      return defaultWordlist;
+  return wordlist;
   }
   /**
    * @return set a new procletic for the given word,
@@ -287,6 +377,66 @@ public class ArabicSynthesizer extends BaseSynthesizer {
 //    System.out.println("ArabicSynthesizer:setEnclitic(), lemma:" + lemma + " postag:" + newposTag);
     String newWord = prefix+stem+enclitic;
     return newWord;
+  }
+
+  /* generate a new form according to a specific postag, this form is Attached*/
+  public List<String> inflectLemmaLike(String targetLemma, AnalyzedToken sourcetoken) {
+    // FIXME ; generate multiple cases
+
+    // make a token with the lemma
+    AnalyzedTokenReadings tokenReadList = tagger.tag(targetLemma);
+    List<String> wordlist = new ArrayList<String>();
+
+    if (!tokenReadList.hasLemma(targetLemma)) {
+      wordlist.add("[" + targetLemma + "]");
+      return wordlist;
+    }
+    String sourcePostag = sourcetoken.getPOSTag();
+    // get affxies
+    String prefix = tagger.getProcletic(sourcetoken);
+    String suffix = tagger.getEnclitic(sourcetoken);
+
+    List<AnalyzedToken> tokenListFiltred = new ArrayList<AnalyzedToken>();
+
+    // if the lemma is not equals to given one, continue
+    // how can a lemma not the same,
+    // if we tag a diacritized verb, the tagger remove diacritics and can generate other cases
+
+    for(AnalyzedToken currentToken: tokenReadList.getReadings())
+    {
+      if(targetLemma.equals(currentToken.getLemma()))
+        tokenListFiltred.add(currentToken);
+    }
+
+    for(AnalyzedToken currentToken: tokenListFiltred)
+    {
+      // if the lemma is not equals to given one, continue
+      // how can a lemma not the same,
+      // if we tag a diacritized verb, the tagger remove diacritics and can generate other cases
+      // merge postag
+      String postagLemma = currentToken.getPOSTag();
+      String mergedPostag = tagmanager.mergePosTag(sourcePostag, postagLemma);
+
+      // construct word
+      String word = prefix + targetLemma;
+      AnalyzedToken token = new AnalyzedToken(word, mergedPostag, targetLemma);
+//      AnalyzedToken token = new AnalyzedToken(word, postagLemma, targetLemma);
+      List<String> wordlist2 = setEncliticMultiple(token, suffix);
+      wordlist.addAll(wordlist2);
+
+//      //debug
+//      for(String word2: wordlist2) {
+//        System.out.println("postag: " + postagLemma);
+//        System.out.println("merged postag: " + mergedPostag);
+//        System.out.println("word: " + sourcetoken.getToken() + " suggestion:" + word2);
+//      }
+
+    }
+    // remove dupplicates
+    List<String> resultWordlist = new ArrayList<String>(new HashSet<String>(wordlist));
+//    System.out.println("wordlist :"+wordlist.toString());
+//    System.out.println("wordlist Nodups:"+resultWordlist.toString());
+  return resultWordlist;
   }
 
 }

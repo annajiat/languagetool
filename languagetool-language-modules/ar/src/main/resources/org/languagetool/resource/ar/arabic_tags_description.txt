@@ -16,7 +16,7 @@ Nouns
 ========
 * word class and category
 * Conjugation ( suffixes used to conjugate words in dual form, feminin form).
-* Affixes ( prefixes and encletics)
+* Affixes ( prefixes and enclitics)
 
 
 
