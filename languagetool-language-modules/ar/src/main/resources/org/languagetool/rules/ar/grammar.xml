@@ -8995,8 +8995,6 @@ END RULEGROUP Masdar errors
         <example  type="correct"> قرأت في كتابيها.</example>
         <example  type="correct"> قرأت في كتابي.</example>
         <example  type="correct"> نظرت والصفحتان.</example>
-<!--         <example correction="إلى مسافرين" type="incorrect"> هرولت <marker>إلى مسافرون</marker>.</example> -->
-<!--         <example correction="مع المسافرين" type="incorrect"> عجوزا <marker>مع المسافرون</marker>.</example> -->
       </rule>
       
       
@@ -9032,6 +9030,8 @@ END RULEGROUP Masdar errors
         <example correction="إلى مسافرين" type="incorrect"> هرولت <marker>إلى مسافرون</marker>.</example>
         <example correction="مع المسافرين" type="incorrect"> عجوزا <marker>مع المسافرون</marker>.</example>
       </rule>
+      
+
                  </rulegroup>
          </category>
 </rules>
