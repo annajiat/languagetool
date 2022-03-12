@@ -28,8 +28,8 @@ USA
   <!DOCTYPE rules [
     <!ENTITY apostrophe "['’`´‘]">
     <!ENTITY nbsp " ">
-     <!ENTITY tanwin_fathatan "&#x064b;">
-    <!ENTITY horof_jar "في|من|إلى|على|عن|مع">
+    <!ENTITY tanwin_fathatan "&#x064b;">
+    <!ENTITY horof_jar "في|من|إلى|على|عن|مع|وفي|ومن|وإلى|وعلى|وعن|ومع">
     <!ENTITY unbreak_proclitics "ال">
     <!ENTITY proclitics "و|ف|ال|وال|فال|ب|بال|وبال|ك|كال|وكال|فكال|ل|لل|ولل|فلل">
     <!ENTITY undef_proclitics "و|ف|ب|ك|وب|فب|وك|فك">
@@ -8941,8 +8941,7 @@ END RULEGROUP Masdar errors
         <example correction="يعمل إعمالًا عامًا|يعمل عملًا عامًا|يعمل تعميلًا عامًا" type="incorrect">‎الأمر مستقر <marker>يعمل بأسلوب عام</marker> في البلاد.</example>
         
         <example correction="يضربه ضربًا جيّدًا" type="incorrect"> لا <marker>يضربه بأسلوب جيّد</marker> في البلاد.</example>
-<!--         <example type="correct">لا يضربه بأسلوب جيّد في البلاد.</example>  -->
-       
+      
       </rule>
       
        <rule id="syntax_0000_Qam_bi_test" name="قام بعمل">
@@ -8952,14 +8951,86 @@ END RULEGROUP Masdar errors
              <token postag="NM.*;.*;-B.*" postag_regexp="yes"/>
           </marker>
         </pattern>
-        <message>
-تعبير "القيام بـ" ركيك يستحسن تجنبه إلى تصريف المصدر الموالي، قل ضربت بدلا من القيام بالضرب.
 
+        <filter class="org.languagetool.rules.ar.MasdarToVerbFilter" args="verb:\1 noun:\2"/>
+        <message>تعبير "القيام بـ" ركيك يستحسن تجنبه إلى تصريف المصدر الموالي، قل ضربت بدلا من القيام بالضرب.</message>
+<!--        <suggestion>الفعل من (<match no="2" regexp_match="^ب" regexp_replace=""/>)</suggestion>
+                <suggestion><match no="2" regexp_match="^ب" regexp_replace=""/></suggestion-->
 
-        <suggestion>الفعل من (<match no="2" regexp_match="^ب" regexp_replace=""/>)</suggestion>
-                <suggestion><match no="2" regexp_match="^ب" regexp_replace=""/></suggestion>
-                </message>
 <!--         <example correction="الفعل من (شرب)|شرب" type="incorrect"><marker>قمت بشرب</marker> الماء </example> -->
+    <example correction="عملت" type="incorrect"><marker>قمت بالعمل</marker> في الامتحان </example>
+    <example correction="يعملون" type="incorrect"><marker>يقومون بالعمل</marker> في الامتحان </example>
+    <example correction="وسيأكلون" type="incorrect"><marker>وسيقومون بالأكل</marker> في الامتحان </example>
+    <example correction="أعملت" type="incorrect"><marker>قامت بالإعمال</marker> في الامتحان </example>
+    <example correction="اسألن|اسألنان|سألن|سئلن" type="incorrect"><marker>قمن بالسؤال</marker> في الامتحان </example>
+      </rule>
+
+      <rule id="grammar_0000_jar_dual" name="جار ومجرور للمثنى">
+        <antipattern> 
+            <!--       حالة المثنى المنصوب أو المجرور أو الجمع المشابه له مثل فلاحين، كاتبين-->
+          <token regexp="yes">&horof_jar;</token>
+          <token postag="N.*;.?2[IA].?;--.*|N.*;M[3]I.?;--.*" postag_regexp="yes"/>
+        </antipattern>
+        <antipattern>
+                        <!--       حالة المثنى المنصوب أو المجرور أو الجمع المشابه له عند اتصاله بضمير مثل فلاحيّ، كاتبيه-->
+
+          <token regexp="yes">&horof_jar;</token>
+          <token postag="N.*;.?2..?;--H|N.*;M[3]I.?;--H" postag_regexp="yes"/>
+        </antipattern>
+        <pattern>
+            <marker>
+            <token regexp="yes">&horof_jar;</token>
+            <token postag="N.*;.?2[^IA].?;--.*" postag_regexp="yes"/>
+          </marker>
+       </pattern>
+        <message>انتبه لحرف الجر فالمثنى يجر بالياء 
+
+       <suggestion><match no="1"/>&nbsp;<match no="2" postag="(N.*;[MF]2)([^IA])(.*)" postag_replace="$1A$3" postag_regexp="yes"/></suggestion>
+        </message>
+        <example correction="في الغابرين" type="incorrect"> عجوزا <marker>في الغابران</marker>.</example>
+        <example correction="في الكتابين" type="incorrect"> نظرت <marker>في الكتابان</marker>.</example>
+        <example correction="في صفحتين" type="incorrect"> نظرت <marker>في صفحتان</marker>.</example>
+        <example  type="correct"> نظرت في صفحتين.</example>
+        <example  type="correct"> نظرت في الصفحتين.</example>
+        <example  type="correct"> قرأت في كتابيها.</example>
+        <example  type="correct"> قرأت في كتابي.</example>
+        <example  type="correct"> نظرت والصفحتان.</example>
+<!--         <example correction="إلى مسافرين" type="incorrect"> هرولت <marker>إلى مسافرون</marker>.</example> -->
+<!--         <example correction="مع المسافرين" type="incorrect"> عجوزا <marker>مع المسافرون</marker>.</example> -->
+      </rule>
+      
+      
+            <rule id="grammar_0000_jar_plural" name="جار ومجرور  للجمع">
+        <antipattern> 
+            <!--       حالة  جمع المذكر السالم المنصوب أو المجرور أو المثنى المشابه المشابه له مثل فلاحين، كاتبين-->
+          <token regexp="yes">&horof_jar;</token>
+          <token postag="N.*;.?2[IA].?;--.*|N.*;M[3]I.?;--.*" postag_regexp="yes"/>
+        </antipattern>
+        <antipattern>
+                        <!--       حالة  جمع المذكر السالم المنصوب أو المجرور أو المثنى المشابه المشابه له عند اتصاله بضمير مثل فلاحيّ، كاتبيه-->
+
+          <token regexp="yes">&horof_jar;</token>
+          <token postag="N.*;.?2..?;--H|N.*;M[3]I.?;--H" postag_regexp="yes"/>
+        </antipattern>
+        <pattern>
+            <marker>
+            <token regexp="yes">&horof_jar;</token>
+            <token postag="N.*;M3[^IA].?;--.*" postag_regexp="yes"/>
+          </marker>
+       </pattern>
+        <message>:انتبه لحرف الجر فالجمع المذكر السالم  يُجَرّ بالياء 
+       <suggestion><match no="1"/>&nbsp;<match no="2" postag="(N.*;[MF]3)([^IA])(.*)" postag_replace="$1I$3" postag_regexp="yes"/></suggestion>
+        </message>
+        <example correction="في الغابرين" type="incorrect"> عجوزا <marker>في الغابرون</marker>.</example>
+        <example correction="في العائدين" type="incorrect"> نظرت <marker>في العائدون</marker>.</example>
+        <example correction="في صادقين" type="incorrect"> نظرت <marker>في صادقون</marker>.</example>
+        <example  type="correct"> نظرت في صفحتين.</example>
+        <example  type="correct"> نظرت في الصفحتين.</example>
+        <example  type="correct"> قرأت في فلاحيها.</example>
+        <example  type="correct"> قرأت في كاتبي.</example>
+        <example  type="correct"> نظرت والمدرسون.</example>
+        <example correction="إلى مسافرين" type="incorrect"> هرولت <marker>إلى مسافرون</marker>.</example>
+        <example correction="مع المسافرين" type="incorrect"> عجوزا <marker>مع المسافرون</marker>.</example>
       </rule>
                  </rulegroup>
          </category>
