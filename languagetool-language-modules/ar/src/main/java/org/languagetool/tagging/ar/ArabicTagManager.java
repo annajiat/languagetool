@@ -320,11 +320,19 @@ public class ArabicTagManager {
    */
   public boolean isVerb(String postag) {
     return (postag!=null && postag.startsWith("V"));
-  }  /**
+  }
+
+  /**
    * @return true if have flag Adj
    */
   public boolean isAdj(String postag) {
     return (postag!=null && postag.startsWith("NA"));
+  }
+  /**
+   * @return true if have flag Adj
+   */
+  public boolean isMasdar(String postag) {
+    return (postag!=null && postag.startsWith("NM"));
   }
 
   /**

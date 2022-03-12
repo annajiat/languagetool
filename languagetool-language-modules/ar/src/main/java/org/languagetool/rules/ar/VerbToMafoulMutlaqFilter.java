@@ -51,8 +51,7 @@ public class VerbToMafoulMutlaqFilter extends RuleFilter {
     put("أَجَابَ", "إجابة");
 
     //
-    put("twice", "second"); // special case
-    // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
+    // TODO: add more Masdar verb
     //put("", "");
   }};
 
@@ -78,12 +77,12 @@ public class VerbToMafoulMutlaqFilter extends RuleFilter {
       }
     }
     // only for debug
-    System.out.println("verb: "+verb);
-    System.out.println("verb Lemma: "+ verbLemmas.toString());
-    System.out.println("masdar Lemma: "+ masdarList.toString());
-    System.out.println("adj: "+adj);
-    System.out.println("masdar: "+masdar);
-    System.out.println("tokens: "+ Arrays.deepToString(patternTokens));
+//    System.out.println("verb: "+verb);
+//    System.out.println("verb Lemma: "+ verbLemmas.toString());
+//    System.out.println("masdar Lemma: "+ masdarList.toString());
+//    System.out.println("adj: "+adj);
+//    System.out.println("masdar: "+masdar);
+//    System.out.println("tokens: "+ Arrays.deepToString(patternTokens));
 
     String inflectedAdj = synthesizer.inflectAdjectiveTanwinNasb(adj);
     for( String  msdr: masdarList)

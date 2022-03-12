@@ -561,6 +561,7 @@ public class ArabicTagger extends BaseTagger {
 
       if((tagmanager.isVerb(tok.getPOSTag()) &&type.equals("verb"))
         ||((tagmanager.isAdj(tok.getPOSTag()) &&type.equals("adj")))
+        ||((tagmanager.isMasdar(tok.getPOSTag()) &&type.equals("masdar")))
       )
         //ensure non duplicate
         if(!lemmaList.contains(tok.getLemma()))
