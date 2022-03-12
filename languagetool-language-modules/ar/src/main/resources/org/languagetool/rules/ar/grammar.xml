@@ -29,6 +29,8 @@ USA
     <!ENTITY apostrophe "['’`´‘]">
     <!ENTITY nbsp " ">
     <!ENTITY tanwin_fathatan "&#x064b;">
+    <!ENTITY fatha "&#x064e;">
+    <!ENTITY alef "ا">
     <!ENTITY horof_jar "في|من|إلى|على|عن|مع|وفي|ومن|وإلى|وعلى|وعن|ومع">
     <!ENTITY unbreak_proclitics "ال">
     <!ENTITY proclitics "و|ف|ال|وال|فال|ب|بال|وبال|ك|كال|وكال|فكال|ل|لل|ولل|فلل">
@@ -8917,7 +8919,7 @@ END RULEGROUP Masdar errors
   <!-- Test new featrues -->
   <!-- ====================================================================== -->
 
-     <category id="TestNewFeatures" name="grammar">
+     <category id="TestNewFeatures" name="grammar" type="grammar">
         <rulegroup id="Test_New_FEATURE_000" name="تجربة ميزة جديدة"> 
 <rule id="collo_0081_shkl_3am_Test" name="بشكل عام">
         <pattern>
@@ -9030,8 +9032,25 @@ END RULEGROUP Masdar errors
         <example correction="إلى مسافرين" type="incorrect"> هرولت <marker>إلى مسافرون</marker>.</example>
         <example correction="مع المسافرين" type="incorrect"> عجوزا <marker>مع المسافرون</marker>.</example>
       </rule>
-      
 
+      <rule id="typo_000_tanwin_nasb2" name="تنوين النصب" type="style">
+          <!--      حلة الاسم الجامد المنوّن، منته بألف
+      ما عدا: ما لا ينتهي بألف أو ألف وتنوين-->
+         <antipattern> 
+        <token regexp="yes">.*&alef;(&tanwin_fathatan;)$|.*(&tanwin_fathatan;)&alef;$|.*(&fatha;)&alef;$</token>
+        </antipattern>
+        <pattern>
+          <marker>
+              <token postag="N.*;M1[A].?;.?-n" postag_regexp="yes"/>
+          </marker>
+        </pattern>
+        <message>يستحسن وضع علامة التنوين أو الفتح للتفريق بين الاسم المنوّن وغيره
+: <suggestion><match no="1" regexp_match="&alef;$" regexp_replace="&tanwin_fathatan;&alef;"/></suggestion>
+: <suggestion><match no="1" regexp_match="&alef;$" regexp_replace="&fatha;&alef;"/></suggestion>
+        </message>
+            <example correction="استعمالًا|استعمالَا"  type="incorrect">استعمله  <marker>استعمالا</marker></example>
+
+      </rule>
                  </rulegroup>
          </category>
 </rules>
