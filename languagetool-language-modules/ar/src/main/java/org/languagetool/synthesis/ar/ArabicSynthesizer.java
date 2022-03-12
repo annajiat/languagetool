@@ -27,6 +27,11 @@ import org.languagetool.synthesis.BaseSynthesizer;
 import org.languagetool.tagging.ar.ArabicTagManager;
 import org.languagetool.tagging.ar.ArabicTagger;
 
+// constants
+import static org.languagetool.tools.ArabicConstants.FATHATAN;
+import static org.languagetool.tools.ArabicConstants.TEH_MARBUTA;
+import static org.languagetool.tools.ArabicConstants.ALEF;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -439,6 +444,33 @@ public class ArabicSynthesizer extends BaseSynthesizer {
   return resultWordlist;
   }
 
+
+  /* genarate Mafoul Mutlaq from masdar */
+  public static  String inflectMafoulMutlq(String word)
+  {
+    if(word==null)
+      return word;
+    String newword =word;
+    if(word.endsWith(Character.toString(TEH_MARBUTA)))
+      newword += FATHATAN;
+    else
+      newword += FATHATAN + ""+ALEF;
+    return newword;
+
+  }
+  /* genarate Mafoul Mutlaq from masdar */
+  public static  String inflectAdjectiveTanwinNasb(String word)
+  {
+    if(word==null)
+      return word;
+    String newword =word;
+    if(word.endsWith(Character.toString(TEH_MARBUTA)))
+      newword += FATHATAN;
+    else
+      newword += FATHATAN + ""+ALEF;
+    return newword;
+
+  }
 }
 
 

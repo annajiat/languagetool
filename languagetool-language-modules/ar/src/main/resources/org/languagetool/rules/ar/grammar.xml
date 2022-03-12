@@ -8913,5 +8913,55 @@ END RULEGROUP Masdar errors
         </rule>
          </rulegroup>
          </category>
+        <!-- ====================================================================== -->
+  <!-- Test new featrues -->
+  <!-- ====================================================================== -->
+
+     <category id="TestNewFeatures" name="grammar">
+        <rulegroup id="Test_New_FEATURE_000" name="تجربة ميزة جديدة"> 
+<rule id="collo_0081_shkl_3am_Test" name="بشكل عام">
+        <pattern>
+          <marker>
+          <token inflected="yes" postag_regexp="yes" postag="V.*;.*;.*"/>
+            <unify>
+              <feature id="definite"/>
+              <token inflected="yes" postag_regexp="yes" postag="N.*;M1.*;.?B.?">أسلوب</token>
+              <token inflected="yes" postag_regexp="yes" postag="NA.*;M1.*;--.?"/>
+            </unify>
+          </marker>
+        </pattern>
+        <filter class="org.languagetool.rules.ar.VerbToMafoulMutlaqFilter" args="verb:\1 adj:\3"/>
+        <message> الأصوب أن تقول:
+        <!--<suggestion>عمومًا</suggestion>-->
+        من الشائع أن يقال: ... بشكل عام، أو تتباين بشكل ملحوظ، أو يؤكد بشكل قوي، أو حلّ المشكلة بالشكل المناسب، أو تعالج بشكل فعّال
+        ويفضل أن يقال:  تتباين تبايناً ملحوظاً، يؤكد  تأكيدًا قويا، حلّ المشكلة حلًا مناسبًا، تعالج  علاجا فعّالًا.
+        الأصوب أن توضع محل (بشكل) إحدى الكلمات الآتية: بطريقة، بأسلوب، بصفة، بصيغة، بوجه، بدرجة، بكيفية، الخ…. (مصدر)
+        </message>
+       <!-- <example correction="عمومًا" type="incorrect">‎الأمر مستقر <marker>يعمل بأسلوب عام</marker> في البلاد.</example>-->
+        <example correction="يعمل إعمالًا عامًا|يعمل عملًا عامًا|يعمل تعميلًا عامًا" type="incorrect">‎الأمر مستقر <marker>يعمل بأسلوب عام</marker> في البلاد.</example>
+        
+        <example correction="يضربه ضربًا جيّدًا" type="incorrect"> لا <marker>يضربه بأسلوب جيّد</marker> في البلاد.</example>
+<!--         <example type="correct">لا يضربه بأسلوب جيّد في البلاد.</example>  -->
+       
+      </rule>
+      
+       <rule id="syntax_0000_Qam_bi_test" name="قام بعمل">
+        <pattern>
+          <marker>
+              <token inflected="yes">قَامَ</token>
+             <token postag="NM.*;.*;-B.*" postag_regexp="yes"/>
+          </marker>
+        </pattern>
+        <message>
+تعبير "القيام بـ" ركيك يستحسن تجنبه إلى تصريف المصدر الموالي، قل ضربت بدلا من القيام بالضرب.
+
+
+        <suggestion>الفعل من (<match no="2" regexp_match="^ب" regexp_replace=""/>)</suggestion>
+                <suggestion><match no="2" regexp_match="^ب" regexp_replace=""/></suggestion>
+                </message>
+<!--         <example correction="الفعل من (شرب)|شرب" type="incorrect"><marker>قمت بشرب</marker> الماء </example> -->
+      </rule>
+                 </rulegroup>
+         </category>
 </rules>
 
