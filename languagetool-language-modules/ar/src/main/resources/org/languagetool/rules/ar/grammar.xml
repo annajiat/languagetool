@@ -8919,16 +8919,16 @@ END RULEGROUP Masdar errors
   <!-- Test new featrues -->
   <!-- ====================================================================== -->
 
-     <category id="TestNewFeatures" name="grammar" type="grammar">
+     <category id="TEST_NEW_FEATURES" name="grammar" type="grammar">
         <rulegroup id="Test_New_FEATURE_000" name="تجربة ميزة جديدة"> 
 <rule id="collo_0081_shkl_3am_Test" name="بشكل عام">
         <pattern>
           <marker>
-          <token inflected="yes" postag_regexp="yes" postag="V.*;.*;.*"/>
+          <token postag_regexp="yes" postag="V.*;.*;.*"/>
             <unify>
               <feature id="definite"/>
               <token inflected="yes" postag_regexp="yes" postag="N.*;M1.*;.?B.?">أسلوب</token>
-              <token inflected="yes" postag_regexp="yes" postag="NA.*;M1.*;--.?"/>
+              <token postag_regexp="yes" postag="NA.*;M1.*;--.?"/>
             </unify>
           </marker>
         </pattern>
