@@ -23,6 +23,7 @@ import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.language.Arabic;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.SimpleReplaceDataLoader;
 import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.synthesis.ar.ArabicSynthesizer;
 import org.languagetool.tagging.ar.ArabicTagger;
@@ -37,7 +38,10 @@ import java.util.*;
 public class MasdarToVerbFilter extends RuleFilter {
 
   private final ArabicTagger tagger = new ArabicTagger();
+  private static final String FILE_NAME ="/ar/arabic_masdar_verb.txt";
+  private final Map<String,List<String>> masdar2verbList = loadFromPath(FILE_NAME);
   private final ArabicSynthesizer synthesizer = new ArabicSynthesizer(new Arabic());
+
   final List<String> authorizeLemma = new ArrayList() {{
     add("قَامَ");
   }};
@@ -49,7 +53,7 @@ public class MasdarToVerbFilter extends RuleFilter {
     put( "تعميل","عَمَّلَ");
     put( "ضرب","ضَرَبَ");
     put("أكل","أَكَلَ");
-    put("سؤال","سَأَلَ");
+//    put("سؤال","سَأَلَ");
 // regular ones:
 // non tri letters verb
     put("إجابة","أَجَابَ");
@@ -96,15 +100,19 @@ public class MasdarToVerbFilter extends RuleFilter {
         for (String lemma : masdarLemmas) {
           // get verb suitable to masdar
           String verb = masdar2verb.get(lemma);
-          if (verb != null) {
+
+//          if (verb != null) {
+//            // if verb, inflect verd according to auxialiary verb inlfection
+//            List<String> inflectedverbList = synthesizer.inflectLemmaLike(verb, auxVerbToken);
+//            verbList.addAll(inflectedverbList);
+//          }
+          List<String> verblemmaList = masdar2verbList.get(lemma);
+          if (verblemmaList != null) {
             // if verb, inflect verd according to auxialiary verb inlfection
-            List<String> inflectedverbList = synthesizer.inflectLemmaLike(verb, auxVerbToken);
-            verbList.addAll(inflectedverbList);
-//            for (String v : inflectedverb) {
-//              if (!verbList.contains(v)) {
-//                verbList.add(v);
-//              }
-//            }
+            for(String vrbLem: verblemmaList) {
+              List<String> inflectedverbList = synthesizer.inflectLemmaLike(vrbLem, auxVerbToken);
+              verbList.addAll(inflectedverbList);
+            }
           }
         }
 
@@ -143,5 +151,8 @@ public class MasdarToVerbFilter extends RuleFilter {
       }
     }
     return filtred;
+  }
+  protected static Map<String, List<String>> loadFromPath(String path) {
+    return new SimpleReplaceDataLoader().loadWords(path);
   }
 }
