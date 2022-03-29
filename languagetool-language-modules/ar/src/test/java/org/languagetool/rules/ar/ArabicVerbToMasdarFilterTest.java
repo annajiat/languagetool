@@ -46,7 +46,7 @@ public class ArabicVerbToMasdarFilterTest {
   boolean debug = false;
   @Test
   public void testFilter() throws IOException {
-    assertSuggestion("يعمل", "يعمل إعمالًا جيدًا, يعمل عملةً جيدةً, يعمل عملًا جيدًا", false);
+    assertSuggestion("يعمل", "يعمل إعمالًا جيدًا|يعمل عملةً جيدةً|يعمل عملًا جيدًا", true);
 //    assertSuggestion("يعمل", "عملا جيدا", false);
 //    assertSuggestion("يسأل", "سؤالا جيدا", false);
 
@@ -64,7 +64,7 @@ public class ArabicVerbToMasdarFilterTest {
     AnalyzedTokenReadings[] patternTokensArray = patternTokens.stream().toArray(AnalyzedTokenReadings[]::new);
     RuleMatch ruleMatch = filter.acceptRuleMatch(match, args, -1, patternTokensArray);
     if(!debug) {
-    assertThat(ruleMatch.getSuggestedReplacements().size(), is(1));
+    assertThat(ruleMatch.getSuggestedReplacements().size(), is(3));
     assertThat(ruleMatch.getSuggestedReplacements().get(0), is(expectedSuggestion));
     }
     else { //  debug is true
