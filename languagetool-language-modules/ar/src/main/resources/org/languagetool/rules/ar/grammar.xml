@@ -571,10 +571,7 @@ USA
       <rule id="syntax_0000_Qam_bi" name="القيام_ب">
         <pattern>
           <marker>
-            <or>
-              <token inflected="yes">قَامَ</token>
               <token inflected="yes">قيام</token>
-            </or>
             <token postag="NM.*;.*;-B.*" postag_regexp="yes"/>
           </marker>
         </pattern>
@@ -586,7 +583,7 @@ USA
                 <suggestion><match no="2" regexp_match="^ب" regexp_replace=""/></suggestion>
                 </message>
         <example correction="الفعل من (الضرب)|الضرب"> <marker>القيام بالضرب</marker></example>
-        <example correction="الفعل من (شرب)|شرب" type="incorrect"><marker>قمت بشرب</marker> الماء </example>
+        <!--<example correction="الفعل من (شرب)|شرب" type="incorrect"><marker>قمت بشرب</marker> الماء </example>-->
       </rule>
     </rulegroup>
 <!--
@@ -8940,9 +8937,9 @@ END RULEGROUP Masdar errors
         الأصوب أن توضع محل (بشكل) إحدى الكلمات الآتية: بطريقة، بأسلوب، بصفة، بصيغة، بوجه، بدرجة، بكيفية، الخ…. (مصدر)
         </message>
        <!-- <example correction="عمومًا" type="incorrect">‎الأمر مستقر <marker>يعمل بأسلوب عام</marker> في البلاد.</example>-->
-        <example correction="يعمل إعمالًا عامًا|يعمل عملًا عامًا|يعمل تعميلًا عامًا" type="incorrect">‎الأمر مستقر <marker>يعمل بأسلوب عام</marker> في البلاد.</example>
+        <example correction="يعمل إعمالًا عامًا|يعمل عملةً عامةً|يعمل عملًا عامًا" type="incorrect">‎الأمر مستقر <marker>يعمل بأسلوب عام</marker> في البلاد.</example>
         
-        <example correction="يضربه ضربًا جيّدًا" type="incorrect"> لا <marker>يضربه بأسلوب جيّد</marker> في البلاد.</example>
+        <example correction="يضربه إضرابًا جيّدًا|يضربه ضربةً جيّدةً|يضربه ضربًا جيّدًا" type="incorrect"> لا <marker>يضربه بأسلوب جيّد</marker> في البلاد.</example>
       
       </rule>
       
@@ -8955,7 +8952,7 @@ END RULEGROUP Masdar errors
         </pattern>
 
         <filter class="org.languagetool.rules.ar.MasdarToVerbFilter" args="verb:\1 noun:\2"/>
-        <message>تعبير "القيام بـ" ركيك يستحسن تجنبه إلى تصريف المصدر الموالي، قل ضربت بدلا من القيام بالضرب.</message>
+        <message>تعبير "القيام بـالأمر" ركيك يستحسن تجنبه إلى تصريف المصدر الموالي، قل ضربت بدلا من القيام بالضرب.</message>
 <!--        <suggestion>الفعل من (<match no="2" regexp_match="^ب" regexp_replace=""/>)</suggestion>
                 <suggestion><match no="2" regexp_match="^ب" regexp_replace=""/></suggestion-->
 

@@ -130,12 +130,15 @@ public class MasdarToVerbFilter extends RuleFilter {
     // remove duplicates
     verbList = new ArrayList<>(new HashSet<>(verbList));
 
+
+    RuleMatch newMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(), match.getMessage(), match.getShortMessage());
     // generate suggestion
-    for( String  verb: verbList)
+    for(String  verb: verbList)
     {
-      match.addSuggestedReplacement(verb);
+      newMatch.addSuggestedReplacement(verb);
     }
-    return match;
+    return newMatch;
+//    return match;
 
 //    match.setSuggestedReplacement("Taha");
 //    return match;

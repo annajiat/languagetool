@@ -30,6 +30,7 @@ import org.languagetool.synthesis.ar.ArabicSynthesizer;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -42,7 +43,7 @@ import static org.junit.Assert.assertEquals;
 public class ArabicLoadSimpleWordTest {
 
   private final JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("ar"));
-  private static final String FILE_NAME ="/ar/arabic_verb_masdar.txt";
+  private static final String FILE_NAME ="/ar/arabic_masdar_verb.txt";
 
   @Before
   public void before() {
@@ -53,6 +54,8 @@ public class ArabicLoadSimpleWordTest {
   public void testRule() throws IOException {
     // errors:
    Map<String,List<String>> verb2masdarList = loadFromPath(FILE_NAME);
+//   System.out.println("ArabicLoadSimpleWordTest.java");
+//   System.out.println(verb2masdarList.toString());
   }
 
   private void assertError(String s) throws IOException {
@@ -63,9 +66,10 @@ public class ArabicLoadSimpleWordTest {
 //    return new SimpleReplaceDataLoader().loadWords(path);
     //only for debug
     Map<String, List<String>> list = new SimpleReplaceDataLoader().loadWords(path);
-    System.out.println(list.toString());
     return list;
   }
+
+
 
 
 }

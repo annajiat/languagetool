@@ -459,15 +459,24 @@ public class ArabicSynthesizer extends BaseSynthesizer {
 
   }
   /* genarate Mafoul Mutlaq from masdar */
-  public static  String inflectAdjectiveTanwinNasb(String word)
+  public static  String inflectAdjectiveTanwinNasb(String word, boolean feminin)
   {
     if(word==null)
       return word;
     String newword =word;
-    if(word.endsWith(Character.toString(TEH_MARBUTA)))
-      newword += FATHATAN;
+    if(feminin) {
+      if (word.endsWith(Character.toString(TEH_MARBUTA)))
+        newword += FATHATAN;
+      else
+        newword += Character.toString(TEH_MARBUTA) + FATHATAN;
+    }
     else
-      newword += FATHATAN + ""+ALEF;
+    { // if masculine, remove teh marbuta
+      if (word.endsWith(Character.toString(TEH_MARBUTA)))
+        newword = word.replaceAll(Character.toString(TEH_MARBUTA),"");
+      else
+        newword += Character.toString(FATHATAN)+ ALEF;
+    }
     return newword;
 
   }

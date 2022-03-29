@@ -39,6 +39,10 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
+// constants
+//import static org.languagetool.tools.ArabicConstants.FATHATAN;
+import static org.languagetool.tools.ArabicConstants.TEH_MARBUTA;
+//import static org.languagetool.tools.ArabicConstants.ALEF;
 /**
  * Filter that maps suggestion from adverb to adjective.
  * Also see https://www.ef.com/wwen/english-resources/english-grammar/forming-adverbs-adjectives/
@@ -127,7 +131,9 @@ public class VerbToMafoulMutlaqFilter extends RuleFilter {
     // generate multiple masdar from verb lemmas list */
 
     List<String> inflectedMasdarList = new ArrayList<>();
-
+    List<String> inflectedAdjList = new ArrayList<>();
+    String inflectedAdjMasculine = synthesizer.inflectAdjectiveTanwinNasb(adj, false);
+    String inflectedAdjfeminin = synthesizer.inflectAdjectiveTanwinNasb(adj, true);
     for(String lemma: verbLemmas)
     {
       // get sugegsted masdars lemmas
@@ -140,22 +146,26 @@ public class VerbToMafoulMutlaqFilter extends RuleFilter {
         if (msdr != null) {
           String inflectedMasdar = synthesizer.inflectMafoulMutlq(msdr);
           inflectedMasdarList.add(inflectedMasdar);
+          String inflectedAdj = (msdr.endsWith(Character.toString(TEH_MARBUTA))) ? inflectedAdjfeminin: inflectedAdjMasculine;
+          inflectedAdjList.add(inflectedAdj);
         }
       }
       }
 //      System.out.println("New masdar lists:" +inflectedMasdarList.toString());
     }
-    String inflectedAdj = synthesizer.inflectAdjectiveTanwinNasb(adj);
+
 //    for( String  msdr: inflectedMasdarList)
 //    {
 //      System.out.println(verb +" "+msdr + " " + inflectedAdj);
 //    }
-
+    RuleMatch newMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(), match.getMessage(), match.getShortMessage());
+    int i = 0;
     for( String  msdr: inflectedMasdarList)
     {
-      match.addSuggestedReplacement(verb +" "+msdr + " " + inflectedAdj);
+     newMatch.addSuggestedReplacement(verb +" "+msdr + " " + inflectedAdjList.get(i));
+     i++;
     }
-    return match;
+    return newMatch;
   }
 
 
