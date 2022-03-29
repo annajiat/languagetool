@@ -30,6 +30,8 @@ import org.languagetool.tagging.ar.ArabicTagger;
 import sun.security.util.ArrayUtil;
 
 import java.util.*;
+import static java.lang.Math.min;
+
 
 public class ArabicTransVerbIndirectToDirectRule extends AbstractSimpleReplaceRule2 {
 
@@ -37,11 +39,12 @@ public class ArabicTransVerbIndirectToDirectRule extends AbstractSimpleReplaceRu
 
   private static final String FILE_NAME = "/ar/verb_trans_indirect_to_direct.txt";
   private static final Locale AR_LOCALE = new Locale("ar");
-
+  private final int MAX_CHUNK = 4;
   private final ArabicTagger tagger;
   private final ArabicTagManager tagmanager;
   private final ArabicSynthesizer synthesizer;
   private final List<Map<String, SuggestionWithMessage>> wrongWords;
+
 
   public ArabicTransVerbIndirectToDirectRule(ResourceBundle messages) {
     super(messages, new Arabic());
@@ -304,6 +307,7 @@ public class ArabicTransVerbIndirectToDirectRule extends AbstractSimpleReplaceRu
   public int[] getNextMatch(AnalyzedTokenReadings[] tokens, int current_index, List<String> prepositions)
   {
     int tokRead_index = current_index;
+    int max_length = min(current_index + MAX_CHUNK, tokens.length);
     int tokIndex = 0;
     int [] indexes = {-1,-1};
     // browse all next  tokens to assure that proper preposition doesn't exist
@@ -313,7 +317,7 @@ public class ArabicTransVerbIndirectToDirectRule extends AbstractSimpleReplaceRu
     AnalyzedTokenReadings current_token_reading = tokens[current_index];
     AnalyzedToken current_token = current_token_reading.getReadings().get(0);
 
-    while(tokRead_index<tokens.length && !is_wrong_preposition)
+    while(tokRead_index<max_length && !is_wrong_preposition)
     {
       current_token_reading = tokens[tokRead_index];
       tokIndex = 0;

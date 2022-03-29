@@ -29,6 +29,7 @@ import org.languagetool.tagging.ar.ArabicTagManager;
 import org.languagetool.tagging.ar.ArabicTagger;
 
 import java.util.*;
+import static java.lang.Math.min;
 
 public class ArabicTransVerbIndirectToIndirectRule extends AbstractSimpleReplaceRule2 {
 
@@ -41,6 +42,8 @@ public class ArabicTransVerbIndirectToIndirectRule extends AbstractSimpleReplace
   private final ArabicTagManager tagmanager;
   private final ArabicSynthesizer synthesizer;
   private final List<Map<String, SuggestionWithMessage>> wrongWords;
+  private final int MAX_CHUNK = 4;
+
 
   public ArabicTransVerbIndirectToIndirectRule(ResourceBundle messages) {
     super(messages, new Arabic());
@@ -418,6 +421,9 @@ public class ArabicTransVerbIndirectToIndirectRule extends AbstractSimpleReplace
   {
 //    System.out.println("Access getNextMatch");
     int tokRead_index = current_index;
+    int max_length = min(current_index + MAX_CHUNK, tokens.length);
+
+
     int tokIndex = 0;
     int [] indexes = {-1,-1};
     // browse all next  tokens to assure that proper preposition doesn't exist
@@ -427,7 +433,7 @@ public class ArabicTransVerbIndirectToIndirectRule extends AbstractSimpleReplace
     AnalyzedTokenReadings current_token_reading = tokens[current_index];
 //    AnalyzedToken current_token = current_token_reading.getReadings().get(0);
 
-    while(tokRead_index<tokens.length && !is_wrong_preposition)
+    while(tokRead_index<max_length && !is_wrong_preposition)
     {
       current_token_reading = tokens[tokRead_index];
       tokIndex = 0;
