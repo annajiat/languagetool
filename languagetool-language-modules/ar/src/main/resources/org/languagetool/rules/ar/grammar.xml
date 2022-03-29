@@ -63,7 +63,8 @@ USA
     <!ENTITY forms_3indah "عندنا|عندك|عندكما|عندكم|عندكن|عنده|عندها|عندهما|عندهم|عندهن">
     <!ENTITY forms_dhidda "ضد|ضدنا|ضدك|ضدكما|ضدكم|ضدكن|ضده|ضدها|ضدهما|ضدهم|ضدهن">
     <!ENTITY forms_dhiddah "ضدنا|ضدك|ضدكما|ضدكم|ضدكن|ضده|ضدها|ضدهما|ضدهم|ضدهن">
-    <!ENTITY allah_names "الآخر|الحميد|الحفيظ|اللطيف|المحيي|الجامع|الباطن|الولي|المقسط|الغفار|الودود|الوهاب|المانع|الشكور|الحليم|المتكبر|الحسيب|الجليل|النافع|الصبور|النور|المصور|الفتاح|مالك|الحي|الغني|الحق|الواسع|الجبار|المغني|العظيم|الباقي|الوارث|الرزاق|المهيمن|الضار|المقيت|الهادي|المتعالي|الوالي|المقتدر|المعز|الأول|القادر|الصمد|السميع|المذل|الكريم|ذو|البصير|العلي|السلام|المميت|العدل|الرافع|التواب|القهار|القابض|المعيد|المبدئ|الرشيد|المؤخر|المؤمن|الجلال|الظاهر|القيوم|الخبير|الوكيل|العزيز|الرحيم|الواجد|البر|المقدم|البديع|الغفور|الرقيب|الأحد|القدوس|الباسط|الجميل|والإكرام|المجيد|الرحمن|الرؤوف|المجيب|القوي|الخالق|الواحد|المنتقم|الملك|المعطي|المحصي|الكبير|العفو|المتين|الباعث|الماجد|الخافض|الحكم|العليم|البارئ|الشهي">
+    <!ENTITY inna_sisters "إن|كأن|لعل|لكن|ليت|أن">
+     <!ENTITY allah_names "الآخر|الحميد|الحفيظ|اللطيف|المحيي|الجامع|الباطن|الولي|المقسط|الغفار|الودود|الوهاب|المانع|الشكور|الحليم|المتكبر|الحسيب|الجليل|النافع|الصبور|النور|المصور|الفتاح|مالك|الحي|الغني|الحق|الواسع|الجبار|المغني|العظيم|الباقي|الوارث|الرزاق|المهيمن|الضار|المقيت|الهادي|المتعالي|الوالي|المقتدر|المعز|الأول|القادر|الصمد|السميع|المذل|الكريم|ذو|البصير|العلي|السلام|المميت|العدل|الرافع|التواب|القهار|القابض|المعيد|المبدئ|الرشيد|المؤخر|المؤمن|الجلال|الظاهر|القيوم|الخبير|الوكيل|العزيز|الرحيم|الواجد|البر|المقدم|البديع|الغفور|الرقيب|الأحد|القدوس|الباسط|الجميل|والإكرام|المجيد|الرحمن|الرؤوف|المجيب|القوي|الخالق|الواحد|المنتقم|الملك|المعطي|المحصي|الكبير|العفو|المتين|الباعث|الماجد|الخافض|الحكم|العليم|البارئ|الشهي">
     <!ENTITY wrong_feminine "ذقن|رفات">
     <!ENTITY wrong_masculine "كتف|فخذ|ساق|ريح|بئر|يمين|ضبع|سن">
     <!ENTITY neutral_gender "بعض|من">
@@ -5746,6 +5747,7 @@ END RULEGROUP Masdar errors
     <example correction="ملغى" type="incorrect">مشروع <marker>لاغ</marker></example>
     <example type="correct"> مشروع ملغى  </example>
   </rule>
+ 
     </rulegroup>
 <!--
     END RULEGROUP common_errors_adjective
@@ -5810,6 +5812,26 @@ END RULEGROUP Masdar errors
         </message>
         <example correction="المُغلّى" type="incorrect">  الماء <marker>المغلي</marker> بالشراب</example>
       </rule>
+      
+         <rule id="adj_275_ghosn_yani3" name="غصن يانع">
+    <pattern>
+      <unify>
+        <feature id="definite"/>
+        <feature id="gender"/>
+        <feature id="case"/>
+        <feature id="number"/>
+        <marker>
+        <token inflected="yes">غصن</token>
+          <token inflected="yes" postag="N.*;.*;--." postag_regexp="yes">يانع</token>
+        </marker>
+      </unify>
+    </pattern>
+    <message> يقال "غصن غض"، ولأن اليانع وصف للثمر، أي الناضج
+        <suggestion><match no="1"/>&nbsp;<match no="2" regexp_match="يانع" regexp_replace="غض"/></suggestion>
+</message>
+    <example correction="غصن غض" type="incorrect"><marker>غصن يانع</marker></example>
+    <example type="correct"> غصن غض  </example>
+  </rule>
     </rulegroup>
 <!--
     END RULEGROUP wrong_adj_use
@@ -7579,17 +7601,63 @@ END RULEGROUP Masdar errors
 <!-- trans_438_dhkr_bAn ذَكَرَ بأن -->
   <rule id="trans_438_dhkr_bAn" name="ذكر بأن">
     <pattern>
-      <token inflected="yes" skip="1">ذَكَرَ</token>
-      <marker>
+      <marker><token inflected="yes" skip="1">ذَكَرَ</token>
+      
         <token regexp="yes">ب(&forms_anna;)</token>
       </marker>
     </pattern>
     <message>يفضل أن يقال:
-   <suggestion><match no="2" regexp_match="^ب" regexp_replace=""/></suggestion>
+   <suggestion><match no="1"/>&nbsp;<match no="2" regexp_match="^ب" regexp_replace=""/></suggestion>
 </message>
-    <example correction="أنه" type="incorrect"> ذكر <marker>بأنه</marker> مريض </example>
+    <example correction="ذكر أنه" type="incorrect"><marker>ذكر بأنه</marker> مريض </example>
     <example type="correct"> ذكرت أنه مريض </example>
   </rule>
+  <!-- trans_438_3alima_bAn عَلِمَ بأن -->
+  <rule id="trans_438_3alima_bAn" name="علم بأن">
+    <pattern> 
+    <marker>
+      <token inflected="yes" skip="1">عَلِمَ</token>
+
+        <token regexp="yes">ب(&forms_anna;)</token>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال:
+   <suggestion><match no="1"/>&nbsp;<match no="2" regexp_match="^ب" regexp_replace=""/></suggestion>
+</message>
+    <example correction="علم أنه" type="incorrect"><marker>علم بأنه</marker> مريض </example>
+    <example type="correct"> علمت أنه مريض </example>
+  </rule>
+   <!-- trans_438_3alima_bAn عَلِمَ بأن -->
+  <rule id="trans_438_3alima_Inna" name="علم إن">
+    <pattern> 
+    <marker>
+      <token inflected="yes" skip="1">عَلِمَ</token>
+
+        <token regexp="yes">&forms_inna;</token>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال:
+   <suggestion><match no="1"/>&nbsp;<match no="2" regexp_match="إن" regexp_replace="أن"/></suggestion>
+</message>
+    <example correction="علم أنه" type="incorrect"><marker>علم إنه</marker> مريض </example>
+    <example type="correct"> علمت أنه مريض </example>
+  </rule> 
+  <!-- trans_438_Qal_bAn قَالَ بأن -->
+  <rule id="trans_438_Qal_bAn" name="قال بأن">
+    <pattern> 
+    <marker>
+      <token inflected="yes" skip="1">قَالَ</token>
+
+        <token regexp="yes">ب(&forms_anna;)</token>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال:
+   <suggestion><match no="1"/>&nbsp;<match no="2" regexp_match="^ب" regexp_replace=""/></suggestion>
+</message>
+    <example correction="قال أنه" type="incorrect"><marker>قال بأنه</marker> مريض </example>
+    <example type="correct"> قالت أنه مريض </example>
+  </rule>
+ 
        <rule id="syntax_0515_raghba_li" name="رغبة ل">
                 <!--   حلة رغبة لاسم مصدر نكرة أو معرف بالإضافة 
                 مثل رغبة في كتابة الروايات
@@ -9047,6 +9115,73 @@ END RULEGROUP Masdar errors
         </message>
             <example correction="استعمالًا|استعمالَا"  type="incorrect">استعمله  <marker>استعمالا</marker></example>
 
+      </rule>
+      
+      
+      <rule id="grammar_0002_nawasikh_dual" name="إنّ وأخواتها للمبتدأ المثنى">
+        <antipattern> 
+            <!--       حالة المبتدأ المثنى المنصوب (اسم إنّ) أو الجمع المشابه له مثل فلاحين، كاتبين-->
+          <token regexp="yes">&inna_sisters;</token>
+          <token postag="N.*;.?2[IA].?;--.*|N.*;M[3]I.?;--.*" postag_regexp="yes"/>
+        </antipattern>
+        <antipattern>
+                        <!--       حالة المثنى المنصوب أو المجرور أو الجمع المشابه له عند اتصاله بضمير مثل فلاحيّ، كاتبيه-->
+
+          <token regexp="yes">&inna_sisters;</token>
+          <token postag="N.*;.?2..?;--H|N.*;M[3]I.?;--H" postag_regexp="yes"/>
+        </antipattern>
+        <pattern>
+            <marker>
+            <token regexp="yes">&inna_sisters;</token>
+            <token postag="N.*;.?2[^IA].?;--.*" postag_regexp="yes"/>
+          </marker>
+       </pattern>
+        <message> انتبه لأخوات إنّ التي تنصب المبتدأ، إذا كان مثنى ينصب بالياء
+
+       <suggestion><match no="1"/>&nbsp;<match no="2" postag="(N.*;[MF]2)([^IA])(.*)" postag_replace="$1A$3" postag_regexp="yes"/></suggestion>
+        </message>
+        <example correction="إن الغابرين" type="incorrect"> عجوزان <marker>إن الغابران</marker>.</example>
+        <example correction="كأن الكتابين" type="incorrect"> في الدرج <marker>كأن الكتابان</marker>.</example>
+        <example correction="لعل صفحتين" type="incorrect"> كافيتان <marker>لعل صفحتان</marker>.</example>
+        <example  type="correct">  إنّ صفحتين.</example>
+        <example  type="correct"> لكن الصفحتين.</example>
+        <example  type="correct">  كأن كتابيها.</example>
+        <example  type="correct"> لعل كتابي.</example>
+        <example  type="correct"> لكن والصفحتان.</example>
+      </rule>
+      
+               <rule id="grammar_0002_nawasikh_plural" name="إنّ وأخواتها للمبتدأ جمع المذكر السالم">
+        <antipattern> 
+            <!--       حالة  جمع المذكر السالم المنصوب أو المجرور أو المثنى المشابه المشابه له مثل فلاحين، كاتبين-->
+          <token regexp="yes">&inna_sisters;</token>
+          <token postag="N.*;.?2[IA].?;--.*|N.*;M[3]I.?;--.*" postag_regexp="yes"/>
+        </antipattern>
+        <antipattern>
+                        <!--       حالة  جمع المذكر السالم المنصوب أو المجرور أو المثنى المشابه المشابه له عند اتصاله بضمير مثل فلاحيّ، كاتبيه-->
+
+          <token regexp="yes">&inna_sisters;</token>
+          <token postag="N.*;.?2..?;--H|N.*;M[3]I.?;--H" postag_regexp="yes"/>
+        </antipattern>
+        <pattern>
+            <marker>
+            <token regexp="yes">&inna_sisters;</token>
+            <token postag="N.*;M3[^IA].?;--.*" postag_regexp="yes"/>
+          </marker>
+       </pattern>
+           <message> انتبه لأخوات إنّ التي تنصب المبتدأ، إذا كان جمعا مذكرا سالما ينصب بالياء
+
+       <suggestion><match no="1"/>&nbsp;<match no="2" postag="(N.*;[MF]3)([^IA])(.*)" postag_replace="$1I$3" postag_regexp="yes"/></suggestion>
+        </message>
+        <example correction="إن الغابرين" type="incorrect"> رحلوا <marker>إن الغابرون</marker>.</example>
+        <example correction="كأن العائدين" type="incorrect"> مرضى <marker>كأن العائدون</marker>.</example>
+        <example correction="لعل صادقين" type="incorrect"> فازوا <marker>لعل صادقون</marker>.</example>
+        <example  type="correct"> لعل صفحتين.كافيتان</example>
+        <example  type="correct"> ليت الصفحتين.كافيتان</example>
+        <example  type="correct"> كأن فلاحيها. شجعان</example>
+        <example  type="correct"> قال أنّ كاتبي. صادقان</example>
+        <example  type="correct">  لكن والمدرسون.</example>
+        <example correction="كأن مسافرين" type="incorrect"> وصلوا <marker>كأن مسافرون</marker>.</example>
+        <example correction="لعل المسافرين" type="incorrect"> وصلوا <marker>لعل المسافرون</marker>.</example>
       </rule>
                  </rulegroup>
          </category>
