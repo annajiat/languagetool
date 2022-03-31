@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" ?>
 <?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css"
         title="Easy editing stylesheet" ?>
@@ -26,10 +26,12 @@ USA
 -->
 
   <!DOCTYPE rules [
+    <!ENTITY UserRules SYSTEM "file://user-rules.xml">
     <!ENTITY apostrophe "['’`´‘]">
     <!ENTITY nbsp " ">
     <!ENTITY tanwin_fathatan "&#x064b;">
     <!ENTITY fatha "&#x064e;">
+    <!ENTITY shadda "&#x0651;">
     <!ENTITY alef "ا">
     <!ENTITY horof_jar "في|من|إلى|على|عن|مع|وفي|ومن|وإلى|وعلى|وعن|ومع">
     <!ENTITY unbreak_proclitics "ال">
@@ -7312,6 +7314,220 @@ END RULEGROUP Masdar errors
             <example > ما زرته قط</example>
 
       </rule>
+      
+                    <rule id="syntax_153_Illa_faqat" name="إلا.. فقط">
+          <!--      فاستخدام "فقط" بعد الحصر بأدوات الاستثناء حشو لا فائدة منه، فأصل فقط هو "قط" وهي اسم فعل بمعنى "لا غير" وتضاف إليها الفاء تزيينًا للفظ، فإذا قلنا: سافر مرة فقط، عنينا مرة لا غير
+-->
+        <pattern>
+                   <marker>  
+                       <token skip="3">إلا</token>
+                         <token>فقط</token>
+          </marker>
+        </pattern>
+        <message>استخدام "فقط" بعد الحصر بأدوات الاستثناء حشو لا فائدة منه،
+<!-- : <suggestion><match no="1"/>&nbsp;<match no="2" include_skipped="all"/></suggestion> -->
+: <suggestion><match no="1" include_skipped="all"/></suggestion>
+
+        </message>
+            <example correction="إلا طالبان"  type="incorrect"> لم ينجح <marker>إلا طالبان فقط</marker></example>
+            <example correction="إلا عشرون طالبا"  type="incorrect"> لم ينجح <marker>إلا عشرون طالبا فقط</marker></example>
+            <example correction="إلا عشرون طالب مدرسة"  type="incorrect"> لم ينجح <marker>إلا عشرون طالب مدرسة فقط</marker></example>
+            <example >لم ينجح إلا طالبان</example>
+
+      </rule>
+                         <rule id="syntax_132_in_maa" name="إن ما">
+          <!--     لأنه تحذف النون من إن الشرطية إذا جاء بعدها ما الزائدة، نحو قوله تعالى: "إمّا يبلغنّ عندك الكبر" وتحذف النون أيضا إذا جاء بعدها لا النافية، نحو: إلا تثبتوا تُهزموا
+-->
+        <pattern>
+                   <marker>  
+                       <token regexp="yes">إن|فإن|وإن</token>
+                         <token regexp="yes">ما|لا</token>
+                        <token postag="V.*;.*f..;.*" postag_regexp="yes"/>
+          </marker>
+        </pattern>
+        <message>حذف النون من إن الشرطية إذا جاء بعدها ما الزائدة، نحو قوله تعالى: "إمّا يبلغنّ عندك الكبر"
+: <suggestion><match no="1"  regexp_match="إن" regexp_replace="إ"/><match no="2"  regexp_match="(.)ا" regexp_replace="$1&shadda;&alef;"/>&nbsp;<match no="3"/></suggestion>
+
+        </message>
+            <example correction="فإمّا تَرَيِنّ"  type="incorrect"> <marker>فإن ما تَرَيِنّ</marker> من البشر أحدًا </example>
+            <example correction="فإلّا تثبتوا"  type="incorrect"> <marker>فإن لا تثبتوا</marker> تهزموا </example>
+            <example >إمّا يبلغنّ عندك الكبر</example>
+                        <example >إلا تثبتوا تُهزموا</example>
+
+
+      </rule>
+                     
+      <rule id="syntax_125_in_maa" name="فأما ، وأما">
+          <!--     "إما" حرف لتعليق الحكم بأحد الشيئين، وتلازم التكرار
+
+-->
+        <pattern>
+                   <marker>  
+                       <token regexp="yes" skip="3">وأما|أما|فأما</token>
+                         <token>وأما</token>
+                    
+          </marker>
+        </pattern>
+        <message> "إما" حرف لتعليق الحكم بأحد الشيئين، وتلازم التكرار
+            
+: <suggestion><match no="1"  regexp_match="أما" regexp_replace="إمّا" include_skipped="all"/>&nbsp;وإمّا</suggestion>
+
+        </message>
+            <example correction="فإمّا أن تحفظه، وإمّا"  type="incorrect">هذا حقك،  <marker>فأما أن تحفظه، وأما</marker> أن تضيعه</example>
+            <example >هذا حقك، فإما أن تحفظه، وإما أن تضيعه</example>
+
+
+
+      </rule>
+   <rulegroup id="syntax_125_mobtadaa_nakira" name="مبتدأ نكرة بعده حرف جر">
+      <rule id="syntax_125_mobtadaa_nakira_1" name="مبتدأ نكرة بعده حرف جر">
+          <!--   لأنه لا يجوز الابتداء بنكرة، فيتقدم الخبر شبه الجملة مثلا "كتابان عندك" تصبح "عندك كتابان" ويتأخر المبتدأ "كتابان"
+
+*** الحالة الأولى: بداية جملة،  كلمة نكرة،  حرف جر متصل بضمير : كتاب عندك
+الحالة الثانية: بداية جملة، كلمة نكرة، حرف جر، اسم مجرور: كتاب في البيت
+ الحالة الثالثة: بداية جملة، كلمة نكرة، حرف جر متصل باسم مجرور: كتاب بالبيت
+-->
+        <pattern>
+                   
+                       <token postag="SENT_START"/> <marker> 
+                       <token postag="N.*;.*;---" postag_regexp="yes"/>
+                       <token postag="PRD.*;.*;.*" postag_regexp="yes"/>
+          </marker>
+        </pattern>
+        <message>لا يجوز الابتداء بنكرة، فيتقدم الخبر شبه الجملة مثلا "كتابان عندك" تصبح "عندك كتابان"
+            
+: <suggestion><match no="3"/>&nbsp;<match no="2"/></suggestion>
+
+        </message>
+            <example correction="عندك كتابان"  type="incorrect"><marker>كتابان عندك</marker></example>
+            <example correction="عندك كتابان"  type="incorrect">قال أحمد. <marker>كتابان عندك</marker></example>
+            <example  type="correct">قال أحمد, كتابان عندك</example>
+            <example  type="correct">قال أحمد: كتابان عندك</example>
+            <example >عندك كتابان</example>
+      </rule>
+      
+      
+         <rule id="syntax_125_mobtadaa_nakira_2" name="مبتدأ نكرة بعده حرف جر">
+          <!--   لأنه لا يجوز الابتداء بنكرة، فيتقدم الخبر شبه الجملة مثلا "كتابان عندك" تصبح "عندك كتابان" ويتأخر المبتدأ "كتابان"
+
+الحالة: بداية جملة
+        كلمة نكرة
+          حرف جر متصل بضمير : كتاب عندك
+****الحالة الثانية: بداية جملة، كلمة نكرة، حرف جر، اسم مجرور (معرفة): كتاب في البيت
+ الحالة الثالثة: بداية جملة، كلمة نكرة، حرف جر متصل باسم مجرور: كتاب بالبيت
+-->
+        <pattern>
+                   
+                       <token postag="SENT_START"/> <marker> 
+                       <token postag="N.*;.*;---" postag_regexp="yes"/>
+                       <token postag="PR-;.*;---" postag_regexp="yes"/>
+                       <token postag="N.*;.*;--[LH]" postag_regexp="yes"/>
+          </marker>
+        </pattern>
+        <message>لا يجوز الابتداء بنكرة، فيتقدم الخبر شبه الجملة مثلا "كتاب  في البيت" تصبح "في البيت كتاب"
+            
+: <suggestion><match no="3"/>&nbsp;<match no="4"/>&nbsp;<match no="2"/></suggestion>
+
+        </message>
+            <example correction="في البيت كتاب"  type="incorrect"><marker>كتاب في البيت</marker></example>
+            <example correction="في بيتنا كتاب"  type="incorrect">قال أحمد. <marker>كتاب في بيتنا</marker></example>
+            <example  type="correct">قال أحمد, كتاب في بيتنا</example>
+            <example  type="correct">قال أحمد: كتاب في المكتبة</example>
+            <example >في المدرسة رجل</example>
+      </rule>
+      
+         <rule id="syntax_125_mobtadaa_nakira_5" name="مبتدأ نكرة بعده حرف جر">
+          <!--   لأنه لا يجوز الابتداء بنكرة، فيتقدم الخبر شبه الجملة مثلا "كتابان عندك" تصبح "عندك كتابان" ويتأخر المبتدأ "كتابان"
+
+الحالة: بداية جملة
+        كلمة نكرة
+          حرف جر متصل بضمير : كتاب عندك
+****الحالة الثانية: بداية جملة، كلمة نكرة، حرف جر، اسم مجرور (معرفة): كتاب في البيت
+ ****الحالة الثانية مكرر: بداية جملة، كلمة نكرة، حرف جر، اسم مجرور (نكرة مضاف إليه): كتاب في البيت
+ الحالة الثالثة: بداية جملة، كلمة نكرة، حرف جر متصل باسم مجرور: كتاب بالبيت
+-->
+        <pattern>
+                   
+                       <token postag="SENT_START"/> <marker> 
+                       <token postag="N.*;.*;---" postag_regexp="yes"/>
+                       <token postag="PR-;.*;---" postag_regexp="yes"/>
+                       <token postag="N.*;.*;---" postag_regexp="yes"/>
+                       <token postag="N.*;.*;--[LH]" postag_regexp="yes"/>
+          </marker>
+        </pattern>
+        <message>لا يجوز الابتداء بنكرة، فيتقدم الخبر شبه الجملة مثلا "كتاب  في بيت الولد" تصبح "في بيت الولد كتاب"
+            
+: <suggestion><match no="3"/>&nbsp;<match no="4"/>&nbsp;<match no="5"/>&nbsp;<match no="2"/></suggestion>
+
+        </message>
+            <example correction="في بيت الولد كتاب"  type="incorrect"><marker>كتاب في بيت الولد</marker></example>
+            <example correction="في رواق بيتنا مزهرية"  type="incorrect">قال أحمد. <marker>مزهرية في رواق بيتنا</marker></example>
+            <example  type="correct">قال أحمد, كتاب في بيت والدنا</example>
+            <example  type="correct">قال أحمد: كتاب في مكتبة الحي</example>
+            <example >من أهل الزوجة رجل</example>
+      </rule>
+      
+         <rule id="syntax_125_mobtadaa_nakira_3" name="مبتدأ نكرة بعده حرف جر">
+          <!--   لأنه لا يجوز الابتداء بنكرة، فيتقدم الخبر شبه الجملة مثلا "كتابان عندك" تصبح "عندك كتابان" ويتأخر المبتدأ "كتابان"
+
+الحالة: بداية جملة
+        كلمة نكرة
+          حرف جر متصل بضمير : كتاب عندك
+الحالة الثانية: بداية جملة، كلمة نكرة، حرف جر، اسم مجرور (معرفة): كتاب في البيت
+ **** الحالة الثالثة: بداية جملة، كلمة نكرة، حرف جر متصل باسم مجرور: كتاب بالبيت
+-->
+        <pattern>
+                   
+                       <token postag="SENT_START"/> <marker> 
+                       <token postag="N.*;.*;---" postag_regexp="yes"/>
+                       <token postag="N.*;.*;-[^-][LH]" postag_regexp="yes"/>
+          </marker>
+        </pattern>
+        <message>لا يجوز الابتداء بنكرة، فيتقدم الخبر شبه الجملة مثلا "كتاب  بالبيت" تصبح "بالبيت كتاب"
+            
+: <suggestion><match no="3"/>&nbsp;<match no="2"/></suggestion>
+
+        </message>
+            <example correction="بالبيت كتاب"  type="incorrect"><marker>كتاب بالبيت</marker></example>
+            <example correction="لبيتنا رجل"  type="incorrect">قال أحمد. <marker>رجل لبيتنا</marker></example>
+            <example correction="كالأسد شجاع"  type="incorrect">قال أحمد. <marker>شجاع كالأسد</marker></example>
+            <example  type="correct">قال أحمد, كتاب لمدرستنا</example>
+            <example  type="correct">قال أحمد: كتاب في المكتبة</example>
+            <example >للمدرسة رجل</example>
+      </rule>
+         <rule id="syntax_125_mobtadaa_nakira_4" name="مبتدأ نكرة بعده حرف جر">
+          <!--   لأنه لا يجوز الابتداء بنكرة، فيتقدم الخبر شبه الجملة مثلا "كتابان عندك" تصبح "عندك كتابان" ويتأخر المبتدأ "كتابان"
+
+الحالة: بداية جملة
+        كلمة نكرة
+          حرف جر متصل بضمير : كتاب عندك
+الحالة الثانية: بداية جملة، كلمة نكرة، حرف جر، اسم مجرور (معرفة): كتاب في البيت
+ **** الحالة الثالثة: بداية جملة، كلمة نكرة، حرف جر متصل باسم مجرور: كتاب بالبيت
+ **** الحالة الثالثة مكرر: بداية جملة، كلمة نكرة، حرف جر متصل باسم مجرور نكرة + اسم معرفة: كتاب ببيت العالم
+-->
+        <pattern>
+                   
+                       <token postag="SENT_START"/> <marker> 
+                       <token postag="N.*;.*;---" postag_regexp="yes"/>
+                       <token postag="N.*;.*;-[^-]-" postag_regexp="yes"/>
+                       <token postag="N.*;.*;--[LH]" postag_regexp="yes"/>
+          </marker>
+        </pattern>
+        <message>لا يجوز الابتداء بنكرة، فيتقدم الخبر شبه الجملة مثلا "كتاب ببيت العالم" تصبح  "ببيت  العالم كتاب"
+            
+: <suggestion><match no="3"/>&nbsp;<match no="4"/>&nbsp;<match no="2"/></suggestion>
+
+        </message>
+            <example correction="ببيت العالم كتاب"  type="incorrect"><marker>كتاب ببيت العالم</marker></example>
+            <example correction="لبيت عالمنا رجل"  type="incorrect">قال أحمد. <marker>رجل لبيت عالمنا</marker></example>
+            <example correction="كشجاعة الأسد شجاع"  type="incorrect">قال أحمد. <marker>شجاع كشجاعة الأسد</marker></example>
+            <example  type="correct">قال أحمد, كتاب لمدرسة حينا</example>
+            <example  type="correct">قال أحمد: كتاب في درج المكتب</example>
+            <example >في مدرسة  الحي رجل</example>
+      </rule>
+      </rulegroup>
+      
+<!--       &UserRules; -->
          </category>
 </rules>
 
