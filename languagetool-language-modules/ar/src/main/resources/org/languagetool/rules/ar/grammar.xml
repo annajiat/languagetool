@@ -667,7 +667,31 @@ USA
         <example type="correct"><marker>لا يجري</marker></example>
         <example correction="لا تخافوا" type="incorrect"><marker>لا تخافون</marker></example>
       </rule>
+  <!-- grammar_0011_notjazem_lam_nafia  حروف غير جازمة لا النافية-->
+      <rule id="grammar_0011_notjazem_lam_nafia" name="حروف غير جازمة لا النافية">
+<!--      إذا جاء بعد لا، فعل مضارع مجزوم في المخاطب فهي ناهية،                    -->
+        <antipattern>
+ <!--  إذا كان الضمير المسند إليه غير مخاطب، وكان الفعل مجزوما فهو خطأ         -->
+            <token>لا</token>
+            <token postag="V..;..Y.f.0;---" postag_regexp="yes"/>
+        </antipattern>
+        <pattern>
+          <marker>
+            <token>لا</token>
+            <token postag="V..;..[^Y].f.0;---" postag_regexp="yes"/>
+          </marker>
+        </pattern>
+        <message>
+الفرق بين لا الناهية ولا النافية، لا الناهية تأتي مع ضمائر المخاطب فقط. لذا فإن لا النافية لا تجزم الفعل المضارع أتقصد؟
+        
+        <suggestion><match no="1"/>&nbsp;<match no="2" postag="(V..;....f.).*" postag_replace="$1U;---" postag_regexp="yes"/></suggestion>        
 
+        </message>
+
+        <example type="correct"><marker>لا يجري</marker></example>
+        <example correction="لا يخافون" type="incorrect"><marker>لا يخافوا</marker></example>
+        <example type="correct">لا تخافوا</example>
+      </rule>
     </rulegroup>
 <!--
   END RULEGROUP VerbalOperator
@@ -3927,6 +3951,33 @@ END RULEGROUP Masdar errors
         <example correction="ثلاث"><marker>ثلاثة</marker> طاولات</example>
         <example correction="أربع"><marker>أربعة</marker> طاولات</example>
       </rule>
+            <rule id="number_one_feminin" name="أحد وإحدى-مؤنث">
+        <pattern>
+          <marker>
+            <token>أحد</token>
+          </marker>
+          <token postag="N.*;F[34]--;--." postag_regexp="yes"/>
+        </pattern>
+        <message>أتقصد <suggestion>إحدى</suggestion>؟
+هل تقصد؟
+</message>
+        <example correction="إحدى" type="incorrect"><marker>أحد</marker> الطاولات</example>
+        <example correction="إحدى" type="incorrect"><marker>أحد</marker> الشركات</example>
+        <example type="correct">إحدى الشركات</example>
+      </rule>
+                  <rule id="number_one_masculine" name="أحد وإحدى-مذكر">
+        <pattern>
+          <marker>
+            <token>إحدى</token>
+          </marker>
+          <token postag="N.*;M[34]--;--." postag_regexp="yes"/>
+        </pattern>
+        <message>أتقصد <suggestion>أحد</suggestion>؟
+</message>
+        <example correction="أحد" type="incorrect"><marker>إحدى</marker> المسافرون</example>
+        <example correction="أحد" type="incorrect"><marker>إحدى</marker> مدرسون</example>
+        <example type="correct">أحد الأمور</example>
+      </rule>
       <rule id="number_under_10_masculine" name="الأعداد المفردة المذكرة">
         <pattern>
           <marker>
@@ -5018,6 +5069,26 @@ END RULEGROUP Masdar errors
         لأن ككل لا أصل لها في اللغة، وهي ترجمة سيئة لعبارة as a whole.
         </message>
         <example correction="كليًّا">‎  عند النظر إلى الموضوع    <marker>ككل</marker></example>
+      </rule>
+      
+           <rule id="worduse_0076_saifia" name="الصيفية">
+        <pattern>
+            <token inflected="yes">قَضَى</token>
+          <marker>
+            <token regexp="yes">صيفية|الصيفية</token>
+          </marker>
+        </pattern>
+        <message>
+        ويفضل أن يقال
+        <suggestion>الصيفة</suggestion>
+        <suggestion>الصيف</suggestion>
+
+        وذلك لأن الصيفية منسوبة إلى الصيف
+
+        </message>
+        <example correction="الصيفة|الصيف">‎ أقضي <marker>الصيفية</marker>  في شواطئ تونس</example>
+        <example>‎ أقضي الصيفة في شواطئ تونس</example>
+        <example>‎ يقضي الصيف في شواطئ تونس</example>
       </rule>
 
     </rulegroup>
@@ -6253,7 +6324,7 @@ END RULEGROUP Masdar errors
       </marker>
     </pattern>
     <message>يفضل أن يقال:
-   <suggestion><match no="1">&nbsp;<match no="2" regexp_match="^ب" regexp_replace=""/></suggestion>
+   <suggestion><match no="1"/>&nbsp;<match no="2" regexp_match="^ب" regexp_replace=""/></suggestion>
 </message>
     <example correction="زعم أنه" type="incorrect"><marker>زعم بأنه</marker> صادق </example>
     <example type="correct"> زعم أنه صادق </example>
@@ -6268,7 +6339,7 @@ END RULEGROUP Masdar errors
       </marker>
     </pattern>
     <message>يفضل أن يقال:
-   <suggestion><match no="1">&nbsp;<match no="2" regexp_match="ب" regexp_replace=""/></suggestion>
+   <suggestion><match no="1"/>&nbsp;<match no="2" regexp_match="ب" regexp_replace=""/></suggestion>
 </message>
     <example correction="ظهر أنه" type="incorrect"><marker>ظهر بأنه</marker> مريض </example>
     <example type="correct"> ظَهَرَ أنّه مريض </example>
@@ -7222,6 +7293,25 @@ END RULEGROUP Masdar errors
         <example correction="لعل المسافرين" type="incorrect"> وصلوا <marker>لعل المسافرون</marker>.</example>
       </rule>
                  </rulegroup>
+       
+                 
+                 <rule id="syntax_154_AbaDAn_1" name="أبدًا">
+          <!--      تستعمل أبدا للمضارع المستقبل فقط-->
+        <pattern>
+            <token>ما</token>
+             <token postag="V.*;.*p..;--." postag_regexp="yes"/>
+          <marker>
+              <token>أبدا</token>
+          </marker>
+        </pattern>
+        <message>لأن "أبدًا" ظرف زمان للمستقبل، فلا يأتي مع الماضي
+: <suggestion>قَطُّ</suggestion>
+
+        </message>
+            <example correction="قَطُّ"  type="incorrect"> ما زرته <marker>أبدا</marker></example>
+            <example > ما زرته قط</example>
+
+      </rule>
          </category>
 </rules>
 
