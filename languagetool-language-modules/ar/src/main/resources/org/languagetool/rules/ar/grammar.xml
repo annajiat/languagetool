@@ -77,6 +77,13 @@ USA
    <!ENTITY months_solar "&months_solar_syriac;|&months_solar_english_french;">
     <!ENTITY seasons_years "صيف|ربيع|شتاء|خريف">
     <!ENTITY week_days "السبت|الأحد|الإثنين|الاثنين|الثلاثاء|الأربعاء|الخميس|الجمعة|سبت|أحد|اثنين|ثلاثاء|أربعاء|خميس|جمعة">
+    <!ENTITY periods  "ساعة|ساعتين|ساعات|يوم|يومين|أيام|ليلة|ليلتين|ليال|شهر|شهرين|شهور|أشهر|عام|عامين|أعوام|فترة|مدة|برهة|دقيقة|دقيقتين|دقائق|أسبوع|أسبوعين|أسابيع|سنوات|سنتين|سنة">
+    <!ENTITY periods_need_tanwin_nasb  "يوم|أيام|شهر|شهور|أشهر|عام|أعوام|أسبوع">
+    <!ENTITY periods_no_need_tanwin_nasb  "ساعة|ساعتين|ساعات|يومين|ليلة|ليلتين|ليال|شهرين|عامين|فترة|مدة|برهة|دقيقة|دقيقتين|دقائق|اسبوعين|أسابيع|سنوات|سنتين|سنة">
+     <!ENTITY number_units "ثلاث|أربع|خمس|ست|سبع|تسع|ثماني|اثنين|واحد|ثلاثة|أربعة|خمسة|ستة|سبعة|ثمانية|تسعة">
+     <!ENTITY number_decades_raf3 "عشرون|ثلاثون|أربعون|خمسون|ستون|سبعون|ثمانون|تسعون">
+     <!ENTITY number_decades_jar "عشرين|ثلاثين|أربعين|خمسين|ستين|سبعين|ثمانين|تسعين">
+     <!ENTITY number_2_99_jar "(&number_units;)|(&number_decades_jar;)|(&number_units;)&nbsp; و(&number_decades_jar;)">
     ]>
 
 <rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -7215,6 +7222,9 @@ END RULEGROUP Masdar errors
          <antipattern> 
         <token regexp="yes">.*&alef;(&tanwin_fathatan;)$|.*(&tanwin_fathatan;)&alef;$|.*(&fatha;)&alef;$</token>
         </antipattern>
+         <antipattern> 
+        <token postag="V.*" postag_regexp="yes"/>
+        </antipattern>
         <pattern>
           <marker>
               <token postag="N.*;M1[A].?;.?-n" postag_regexp="yes"/>
@@ -7225,6 +7235,7 @@ END RULEGROUP Masdar errors
 : <suggestion><match no="1" regexp_match="&alef;$" regexp_replace="&fatha;&alef;"/></suggestion>
         </message>
             <example correction="استعمالًا|استعمالَا"  type="incorrect">استعمله  <marker>استعمالا</marker></example>
+            <example type="correct">فعلوا</example>
 
       </rule>
       
@@ -7314,6 +7325,41 @@ END RULEGROUP Masdar errors
             <example > ما زرته قط</example>
 
       </rule>
+                       <rule id="syntax_1111_La_fa3ala_1" name="لا فَعَل في الماضي">
+          <!--     
+                           لأنه عند نفي الفعل الماضي يُنفى بـ "ما" ولا يصح استخدام "لا" إلا إذا تكررت، مثل قوله تعالى: "فلا صدق ولا صلى ولكن كذب وتولى" أو كانت معطوفة على نفي سابق، مثل: "ما جاء الضيف ولا اعتذر" وإذا نُفي في غير هاتين الحالتين فإنه يفيد الدعاء، كما في: لا زال فضلُك غامرًا 
+
+                           النفي في الماضي بما
+                           الحالات الممنوعة: 1- التي فيها اسم
+                           2- المعطوفة
+                           -->
+        <antipattern> 
+            <token regexp="yes">لا|ولا</token>
+             <token postag="N.*" postag_regexp="yes"/>
+        </antipattern>
+        <antipattern> 
+            <token regexp="yes">فلا|لا|ولا</token>
+             <token postag="V.*;.*p..;--." postag_regexp="yes"/>
+            <token regexp="yes">لا|ولا</token>
+             <token postag="V.*;.*p..;--." postag_regexp="yes"/>
+        </antipattern>
+        <pattern> <marker>
+            <token>لا</token>
+             <token postag="V.*;.*p..;--." postag_regexp="yes"/>
+          </marker>
+        </pattern>
+        <message>لأنه عند نفي الفعل الماضي يُنفى بـ "ما" ولا يصح استخدام "لا" إلا إذا تكررت، مثل قوله تعالى: "فلا صدق ولا صلى ولكن كذب وتولى" أو كانت معطوفة على نفي سابق، مثل: "ما جاء الضيف ولا اعتذر" وإذا نُفي في غير هاتين الحالتين فإنه يفيد الدعاء، كما في: لا زال فضلُك غامرًا 
+            : <suggestion>ما&nbsp;<match no="2"/></suggestion>
+
+        </message>
+            <example correction="ما جاء"  type="incorrect"> ما زرته <marker>لا جاء</marker> أحمد</example>
+            <example >لا ضرب ظهرك</example>
+            <example >فلا صدق ولا صلى </example>
+            <example >لا صدق ولا صلى </example>
+            <example >"ما جاء الضيف ولا اعتذر </example>
+
+      </rule>
+      
       
                     <rule id="syntax_153_Illa_faqat" name="إلا.. فقط">
           <!--      فاستخدام "فقط" بعد الحصر بأدوات الاستثناء حشو لا فائدة منه، فأصل فقط هو "قط" وهي اسم فعل بمعنى "لا غير" وتضاف إليها الفاء تزيينًا للفظ، فإذا قلنا: سافر مرة فقط، عنينا مرة لا غير
@@ -7527,7 +7573,578 @@ END RULEGROUP Masdar errors
       </rule>
       </rulegroup>
       
+      
+         <rule id="syntax_158_3n_maa" name="عن ما/من ما">
+          <!--     فـ "ما" الاسم الموصول إذا سُبق بـ "عن" حرف الجر، فإنهما يدغمان معًا "عمّا"
+             الأمر نفسه مع "ما" الزائدة غير الكافّة بـ "من" و"عن"
+             الحالة: عن + ما + فعل غير معطوف
+-->
+        <pattern>
+                   <marker>  
+                       <token regexp="yes">عن|وعن|من|ومن</token>
+                         <token>ما</token>
+                         <token postag="V.*;.*;-.." postag_regexp="yes"/>
+          </marker>
+        </pattern>
+        <message>.
+            "ما" الاسم الموصول إذا سُبق بـ "عن" حرف الجر، فإنهما يدغمان معًا "عمّا"، الأمر نفسه مع "ما" الزائدة غير الكافّة بـ "من" و"عن"
+
+            
+: <suggestion><match no="1" regexp_match="ن" regexp_replace=""/>مّا&nbsp;<match no="3"/></suggestion>
+
+        </message>
+            <example correction="عمّا أصابك"  type="incorrect">يسأل  <marker>عن ما أصابك</marker></example>
+            <example correction="عمّا سألت"  type="incorrect">بحثت  <marker>عن ما سألت</marker> عنه</example>
+            <example correction="ممّا أصابك"  type="incorrect">سلمت <marker>من ما أصابك</marker> عنه</example>
+            <example>بحثت عمّا تسأل عنه</example>
+            <example>بحثت عن ما وتسأل عنه</example>
+            <example>سألت عمّا أصابك</example>
+            <example>سلمت ممّا أصابك</example>
+      </rule>
+      
+       
+         <rule id="syntax_216_madama_sent_start" name="مادام في أول الكلام">
+          <!--  النمط	مادام .. فإنّ
+المقترح	إن.. مادام
+الشرح	لأن مادام لا تأتي في أول الكلام
+خطأ	            مادام الله معنا، فإن النصر لنا  
+صواب	إن النصر لنا مادام الله معنا 
+
+-->
+        <pattern>
+                   
+                       <token postag="SENT_START"/> <marker> 
+                       <token skip="4">مادام</token>
+                       <token>فإن</token>
+          </marker>
+        </pattern>
+        <message>ربما تحتاج الجملة إلى إعادة صياغة لأن "مادام" لا تأتي في أول الكلام، نقول: "إنّ النصر لنا مادام الله معنا"
+        </message>
+            <example type="incorrect"><marker>مادام الله معنا، فإن</marker>  النصر لنا  </example>
+            <example >إن النصر لنا مادام الله معنا </example>
+      </rule>
+      
+         <rule id="syntax_275_mobtada_mansoub_sent_start" name="مبتدأ منصوب">
+          <!--  النمط	مبتدأ في أول الكلام منصوب
+المقترح	الرفع
+الشرح	المبتدأ لا يكون منصوبا في بداية الكلام
+خطأ	            الفلاحين مشغولون, بناءك جاهز  
+صواب	الفلاحون مشغولون, بناؤك جاهز
+
+-->
+        <antipattern>
+                    <token postag="SENT_START"/> 
+                    <token postag="N.*;..[U-].;--." postag_regexp="yes"/>
+        </antipattern>
+        <pattern>
+                   
+                       <token postag="SENT_START"/> <marker> 
+                       <token postag="N.*;..[AI].;--." postag_regexp="yes"/>
+          </marker>
+        </pattern>
+        <message>المبتدأ لا يكون منصوبا في بداية الكلام"
+            : <suggestion><match no="2" postag="(N.*;..)([AI])(.*)" postag_replace="$1U$3"  postag_regexp="yes"/></suggestion>
+
+        </message>
+            <example correction="الفلاحان" type="incorrect"><marker>الفلاحين</marker> مشغولون </example>
+<!--             <example correction="بناؤك" type="incorrect"><marker>بناءك</marker> جاهز</example> -->
+            <example>بناؤك جاهز </example>
+            <example>الفلاحون نشطون </example>
+      </rule>
+      
+      
+         <rulegroup id="syntax_206_ikhtar" name="اختار بين">
+         <rule id="syntax_206_ikhtar_1" name="اختار بين">
+          <!--  النمط	الفعل اختار لا يأتي مع بين
+المقترح	
+             الشرح	إذ استعمال "بين" مع الاختيار غير معروف 
+
+خطأ	          اختر بين هذين الأمرين
+صواب		اختر أحد الأمرين 
+
+-->
+        <pattern>
+                <marker>
+<!--                     <or> -->
+                    <token inflected="yes"  postag="V51;.*;--." postag_regexp="yes">اِخْتَارَ</token>
+<!--                     <token inflected="yes">اختيار</token> -->
+<!--                 </or> -->
+            <token postag="NJ-;.*;--." postag_regexp="yes" inflected="yes">بين</token>
+          </marker>
+        </pattern>
+        <message>لا تستعمل "بين " مع الاختيار، هذا غير معروف"
+ <suggestion><match no="1"/>&nbsp;أحد</suggestion>
+ <suggestion><match no="1"/>&nbsp;إحدى</suggestion>
+
+        </message>
+            <example correction="اختر أحد|اختر إحدى" type="incorrect"><marker>اختر بين</marker> هذين الأمرين </example>
+<!--             <example correction="الاختيار أحد" type="incorrect">عليك <marker>الاختيار بين</marker> هذين الأمرين </example> -->
+            <example>اختر أحد الأمرين </example>
+      </rule>
+        
+      </rulegroup>
+      
+      
+         <rule id="syntax_456_bynama_sent_start" name="بينما في أول الكلام">
+          <!--  النمط	مادام .. فإنّ
+المقترح	إعادة صياغة الجملة
+الشرح	بينما لها الصدارة، أي يجب أن تكون في بدء الجملة
+
+خطأ	            تحرك القطار، بينا أو بينما كان الركاب يهمّون بالركوب
+أحسن إليك، بينما أسأت إليه 
+رأيته في النادي، بينما كان يهمّ بالخروج
+ 
+صواب	بينا أو بينما كان الركاب يهمّون بالركوب، تحرك القطار
+أحسن إليك، وأنت أسأت إليه، أو: في حين أسأت إليه 
+رأيته في النادي، حين كان يهمّ بالخروج
+
+
+-->
+        <pattern>
+                   
+                       <token postag="SENT_START" negate_pos="yes"/> <marker> 
+                       <token>بينما</token>
+          </marker>
+        </pattern>
+        <message>ربما تحتاج الجملة إلى إعادة صياغة لأن بينما لها الصدارة، أي يجب أن تكون في بدء الجملة"
+         <suggestion/>
+ <suggestion>حين</suggestion>
+ <suggestion>في حين</suggestion>
+ <suggestion>و</suggestion>
+ <suggestion>مع أنّ</suggestion>
+        </message>
+            <example type="incorrect">أحسن إليك، <marker>بينما</marker> أسأت إليه</example>
+            <example>بينما كان الركاب يهمّون بالركوب، تحرك القطار</example>
+      </rule>
 <!--       &UserRules; -->
-         </category>
+
+           <rulegroup id="syntax_1528_byna_wa_bayna" name="بين وبين">
+           <rule id="syntax_1528_byna_wa_bayna_1" name="بين وبين">
+          <!--     لا داعي لتكرار "بين" لأن التكرار لا يعطي معنى جديدًا	
+               الخطأ: جلس بين محمد وبين علي
+               الصواب: جلس بين محمد وعلي
+الحالة الأولى: بين فلان وفلان
+               الحالة الثانية: بينه وبين فلان
+               الثالثة: بين فلان وبينه (كل الضمائر)
+               الحالات الممنوعة هنا : بين+ضمير وبين+ضمير، لصعوبة توليد المقترحات لكل حالة، لذا ستمثل في ملف replaces.txt
+               بينه وبينها => بينهما
+               بينك وبينها => بينكما
+               بيننا وبينهم => بيننا
+               
+
+-->
+     <antipattern>
+                       <token postag="NJ-;M1..;.-H"  postag_regexp="yes"  inflected="yes" skip="3">بين</token>
+                       <token postag="NJ-;M1..;W-H"  postag_regexp="yes"  inflected="yes">بين</token>
+        </antipattern>
+        <pattern>
+                   <marker>  
+                       <token postag="NM-;M1..;--[H-]"  postag_regexp="yes" inflected="yes" skip="3">بين</token>
+                       <token postag="NM-;M1..;W-[H-]"  postag_regexp="yes" inflected="yes">بين</token>
+          </marker>
+        </pattern>
+        <message>لا داعي لتكرار "بين" لأن تكرارها لا يعطي معنى جديدًا	
+            
+: <suggestion><match no="1"  include_skipped="all"/>&nbsp;و</suggestion>
+
+        </message>
+            <example correction="بين محمد و"  type="incorrect">جلس  <marker>بين محمد وبين</marker> علي </example>
+            <example correction="بينه و"  type="incorrect">حال  <marker>بينه وبين</marker> علي</example>
+            <example >حال بين أحمد وعلي</example>
+
+
+
+      </rule>
+           <rule id="syntax_1528_byna_wa_bayna_2" name="بيني وبينه">
+          <!--     لا داعي لتكرار "بين" لأن التكرار لا يعطي معنى جديدًا	
+               الخطأ: جلس بين محمد وبين علي
+               الصواب: جلس بين محمد وعلي
+الحالة الأولى: بين فلان وفلان
+               الحالة الثانية: بينه وبين فلان
+               الثالثة: بين فلان وبينه (كل الضمائر)
+              *** الحالات المدعومة هنا : بين+ضمير وبين+ضمير، لصعوبة توليد المقترحات لكل حالة، لذا ستمثل في ملف replaces.txt
+               بينه وبينها => بينهما
+               بينك وبينها => بينكما
+               بيننا وبينهم => بيننا
+               
+
+-->
+        <pattern>
+                   <marker>  
+                       <token regexp="yes">بيني|بيننا</token>
+                       <token regexp="yes">وبين(ك|ه|ها|هما|هم|هن|كما|كم|كن)</token>
+          </marker>
+        </pattern>
+        <message>لا داعي لتكرار "بين" لأن تكرارها لا يعطي معنى جديدًا	
+            
+: <suggestion>بيننا</suggestion>
+
+        </message>
+            <example correction="بيننا"  type="incorrect">جلس  <marker>بيني وبينه</marker> علي </example>
+            <example correction="بيننا"  type="incorrect">حال  <marker>بيننا وبينكما</marker> علي</example>
+            <example >جلس بيننا</example>
+            <example >جلس بينك وبينه</example>
+            <example >'جلس  بينك وبينه علي </example>
+      </rule>
+            <rule id="syntax_1528_byna_wa_bayna_3" name="بينكما وبينه">
+          <!--     لا داعي لتكرار "بين" لأن التكرار لا يعطي معنى جديدًا	
+               الخطأ: جلس بين محمد وبين علي
+               الصواب: جلس بين محمد وعلي
+الحالة الأولى: بين فلان وفلان
+               الحالة الثانية: بينه وبين فلان
+               الثالثة: بين فلان وبينه (كل الضمائر)
+              *** الحالات المدعومة هنا : بين+ضمير وبين+ضمير، لصعوبة توليد المقترحات لكل حالة، لذا ستمثل في ملف replaces.txt
+               بينه وبينها => بينهما
+               بينك وبينها => بينكما
+               بيننا وبينهم => بيننا
+               
+
+-->
+        <pattern>
+                   <marker>  
+                       <token regexp="yes">بينكما|بينكم</token>
+                       <token regexp="yes">وبين(ك|ه|ها|هما|هم|هن|كما|كم|كن)</token>
+          </marker>
+        </pattern>
+        <message>لا داعي لتكرار "بين" لأن تكرارها لا يعطي معنى جديدًا	
+            
+: <suggestion>بينكم</suggestion>
+
+        </message>
+            <example correction="بينكم"  type="incorrect">جلس  <marker>بينكم وبينه</marker> علي </example>
+            <example correction="بينكم"  type="incorrect">حال  <marker>بينكما وبينهما</marker> علي</example>
+            <example >جلس بينكم</example>
+      </rule>
+        <rule id="syntax_1528_byna_wa_bayna_4" name="بينه وبينها">
+          <!--     لا داعي لتكرار "بين" لأن التكرار لا يعطي معنى جديدًا	
+               الخطأ: جلس بين محمد وبين علي
+               الصواب: جلس بين محمد وعلي
+الحالة الأولى: بين فلان وفلان
+               الحالة الثانية: بينه وبين فلان
+               الثالثة: بين فلان وبينه (كل الضمائر)
+              *** الحالات المدعومة هنا : بين+ضمير وبين+ضمير، لصعوبة توليد المقترحات لكل حالة، لذا ستمثل في ملف replaces.txt
+               بينه وبينها => بينهما
+               بينك وبينها => بينكما
+               بيننا وبينهم => بيننا
+               
+
+-->
+        <pattern>
+                   <marker>  
+                       <token regexp="yes">بينه|بينها</token>
+                         <token regexp="yes">وبينه|وبينها</token>
+          </marker>
+        </pattern>
+        <message>لا داعي لتكرار "بين" لأن تكرارها لا يعطي معنى جديدًا	
+            
+: <suggestion>بينهما</suggestion>
+
+        </message>
+            <example correction="بينهما"  type="incorrect">جلس  <marker>بينها وبينه</marker> علي </example>
+            <example correction="بينهما"  type="incorrect">حال  <marker>بينها وبينها</marker> علي</example>
+            <example >جلس بينكم</example>
+      </rule>
+      
+      <rule id="syntax_1528_byna_wa_bayna_5" name="بينهم وبينها">
+          <!--     لا داعي لتكرار "بين" لأن التكرار لا يعطي معنى جديدًا	
+               الخطأ: جلس بين محمد وبين علي
+               الصواب: جلس بين محمد وعلي
+الحالة الأولى: بين فلان وفلان
+               الحالة الثانية: بينه وبين فلان
+               الثالثة: بين فلان وبينه (كل الضمائر)
+              *** الحالات المدعومة هنا : بين+ضمير وبين+ضمير، لصعوبة توليد المقترحات لكل حالة، لذا ستمثل في ملف replaces.txt
+               بينه وبينها => بينهما
+               بينك وبينها => بينكما
+               بيننا وبينهم => بيننا
+               
+
+-->
+        <pattern>
+                   <marker>  
+                       <token regexp="yes">بينهما|بينهم</token>
+                        <token regexp="yes">وبين(ه|ها|هما|هم|هن)</token>
+          </marker>
+        </pattern>
+        <message>لا داعي لتكرار "بين" لأن تكرارها لا يعطي معنى جديدًا	
+            
+: <suggestion>بينهم</suggestion>
+
+        </message>
+            <example correction="بينهم"  type="incorrect">جلس  <marker>بينهما وبينه</marker> علي </example>
+            <example correction="بينهم"  type="incorrect">حال  <marker>بينهما وبينها</marker> علي</example>
+            <example >جلس بينكم</example>
+      </rule>
+      
+      <rule id="syntax_1528_byna_wa_bayna_6" name="بينك وبينهما">
+          <!--     لا داعي لتكرار "بين" لأن التكرار لا يعطي معنى جديدًا	
+               الخطأ: جلس بين محمد وبين علي
+               الصواب: جلس بين محمد وعلي
+الحالة الأولى: بين فلان وفلان
+               الحالة الثانية: بينه وبين فلان
+               الثالثة: بين فلان وبينه (كل الضمائر)
+              *** الحالات المدعومة هنا : بين+ضمير وبين+ضمير، لصعوبة توليد المقترحات لكل حالة، لذا ستمثل في ملف replaces.txt
+               بينه وبينها => بينهما
+               بينك وبينها => بينكما
+               بيننا وبينهم => بيننا
+               
+
+-->
+        <pattern>
+                   <marker>  
+                       <token>بينك</token>
+                       <token regexp="yes">وبين(هما|هم|هن|كما|كم|كن)</token>
+          </marker>
+        </pattern>
+        <message>لا داعي لتكرار "بين" لأن تكرارها لا يعطي معنى جديدًا	
+            
+: <suggestion>بينكم</suggestion>
+
+        </message>
+            <example correction="بينكم"  type="incorrect">جلس  <marker>بينك وبينهم</marker> علي </example>
+            <example correction="بينكم"  type="incorrect">حال  <marker>بينك وبينهما</marker> علي</example>
+            <example >جلس بينكم</example>
+      </rule>
+       
+      </rulegroup>
+      
+            <rulegroup id="syntax_0002_as_ka" name="يعمل كمدير">
+            <rule id="syntax_0002_as_ka_1" name="يعمل كمدير">
+          <!--    
+                استخدام الكاف للصفة استخدام أجنبي أدخله المترجمون، إذ يستعملون "as" بمعنى الكاف، فالأَوْلَى النصب على الحالية مثل  " أعمل مديرًا " أو على الاختصاص في: نحن المسلمين .
+                 الخطأ : أخي يعمل كمدير، 
+                نحن كمسلمين نخاف الله 
+                الصواب :
+                أخي يعمل مديرًا، 
+                نحن المسلمين نخاف الله
+
+               
+
+-->
+        <pattern>
+                   <marker>  
+                       <token postag="V.*;.*;.*" postag_regexp="yes" skip="2"/>
+                       <token postag="N.*;.1I.;-K-" postag_regexp="yes"/>
+          </marker>
+        </pattern>
+        <message>استخدام الكاف للصفة استخدام أجنبي أدخله المترجمون، إذ يستعملون 
+            "as"
+            بمعنى الكاف، فالأَوْلَى النصب على الحالية مثل  " أعمل مديرًا " أو على الاختصاص في: "نحن المسلمين".
+          <suggestion><match no="1" include_skipped="all"/>&nbsp;<match no="2" postag="(N.*;..)(I)(.;-)(K-)" postag_replace="$1A$3-n"  postag_regexp="yes"/></suggestion>
+          <suggestion><match no="1" include_skipped="all"/>&nbsp;بصفة&nbsp;<match no="2" regexp_match="^ك" regexp_replace=""/></suggestion>
+
+        </message>
+            <example correction="يعمل أخي مدير|يعمل أخي بصفة مدير"  type="incorrect"><marker>يعمل أخي كمدير</marker></example>
+<!--             <example correction="يتصرفون مدرسين|يتصرفون بصفة مدرسين"  type="incorrect"><marker>يتصرفون كمدرسين</marker></example> -->
+<!--             <example correction="يعمل أخي مديرا"  type="incorrect"><marker>يعمل أخي كمدير</marker></example> -->
+            <example >يعمل أخي مديرا</example>
+<!--    FIXME: مديرا          -->
+      </rule>
+            <rule id="syntax_0002_as_ka_2" name="يعمل كمدير">
+          <!--    
+                استخدام الكاف للصفة استخدام أجنبي أدخله المترجمون، إذ يستعملون "as" بمعنى الكاف، فالأَوْلَى النصب على الحالية مثل  " أعمل مديرًا " أو على الاختصاص في: نحن المسلمين .
+                 الخطأ : أخي يعمل كمدير، 
+                نحن كمسلمين نخاف الله 
+                الصواب :
+                أخي يعمل مديرًا، 
+                نحن المسلمين نخاف الله
+
+               
+
+-->
+        <pattern>
+                   <marker>  
+                       <token postag="V.*;.*;.*" postag_regexp="yes" skip="2"/>
+                       <token postag="N.*;.[23][AI].;-K-" postag_regexp="yes"/>
+          </marker>
+        </pattern>
+        <message>استخدام الكاف للصفة استخدام أجنبي أدخله المترجمون، إذ يستعملون 
+            "as"
+            بمعنى الكاف، فالأَوْلَى النصب على الحالية مثل  " أعمل مديرًا " أو على الاختصاص في: "نحن المسلمين".
+          <suggestion><match no="1" include_skipped="all"/>&nbsp;<match no="2" regexp_match="^ك" regexp_replace=""/></suggestion>
+          <suggestion><match no="1" include_skipped="all"/>&nbsp;بصفة&nbsp;<match no="2" regexp_match="^ك" regexp_replace=""/></suggestion>
+
+        </message>
+<!--             <example correction="يعمل أخي مدير|يعمل أخي بصفة مدير"  type="incorrect"><marker>يعمل أخي كمدير</marker></example> -->
+             <example correction="يتصرفون مدرسين|يتصرفون بصفة مدرسين"  type="incorrect"><marker>يتصرفون كمدرسين</marker></example> 
+<!--             <example correction="يعمل أخي مديرا"  type="incorrect"><marker>يعمل أخي كمدير</marker></example> -->
+            <example >يعمل أخي مديرا</example>
+<!--    FIXME: مديرا          -->
+      </rule>
+            <rule id="syntax_0002_as_ka_3" name="نحن كمسلمين">
+          <!--    
+                استخدام الكاف للصفة استخدام أجنبي أدخله المترجمون، إذ يستعملون "as" بمعنى الكاف، فالأَوْلَى النصب على الحالية مثل  " أعمل مديرًا " أو على الاختصاص في: نحن المسلمين .
+                 الخطأ : أخي يعمل كمدير، 
+                نحن كمسلمين نخاف الله 
+                الصواب :
+                أخي يعمل مديرًا، 
+                نحن المسلمين نخاف الله
+
+               
+
+-->
+        <pattern>
+                   <marker>  
+                       <token regexp="yes">نحن|هم|أنتم|أنتن|هن</token>
+                       <token postag="N.*;.[23][AI].;-K-" postag_regexp="yes"/>
+          </marker>
+        </pattern>
+        <message>استخدام الكاف للصفة استخدام أجنبي أدخله المترجمون، إذ يستعملون 
+            "as"
+            بمعنى الكاف، فالأَوْلَى النصب على الحالية مثل  " أعمل مديرًا " أو على الاختصاص في: "نحن المسلمين".
+          <suggestion><match no="1" include_skipped="all"/>&nbsp;<match no="2" regexp_match="^ك" regexp_replace="ال"/></suggestion>
+        </message>
+
+             <example correction="نحن المدرسين"  type="incorrect"><marker>نحن كمدرسين</marker></example> 
+            <example >نحن المسلمين</example>
+<!--    FIXME: مديرا          -->
+      </rule>
+  </rulegroup>
+  
+      <rulegroup id="syntax_1492_L_modda" name="لمدة">
+
+          <!--     
+                          التعبير بالظرفية "ساعتين، ثلاث ساعات" هو المراد، وليس بالجار والمجرور"
+اللام تحذف فلا ضرورة لها، قبل الظرف
+ساعة
+ساعتين
+ساعات
+يوم
+يومين
+أيام
+ليلة
+ليلتين
+ليال
+شهر
+شهرين
+شهور
+أشهر
+عام
+عامين
+أعوام
+فترة
+مدة
+برهة
+دقيقة
+دقيقتين
+دقائق
+أسبوع
+اسبوعين
+أسابيع
+
+                           -->
+        <rule id="syntax_1492_L_modda_1" name="لمدة">
+<!--      حالة الفترات التي لا تحتاج إلى تنوين مثل يومين، ساعات، ساعتين، سنوات        -->
+        <pattern> <marker>
+             <token postag="V.*" postag_regexp="yes" skip="2"/>
+             <token regexp="yes">ل(&periods_no_need_tanwin_nasb;)</token>
+          </marker>
+        </pattern>
+        <message>
+            التعبير بالظرفية "ساعتين، ثلاث ساعات" هو المراد، وليس بالجار والمجرور"
+اللام تحذف فلا ضرورة لها، قبل الظرف
+            : <suggestion><match no="1" include_skipped="all"/>&nbsp;<match no="2" regexp_match="^ل" regexp_replace=""/></suggestion>
+
+        </message>
+            <example correction="عملت ساعتين"  type="incorrect"> <marker>عملت لساعتين</marker> </example>
+            <example correction="عملت الطالبة أسابيع"  type="incorrect"> <marker>عملت الطالبة لأسابيع</marker> </example>
+            <example correction="عملت الطالبة فترة"  type="incorrect"> <marker>عملت الطالبة لفترة</marker> طويلة</example>
+            <example >يجتهد ليال طويلة</example>
+            <example >يجتهد فترة </example>
+      </rule>
+        <rule id="syntax_1492_L_modda_2" name="لمدة">
+            <!--       حالة الفترات التي بها تنوين   مثل لأيام => أياما، لأسبوع => أسبوعًا    -->
+        <pattern> <marker>
+             <token postag="V.*" postag_regexp="yes" skip="2"/>
+             <token regexp="yes">ل(&periods_need_tanwin_nasb;)</token>
+          </marker>
+        </pattern>
+        <message>
+            التعبير بالظرفية "ساعتين، ثلاث ساعات" هو المراد، وليس بالجار والمجرور"
+اللام تحذف فلا ضرورة لها، قبل الظرف
+            : <suggestion><match no="1"  include_skipped="all"/>&nbsp;<match no="2" regexp_match="^ل(.*)$" regexp_replace="$1&tanwin_fathatan;&alef;"/></suggestion>
+
+        </message>
+            <example correction="عملت يومًا"  type="incorrect"> <marker>عملت ليوم</marker> </example>
+            <example correction="عملت الطالبة أسبوعًا"  type="incorrect"> <marker>عملت الطالبة لأسبوع</marker> </example>
+            <example correction="عملت الطالبة أعوامًا"  type="incorrect"> <marker>عملت الطالبة لأعوام</marker> طويلة</example>
+            <example >يجتهد أعواما طويلة</example>
+            <example >يجتهد أسبوعا </example>
+      </rule>
+      </rulegroup>
+      
+       <rule id="exp_1343_kullama_kullama" name="فأما ، وأما">
+          <!--    
+	كلما... كلما	
+		الشرح: استعمال "كلما.. كلما" مأخوذ من ترجمة حرفية عن اللغة الإنجليزية "the more ... the more" 
+الخطأ			كلما زاد الألم كلما زاد البكاء	
+	الصحيح		كلما زاد الألم، زاد البكاء
+
+
+
+-->
+        <pattern>
+                   <marker>  
+                       <token skip="4">كلما</token>
+                         <token>كلما</token>
+                    
+          </marker>
+        </pattern>
+        <message>استعمال "كلما.. كلما" مأخوذ من ترجمة حرفية عن اللغة الإنجليزية "the more ... the more"، لا داعي للتكرار
+            
+: <suggestion><match no="1" include_skipped="all"/></suggestion>
+
+        </message>
+            <example correction="كلما زاد الألم،"  type="incorrect">هذا حقك،  <marker>كلما زاد الألم، كلما</marker> زاد البكاء</example>
+            <example >كلما زاد الألم، زاد البكاء</example>
+
+
+
+      </rule>
+      
+       <rule id="syntax_kam_huwa_djamil" name="كم هو جميل_ما أجمله">
+<!--       /*
+    الحالات:
+    الاسم ليس ضميرا
+
+
+    ال   كم الولد جميل==> ما أجمل الولد
+    أجمل بالولد
+
+    حالة الضمير
+
+    كم هو جميل==> ما أجمله
+      أجمل به
+
+    حالة الضفة غير الثلاثية
+    اسم:
+    كم الطالب شديد الاستيعاب
+    ما أشد استيعاب الطالب
+    أشدد باستيعابه
+
+    ضمير
+    كم هو شديد الاستيعاب
+    ما أشد استيعابه
+    أشد باستيعابه
+           -->
+                <pattern>
+                    <token>كم</token>
+                    <or>
+                    <token regexp="yes">هو|هي</token>
+                    <token postag="N.*;.*;--L" postag_regexp="yes"/>
+                    </or>
+                    <token postag="NA.*;.*;---" postag_regexp="yes"/>
+                </pattern>
+                <filter class="org.languagetool.rules.ar.AdjectiveToExclamationFilter" args="adj:\3 adj_pos:3 noun:\2"/>
+                <message>التعجب بالاستفهام يستعمل للمقدار أو الكمية، مثل: كم كتابٍ قرأت! كم مرةٍ زرتك! أما الصفات فيتعجب منها بما أفعله أو أفعل به
+
+                    </message>
+                <example correction="ما أجمله|أجمِل به"><marker>كم هو جميل</marker>.</example>
+                <example correction="ما أسعد الطالب|أسعِد بالطالب"><marker>كم الطالب سعيد</marker>.</example>
+                  <example >ما أسعد الطالب.</example>
+                   <example >ما أجمله.</example>
+                   <example >أجمِل به.</example>
+  
+            </rule>
+      </category>
 </rules>
 
