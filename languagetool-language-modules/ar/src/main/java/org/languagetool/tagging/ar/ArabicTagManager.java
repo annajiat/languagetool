@@ -341,6 +341,12 @@ public class ArabicTagManager {
   public boolean isDefinite(String postag) {
     return isNoun(postag) && (getFlag(postag, "PRONOUN") == 'L');
   }
+  /**
+   * @return true if have flag is feminin or masculine
+   */
+  public boolean isFeminin(String postag) {
+    return isNoun(postag) && (getFlag(postag, "GENDER") == 'F');
+  }
 /**
    * @return true if a word has procletics like conj and jar
    */

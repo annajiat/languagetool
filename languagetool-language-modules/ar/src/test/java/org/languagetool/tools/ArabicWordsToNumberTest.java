@@ -37,7 +37,8 @@ import static org.junit.Assert.assertTrue;
 
 
 public class ArabicWordsToNumberTest {
-  final boolean debug= true;
+  final boolean debug= false;
+//  final boolean debug= true;
 
   /*
   Extract number from text
@@ -46,8 +47,8 @@ public class ArabicWordsToNumberTest {
   public void testNumberPhrase() {
    String text ="تسعمئة وثلاث وعشرون ألفا وتسعمئة وواحد";
    Integer x = ArabicNumbersWords.textToNumber(text);
-   System.out.println("Phrase to Number text: "+ text +" "+x);
-
+//   System.out.println("Phrase to Number text: "+ text +" "+x);
+  assertEquals("testNumberPhrase"+ text, 923901,  x.intValue());
   }
 
   /* Test converting number to phrase*/
@@ -87,7 +88,7 @@ public class ArabicWordsToNumberTest {
   @Test
   public void testBidiNumberPhrase() {
 //    String text ="خمسمئة وثلاث وعشرون ألفا وتسعمئة وواحد";
-    String text =" ثمانية وتسعون ألفاً وتسعمائة وخمسة وثمانون";
+    String text ="ثمانية وتسعين ألفاً وتسعمائة وخمس وثمانين";
     Integer x =  ArabicNumbersWords.textToNumber(text);
     String text2 = ArabicNumbersWords.numberToArabicWords(Integer.toString(x),true,false,"jar");
     if(debug)
@@ -319,11 +320,11 @@ public class ArabicWordsToNumberTest {
       if(debug)
       {
         if(!expectedSuggestions.equals(actualSuggestions_unvocalized))
-        System.out.println("assertSuggestions::Input: " + phrase + " Suggestions Expected:"+expectedSuggestions+" Actual Suggestions: "+actualSuggestions_unvocalized+
-          " Incorrect");
+        System.out.println("assertSuggestions::Input: " + phrase + " Suggestions Expected:'"+expectedSuggestions+"' Actual Suggestions: '"+actualSuggestions_unvocalized+
+          "' Incorrect");
       }
       else {
-        assertEquals(phrase_unvocalized, actualSuggestions_unvocalized);
+        assertEquals(expectedSuggestions, actualSuggestions_unvocalized);
       }
 
     }
