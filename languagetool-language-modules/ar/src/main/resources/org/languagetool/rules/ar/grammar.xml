@@ -84,6 +84,7 @@ USA
      <!ENTITY number_decades_raf3 "عشرون|ثلاثون|أربعون|خمسون|ستون|سبعون|ثمانون|تسعون">
      <!ENTITY number_decades_jar "عشرين|ثلاثين|أربعين|خمسين|ستين|سبعين|ثمانين|تسعين">
      <!ENTITY number_2_99_jar "(&number_units;)|(&number_decades_jar;)|(&number_units;)&nbsp; و(&number_decades_jar;)">
+     <!ENTITY isolated_pronouns "أنا|أنت|هو|هي|أنتما|هما|نحن|أنتم|أنتن|هم|هن">
     ]>
 
 <rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -7685,7 +7686,8 @@ END RULEGROUP Masdar errors
       </rulegroup>
       
       
-         <rule id="syntax_456_bynama_sent_start" name="بينما في أول الكلام">
+         <rulegroup id="syntax_456_bynama_sent_start" name="بينما في أول الكلام">
+         <rule id="syntax_456_bynama_sent_start_1" name="بينما في أول الكلام">
           <!--  النمط	مادام .. فإنّ
 المقترح	إعادة صياغة الجملة
 الشرح	بينما لها الصدارة، أي يجب أن تكون في بدء الجملة
@@ -7716,6 +7718,24 @@ END RULEGROUP Masdar errors
             <example type="incorrect">أحسن إليك، <marker>بينما</marker> أسأت إليه</example>
             <example>بينما كان الركاب يهمّون بالركوب، تحرك القطار</example>
       </rule>
+      
+         <rule id="syntax_456_bynama_sent_start_2" name="بينما في أول الكلام">
+          <!--  
+تُوصل "ما" الزائدة غير الكافّة بالظرف "بين" 	
+             بين ما كنت عائدًا التقيت صديقي	بينما كنت عائدًا التقيت صديقي
+-->
+        <pattern>
+         <token postag="SENT_START"/> <marker> 
+         <token>بين</token>
+         <token>ما</token>
+          </marker>
+        </pattern>
+        <message>تُوصل "ما" الزائدة غير الكافّة بالظرف "بين"
+ <suggestion>بينما</suggestion>  </message>
+ <example type="incorrect" correction="بينما"><marker>بين ما</marker> كنت عائدًا التقيت صديقي</example>
+  <example>بينما كنت عائدًا التقيت صديقي</example>
+  </rule>
+  </rulegroup>
 <!--       &UserRules; -->
 
            <rulegroup id="syntax_1528_byna_wa_bayna" name="بين وبين">
@@ -8129,7 +8149,7 @@ END RULEGROUP Masdar errors
                 <pattern>
                     <token>كم</token>
                     <or>
-                    <token regexp="yes">هو|هي</token>
+                    <token regexp="yes">&isolated_pronouns;</token>
                     <token postag="N.*;.*;--L" postag_regexp="yes"/>
                     </or>
                     <token postag="NA.*;.*;---" postag_regexp="yes"/>

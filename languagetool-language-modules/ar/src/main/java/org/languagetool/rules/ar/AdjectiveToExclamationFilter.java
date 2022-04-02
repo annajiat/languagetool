@@ -24,6 +24,7 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.SimpleReplaceDataLoader;
 import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.tagging.ar.ArabicTagger;
+import org.languagetool.tools.ArabicWordMaps;
 
 import java.util.*;
 
@@ -153,7 +154,8 @@ public class AdjectiveToExclamationFilter extends RuleFilter {
     if (noun == null || noun.isEmpty()) {
     }   else if (isPronoun(noun)) {
       // no space adding
-      suggestion.append(getAttachedPronoun(noun));
+      suggestion.append(ArabicWordMaps.getAttachedPronoun(noun));
+//      suggestion.append(getAttachedPronoun(noun));
     }
       else
     {
