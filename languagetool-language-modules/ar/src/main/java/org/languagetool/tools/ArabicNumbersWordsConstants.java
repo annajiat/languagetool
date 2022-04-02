@@ -25,6 +25,7 @@ public class ArabicNumbersWordsConstants {
   static final List<String> arabicJarOnes = new ArrayList<>();
   static final List<String> arabicJarFeminineOnes = new ArrayList<>();
   static final List<String> arabicJarTens = new ArrayList<>();
+  static final List<String> arabicJarHundreds = new ArrayList<>();
   static final List<String> arabicJarTwos = new ArrayList<>();
   static final List<String> arabicJarAppendedTwos = new ArrayList<>();
 
@@ -203,7 +204,7 @@ public class ArabicNumbersWordsConstants {
     arabicJarOnes.add("تسعة");
     arabicJarOnes.add("عشرة");
     arabicJarOnes.add("أحد عشر");
-    arabicJarOnes.add("اثنا عشر");
+    arabicJarOnes.add("اثني عشر");
     arabicJarOnes.add("ثلاثة عشر");
     arabicJarOnes.add("أربعة عشر");
     arabicJarOnes.add("خمسة عشر");
@@ -224,7 +225,7 @@ public class ArabicNumbersWordsConstants {
     arabicJarFeminineOnes.add("تسع");
     arabicJarFeminineOnes.add("عشر");
     arabicJarFeminineOnes.add("إحدى عشرة");
-    arabicJarFeminineOnes.add("اثنتا عشرة");
+    arabicJarFeminineOnes.add("اثنتي عشرة");
     arabicJarFeminineOnes.add("ثلاث عشرة");
     arabicJarFeminineOnes.add("أربع عشرة");
     arabicJarFeminineOnes.add("خمس عشرة");
@@ -232,6 +233,18 @@ public class ArabicNumbersWordsConstants {
     arabicJarFeminineOnes.add("سبع عشرة");
     arabicJarFeminineOnes.add("ثماني عشرة");
     arabicJarFeminineOnes.add("تسع عشرة");
+
+    /* Hundreds */
+    arabicJarHundreds.add("");
+    arabicJarHundreds.add("مائة");
+    arabicJarHundreds.add("مئتين");
+    arabicJarHundreds.add("ثلاثمائة");
+    arabicJarHundreds.add("أربعمائة");
+    arabicJarHundreds.add("خمسمائة");
+    arabicJarHundreds.add("ستمائة");
+    arabicJarHundreds.add("سبعمائة");
+    arabicJarHundreds.add("ثمانمائة");
+    arabicJarHundreds.add("تسعمائة");
   }
 
   static {
@@ -287,8 +300,10 @@ public class ArabicNumbersWordsConstants {
     NUMBER_WORDS.put("إثنين", 2);
     NUMBER_WORDS.put("إثنان", 2);
     NUMBER_WORDS.put("اثني", 2);
+    NUMBER_WORDS.put("اثنتي", 2);
     NUMBER_WORDS.put("اثنا", 2);
     NUMBER_WORDS.put("إثني", 2);
+    NUMBER_WORDS.put("إثنتي", 2);
     NUMBER_WORDS.put("إثنا", 2);
     NUMBER_WORDS.put("ثلاث", 3);
     NUMBER_WORDS.put("أربع", 4);
