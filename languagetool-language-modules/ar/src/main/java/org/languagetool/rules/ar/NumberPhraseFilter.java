@@ -62,7 +62,7 @@ public class NumberPhraseFilter extends RuleFilter {
         previousWordPos = Integer.valueOf(arguments.get("previousPos"))-1;
       } catch (NumberFormatException e) {
         e.printStackTrace();
-        previousWordPos = 0;
+        previousWordPos = -1;
       }
 
     // get the inflect mark
@@ -75,7 +75,7 @@ public class NumberPhraseFilter extends RuleFilter {
      nextWordPos = Integer.valueOf(arguments.getOrDefault("nextPos", "0"));
     } catch (NumberFormatException e) {
       e.printStackTrace();
-      nextWordPos = 0;
+      nextWordPos = -1;
     }
     /// get all numeric tokens
     int start_pos = (previousWordPos>0) ? previousWordPos+1: 0;
@@ -94,8 +94,7 @@ public class NumberPhraseFilter extends RuleFilter {
     String inflection = getInflectedCase(patternTokens, previousWordPos, inflectArg);
 //    System.out.println("Candidtate phrase: "+ numPhrase + "previousWord:" + previousWord +" inflect:"+inflection );
 
-
-    List<String> suggestionList = ArabicNumbersWords.getSuggestionsNumericPhrase(numPhrase,feminin, attached, inflection);
+    List<String> suggestionList = prepareSuggestion(numPhrase, previousWord, nextWord, feminin, attached, inflection);
 
     RuleMatch newMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(), match.getMessage(), match.getShortMessage());
 
@@ -154,5 +153,17 @@ public class NumberPhraseFilter extends RuleFilter {
   return false;
   }
 
+  /* prepare suggestion for given phrases */
+public static  List<String> prepareSuggestion(String numPhrase, String previousWord, String nextWord, boolean feminin, boolean attached, String inflection){
+    List<String> tmpsuggestionList = ArabicNumbersWords.getSuggestionsNumericPhrase(numPhrase,feminin, attached, inflection);
+    List<String> suggestionList = new ArrayList<>();
+  if(!tmpsuggestionList.isEmpty())
+  {
+    for(String sug: tmpsuggestionList)
+      if(!previousWord.isEmpty())
+        suggestionList.add(previousWord + " " +sug);
+  }
+    return  suggestionList;
+  }
 
 }
