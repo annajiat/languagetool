@@ -59,7 +59,7 @@ public class NumberPhraseFilter extends RuleFilter {
     if(arguments.get("previousPos")!=null)
       try
       {if(arguments.get("previousPos")!=null)
-        previousWordPos = Integer.valueOf(arguments.get("previousPos"));
+        previousWordPos = Integer.valueOf(arguments.get("previousPos"))-1;
       } catch (NumberFormatException e) {
         e.printStackTrace();
         previousWordPos = 0;
@@ -78,9 +78,10 @@ public class NumberPhraseFilter extends RuleFilter {
       nextWordPos = 0;
     }
     /// get all numeric tokens
-    int end_pos = (nextWordPos>0) ? Integer.min(nextWordPos, patternTokens.length): patternTokens.length;
-    int start_pos = (previousWordPos>0) ? previousWordPos: 0;
+    int start_pos = (previousWordPos>0) ? previousWordPos+1: 0;
     List<String> numWordTokens =  new ArrayList<>();
+    int end_pos = (nextWordPos>0) ? Integer.min(nextWordPos, patternTokens.length): patternTokens.length;
+
     for(int i = start_pos; i< end_pos; i++)
 //    for(int i = 1; i< patternTokens.length-1; i++)
 //    for(int i = 0; i< patternTokens.length; i++)
@@ -91,6 +92,7 @@ public class NumberPhraseFilter extends RuleFilter {
     boolean feminin = false;
     boolean attached = false;
     String inflection = getInflectedCase(patternTokens, previousWordPos, inflectArg);
+//    System.out.println("Candidtate phrase: "+ numPhrase + "previousWord:" + previousWord +" inflect:"+inflection );
 
 
     List<String> suggestionList = ArabicNumbersWords.getSuggestionsNumericPhrase(numPhrase,feminin, attached, inflection);
@@ -118,7 +120,9 @@ public class NumberPhraseFilter extends RuleFilter {
     if(inflect!="")
       return inflect;
     // if the previous is Jar
+
     if(previousPos>=0 && previousPos <patternTokens.length) {
+//      System.out.println("Candidtate previous: "+ patternTokens[previousPos].toString());
       AnalyzedTokenReadings previousToken = patternTokens[previousPos];
       for(AnalyzedToken tk: patternTokens[previousPos]) {
         if(tk.getPOSTag()!=null && tk.getPOSTag().startsWith("PR"))

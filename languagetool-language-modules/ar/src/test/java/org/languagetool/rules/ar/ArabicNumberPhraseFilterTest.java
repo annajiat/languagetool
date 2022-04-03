@@ -27,6 +27,7 @@ import org.languagetool.tagging.ar.ArabicTagger;
 import org.languagetool.tokenizers.ArabicWordTokenizer;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,7 +55,8 @@ public class ArabicNumberPhraseFilterTest {
     String inflection = "";
     String previous ="في";
     String next ="دينار";
-    boolean debug = true;
+//    boolean debug = true;
+    boolean debug = false;
 
     assertSuggestion("صفر", "", previous,  next, inflection, debug);
     assertSuggestion("واحد", "", previous,  next, inflection, debug);
@@ -79,24 +81,29 @@ public class ArabicNumberPhraseFilterTest {
 
     Map<String,String> args = new HashMap<>();
     args.put("previous", previousWord);
-    args.put("previousPos", "2");
+    args.put("previousPos", "1");
     args.put("next", nextWord);
     args.put("inflect", inflection);
-    int nounPos = tokenizer.tokenize(phrase).size() +2 ;
-    args.put("nounPos", String.valueOf(nounPos));
+    int nextPos = tokenizer.tokenize(phrase).size() +1 ;
+    args.put("nextPos", String.valueOf(nextPos));
     // tokenlize phrase
     String fullPhrase = previousWord+" "+ phrase+ " "+ nextWord;
 //    String fullPhrase =  phrase;
     List<String> tokens = tokenizer.tokenize(fullPhrase);
+//    System.out.println("Tokens: "+tokens.toString());
+    tokens.removeAll(Collections.singleton(" "));
+//    System.out.println("Tokens clean: "+tokens.toString());
+
     List<AnalyzedTokenReadings> patternTokens = tagger.tag(tokens);
 
     AnalyzedTokenReadings[] patternTokensArray = patternTokens.stream().toArray(AnalyzedTokenReadings[]::new);
     RuleMatch ruleMatch = filter.acceptRuleMatch(match, args, -1, patternTokensArray);
     if(!debug) {
-    assertThat(ruleMatch.getSuggestedReplacements().size(), is(2));
-    List<String> expectedList = asList(expectedSuggestion.split("\\|"));
-    assertThat(ruleMatch.getSuggestedReplacements().get(0), is(expectedList.get(0)));
-    assertThat(ruleMatch.getSuggestedReplacements().get(1), is(expectedList.get(1)));
+      int expectedSize = expectedSuggestion.split("\\|").length;
+    assertThat(ruleMatch.getSuggestedReplacements().size(), is(expectedSize));
+//    List<String> expectedList = asList(expectedSuggestion.split("\\|"));
+//    assertThat(ruleMatch.getSuggestedReplacements().get(0), is(expectedList.get(0)));
+//    assertThat(ruleMatch.getSuggestedReplacements().get(1), is(expectedList.get(1)));
     }
     else { //  debug is true
       String suggestion = "";
