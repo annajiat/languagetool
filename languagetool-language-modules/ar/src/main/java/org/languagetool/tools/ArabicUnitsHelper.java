@@ -96,11 +96,16 @@ public class ArabicUnitsHelper {
   {
    return (unitsMap.containsKey(unit) && unitsMap.get(unit).getOrDefault("feminin", "no").equals("yes"));
  }
+ public static boolean isUnit(String unit)
+  {
+   return unitsMap.containsKey(unit);
+ }
  /* return the suitable form of units according to inflection */
  public  static String getForm(String unit, String category, String inflection)
  {
-   if(inflection.isEmpty())
+   if(inflection.isEmpty()) {
      inflection = "raf3";
+   }
    String key = category + "_" + inflection;
    if(unitsMap.containsKey(unit))
    {

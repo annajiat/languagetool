@@ -160,9 +160,15 @@ public class VerbToMafoulMutlaqFilter extends RuleFilter {
 //    }
     RuleMatch newMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(), match.getMessage(), match.getShortMessage());
     int i = 0;
+    List<String> suggestionPhrases = new ArrayList<>();
     for( String  msdr: inflectedMasdarList)
     {
-     newMatch.addSuggestedReplacement(verb +" "+msdr + " " + inflectedAdjList.get(i));
+      String sugPhrase = verb +" "+msdr + " " + inflectedAdjList.get(i);
+      // Avoid redendeny
+      if(!suggestionPhrases.contains(sugPhrase)) {
+        newMatch.addSuggestedReplacement(sugPhrase);
+        suggestionPhrases.add(sugPhrase);
+      }
      i++;
     }
     return newMatch;
