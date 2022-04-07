@@ -164,7 +164,7 @@ public class VerbToMafoulMutlaqFilter extends RuleFilter {
     for( String  msdr: inflectedMasdarList)
     {
       String sugPhrase = verb +" "+msdr + " " + inflectedAdjList.get(i);
-      // Avoid redendeny
+      // Avoid redendency
       if(!suggestionPhrases.contains(sugPhrase)) {
         newMatch.addSuggestedReplacement(sugPhrase);
         suggestionPhrases.add(sugPhrase);

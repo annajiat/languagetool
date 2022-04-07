@@ -48,7 +48,8 @@ public class ArabicTaggerTest {
   public void testTagger() throws IOException {
 
     TestTools.myAssert("الخياريتان",
-      "الخياريتان/[خيار]NJ-;F2--;--L",
+//      "الخياريتان/[خيار]NJ-;F2--;--L",
+      "الخياريتان/[خيار]NA-;F3--;--L|الخياريتان/[خيار]NJ-;F2--;--L|الخياريتان/[خيار]NJ-;F3--;--L",
       tokenizer, tagger);
 
     TestTools.myAssert("السماء زرقاء",
@@ -196,6 +197,7 @@ public class ArabicTaggerTest {
         "ورد/[وَرَدَ]VW1;M1H-pp-;---|" +
         "ورد/[وَرَدَ]VW1;M1Y-i--;W--|" +
         "ورد/[وَرُدَ]VW0;M1H-pa-;---|" +
+        "ورد/[وَرُدَ]VW0;M1H-pp-;---|"+
         "ورد/[وَرَّدَ]VW1;M1H-pa-;---|" +
         "ورد/[وَرَّدَ]VW1;M1H-pp-;---|" +
         "ورد/[وَرَّدَ]VW1;M1Y-i--;---",

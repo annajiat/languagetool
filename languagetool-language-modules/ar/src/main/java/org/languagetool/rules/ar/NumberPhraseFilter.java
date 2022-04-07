@@ -55,36 +55,42 @@ public class NumberPhraseFilter extends RuleFilter {
     // get the previous word
     String previousWord = arguments.getOrDefault("previous","");
     // previous word index in token list
-    int previousWordPos =0;
-    if(arguments.get("previousPos")!=null)
-      try
-      {if(arguments.get("previousPos")!=null)
-        previousWordPos = Integer.valueOf(arguments.get("previousPos"))-1;
-      } catch (NumberFormatException e) {
-        e.printStackTrace();
-        previousWordPos = -1;
-      }
+//    int previousWordPos =0;
+    int previousWordPos =getPreviousPos(arguments);
 
     // get the inflect mark
     String inflectArg = arguments.getOrDefault("inflect","");
     // get the next  word as units
     String nextWord = arguments.getOrDefault("next","");
-    int nextWordPos = 0;
-    try
-    {
-     nextWordPos = Integer.valueOf(arguments.getOrDefault("nextPos", "0"));
-    } catch (NumberFormatException e) {
-      e.printStackTrace();
-      nextWordPos = -1;
-    }
+
+    int nextWordPos = getNextPos(arguments, patternTokens.length);
+
+//    try
+//    {
+//     nextWordPos = Integer.valueOf(arguments.getOrDefault("nextPos", "0"));
+//    } catch (NumberFormatException e) {
+//      e.printStackTrace();
+//      nextWordPos = -1;
+//    }
+     List<String> numWordTokens =  new ArrayList<>();
     /// get all numeric tokens
     int start_pos = (previousWordPos>0) ? previousWordPos+1: 0;
-    List<String> numWordTokens =  new ArrayList<>();
-    int end_pos = (nextWordPos>0) ? Integer.min(nextWordPos, patternTokens.length): patternTokens.length;
 
+    int end_pos = (nextWordPos>0) ? Integer.min(nextWordPos, patternTokens.length): patternTokens.length+nextWordPos;
+    if(nextWord.isEmpty())
+    {
+      // nextWordPos m
+      // 0: no next word
+      // > 0: get position nextWordPos
+      // <0: get position related to tokens length
+      if(end_pos!=0)
+      {
+//        nextWord = patternTokens[end_pos].getToken();
+        System.out.println("endPos:"+ end_pos + "Next:"+patternTokens[end_pos].getToken());
+      }
+
+    }
     for(int i = start_pos; i< end_pos; i++)
-//    for(int i = 1; i< patternTokens.length-1; i++)
-//    for(int i = 0; i< patternTokens.length; i++)
       numWordTokens.add(patternTokens[i].getToken().trim());
     String numPhrase = String.join(" ", numWordTokens);
     /* extract features from previous */
@@ -155,6 +161,7 @@ public class NumberPhraseFilter extends RuleFilter {
 
   /* prepare suggestion for given phrases */
 public static  List<String> prepareSuggestion(String numPhrase, String previousWord, String nextWord, boolean feminin, boolean attached, String inflection){
+
     List<String> tmpsuggestionList = ArabicNumbersWords.getSuggestionsNumericPhrase(numPhrase,feminin, attached, inflection);
     List<String> suggestionList = new ArrayList<>();
   if(!tmpsuggestionList.isEmpty())
@@ -165,5 +172,38 @@ public static  List<String> prepareSuggestion(String numPhrase, String previousW
   }
     return  suggestionList;
   }
+private static int getPreviousPos(Map<String, String> args)
+{
+  int previousWordPos =0;
+  if(args.get("previousPos")!=null)
+    try
+    {if(args.get("previousPos")!=null)
+      previousWordPos = Integer.valueOf(args.get("previousPos"))-1;
+    } catch (NumberFormatException e) {
+      e.printStackTrace();
+      previousWordPos = -1;
+    }
+  return previousWordPos;
 
+}
+
+private static int getNextPos(Map<String, String> args, int size)
+{
+  int nextPos =0;
+  try
+    {
+     nextPos = Integer.valueOf(args.getOrDefault("nextPos", "0"));
+     // the next token is index with a negative offset
+     if(nextPos<0)
+     {
+       nextPos = size + nextPos;
+//       System.out.println("negative offset");
+     }
+    } catch (NumberFormatException e) {
+      e.printStackTrace();
+      nextPos = 0;
+    }
+  return nextPos;
+
+}
 }

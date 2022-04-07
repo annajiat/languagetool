@@ -84,7 +84,9 @@ public class ArabicNumberPhraseFilterTest {
     args.put("previousPos", "1");
     args.put("next", nextWord);
     args.put("inflect", inflection);
-    int nextPos = tokenizer.tokenize(phrase).size() +1 ;
+    // the value -1, used to say that the last word is the given nex word
+    int nextPos = -1 ;
+//    int nextPos = tokenizer.tokenize(phrase).size() +1 ;
     args.put("nextPos", String.valueOf(nextPos));
     // tokenlize phrase
     String fullPhrase = previousWord+" "+ phrase+ " "+ nextWord;

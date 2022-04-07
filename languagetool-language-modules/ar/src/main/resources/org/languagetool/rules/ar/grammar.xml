@@ -7547,33 +7547,7 @@ Implemented as a text rules used in rules/arabic_trans_indirect_to_direct.txt
             <example >إن النصر لنا مادام الله معنا </example>
       </rule>
       
-         <rule id="syntax_275_mobtada_mansoub_sent_start" name="مبتدأ منصوب">
-          <!--  النمط	مبتدأ في أول الكلام منصوب
-المقترح	الرفع
-الشرح	المبتدأ لا يكون منصوبا في بداية الكلام
-خطأ	            الفلاحين مشغولون, بناءك جاهز  
-صواب	الفلاحون مشغولون, بناؤك جاهز
 
--->
-        <antipattern>
-                    <token postag="SENT_START"/> 
-                    <token postag="N.*;..[U-].;--." postag_regexp="yes"/>
-        </antipattern>
-        <pattern>
-                   
-                       <token postag="SENT_START"/> <marker> 
-                       <token postag="N.*;..[AI].;--." postag_regexp="yes"/>
-          </marker>
-        </pattern>
-        <message>المبتدأ لا يكون منصوبا في بداية الكلام"
-            : <suggestion><match no="2" postag="(N.*;..)([AI])(.*)" postag_replace="$1U$3"  postag_regexp="yes"/></suggestion>
-
-        </message>
-            <example correction="الفلاحان" type="incorrect"><marker>الفلاحين</marker> مشغولون </example>
-<!--             <example correction="بناؤك" type="incorrect"><marker>بناءك</marker> جاهز</example> -->
-            <example>بناؤك جاهز </example>
-            <example>الفلاحون نشطون </example>
-      </rule>
       
       
          <rulegroup id="syntax_206_ikhtar" name="اختار بين">
@@ -8089,11 +8063,11 @@ Implemented as a text rules used in rules/arabic_trans_indirect_to_direct.txt
             </rule>
             
                   <rulegroup id="syntax_numeric" name="تدقيق ألفاظ الأعداد">
-                  <rule id="syntax_numeric_0001" name="تدقيق ألفاظ الأعداد">
+<!--                   <rule id="syntax_numeric_0001" name="تدقيق ألفاظ الأعداد"> -->
 <!--       /*
    
            -->
-                <pattern>
+            <!--    <pattern>
                     <marker>
                     <token>في</token>
                     <token regexp="yes">&number_units;</token>
@@ -8103,58 +8077,28 @@ Implemented as a text rules used in rules/arabic_trans_indirect_to_direct.txt
                 <filter class="org.languagetool.rules.ar.NumberPhraseFilter" args="previous:\1 previousPos:1"/>
                 <message>التحقق من الأعداد
                     </message>
-                 <example type="incorrect" correction="في خمسة وثلاثين"><marker>في خمسة وثلاثون</marker>.</example>   
+                 <example type="incorrect" correction="في خمسة وثلاثين"><marker>في خمسة وثلاثون</marker>.</example>  --> 
 <!--                 <example type="incorrect"><marker>في خمسة وثلاثون</marker>.</example>   -->
-            </rule>
+<!--             </rule> -->
             
-                  <rule id="syntax_numeric_0002" name="تدقيق ألفاظ الأعداد">
+            <rule id="syntax_numeric_0001a" name="تدقيق ألفاظ الأعداد">
 <!--       /*
    
            -->
-                <antipattern>
-                    <token>في</token>
-                    <token postag="NN.;..[-I].;.*" postag_regexp="yes" min="1" max="10"/>
-                </antipattern>
                 <pattern>
                     <marker>
                     <token>في</token>
-                    <token postag="NN.*;..[^U].;.*" postag_regexp="yes" min="0" max="10"/>
-                    <token postag="NN.*;..U.;.*" postag_regexp="yes"/>
-                    <token postag="NN.*" postag_regexp="yes" min="0" max="5"/>
+                    <token regexp="yes">&number_units;</token>
+                    <token regexp="yes">(و?)(&number_decades_raf3;)</token>
                 </marker>
-                <token postag="NN.*" postag_regexp="yes" negate_pos="yes"/> 
+                <token/>
                 </pattern>
-                <filter class="org.languagetool.rules.ar.NumberPhraseFilter" args="previous:\1 previousPos:1 nextPos:0"/>
+                <filter class="org.languagetool.rules.ar.NumberPhraseFilter" args="previous:\1 previousPos:1 nextPos:-1"/>
                 <message>التحقق من الأعداد
                     </message>
-                 <example type="incorrect" correction="في ألف وخمسمائة واثنين وثلاثين"><marker>في ألف وخمسمئة واثنان وثلاثون</marker> صندوقا.</example>   
-                 <example type="incorrect" correction="في مليونين ومئتين وخمسة وأربعين ألفا وسبعمائة وواحد"><marker>في مليونان ومئتان وخمسة وأربعون ألفاً وسبعمائة وواحد</marker>.</example>   
-
+                 <example type="incorrect" correction="في خمسة وثلاثين"><marker>في خمسة وثلاثون</marker> صندوقا.</example>   
             </rule>
-                  <rule id="syntax_numeric_0003" name="تدقيق ألفاظ الأعداد">
-<!--       /*
-   
-           -->
-                <antipattern>
-                    <token>في</token>
-                    <token postag="NN.;..[-I].;.*" postag_regexp="yes" min="1" max="10"/>
-                </antipattern>
-                <pattern>
-                    <marker>
-                    <token>في</token>
-                    <token postag="NN.*;..[^U].;.*" postag_regexp="yes" min="0" max="10"/>
-                    <token postag="NN.*;..U.;.*" postag_regexp="yes"/>
-                </marker>
-                 <token postag="NN.*" postag_regexp="yes" negate_pos="yes"/> 
 
-                </pattern>
-                <filter class="org.languagetool.rules.ar.NumberPhraseFilter" args="previous:\1 previousPos:1"/>
-                <message>التحقق من الأعداد
-                    </message>
-                 <example type="incorrect" correction="في ألف وخمسمائة وثلاثة وثلاثين"><marker>في ألف وخمسمئة وثلاثة وثلاثون</marker> مسجد.</example>   
-<!--                  <example type="incorrect" correction="في مليونين ومئتين وخمسة وأربعين ألفا وسبعمائة وواحد"><marker>في مليونان ومئتان وخمسة وأربعون ألفاً وسبعمائة وواحد</marker>.</example>    -->
-
-            </rule>
             </rulegroup>
       </category>
 </rules>

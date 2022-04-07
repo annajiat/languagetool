@@ -48,10 +48,10 @@ public class ArabicTransVerbIndirectToIndirectRuleTest {
     assertCorrect("فسيتردد الولد إلى المعهد");
     assertCorrect("يترددون إليه");
 //    // errors:
-    assertIncorrect("يتردد على المعهد", 3);
-    assertIncorrect("يتردد الولد على المعهد", 3);
-    assertIncorrect("فسيتردد الولد على المعهد", 3);
-    assertIncorrect("يترددون عليه", 1);
+    assertIncorrect("يتردد على المعهد", 6);
+    assertIncorrect("يتردد الولد على المعهد", 6);
+    assertIncorrect("فسيتردد الولد على المعهد", 6);
+    assertIncorrect("يترددون عليه", 2);
   }
 
   private void assertCorrect(String sentence) throws IOException {
