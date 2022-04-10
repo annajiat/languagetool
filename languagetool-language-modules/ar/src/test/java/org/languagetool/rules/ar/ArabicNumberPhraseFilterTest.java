@@ -42,19 +42,19 @@ public class ArabicNumberPhraseFilterTest {
   private final RuleFilter filter = new NumberPhraseFilter();
   private final ArabicTagger tagger = new ArabicTagger();
   private final ArabicWordTokenizer tokenizer = new ArabicWordTokenizer();
-//  boolean debug = false;
-  boolean  debug = true;
-//  boolean run_example = false;
-  boolean run_example = true;
+  boolean debug = false;
+//  boolean  debug = true;
+  boolean run_example = false;
+//  boolean run_example = true;
 
   //  run_example = true;
 
   @Test
   public void testFilter() throws IOException {
-    String unit = "دينار";
+//    String unit = "دينار";
     String inflection = "";
     String previous ="في";
-    String next ="دينار";
+    String next ="";
 //    boolean debug = true;
     boolean debug = false;
 
@@ -75,6 +75,30 @@ public class ArabicNumberPhraseFilterTest {
     assertSuggestion("عشرة وآلاف", "عشرة آلاف", previous,  next, inflection, debug);
 
 
+  } @Test
+  public void testUnitFilter() throws IOException {
+    String unit = "دينار";
+//    String unit = "دينار";
+    String inflection = "";
+    String previous ="في";
+    String next = unit;
+//    boolean debug = true;
+    boolean debug = false;
+//    assertSuggestion("صفر", "في صفر دينار", previous,  next, inflection, debug);
+    assertSuggestion("واحد", "في دينار واحد", previous,  next, inflection, debug);
+//    assertSuggestion("اثنان", "في دينارين", previous,  next, inflection, debug);
+    assertSuggestion("ثلاثة", "في ثلاثة دنانير", previous,  next, inflection, debug);
+    assertSuggestion("إحدى عشر", "في أحد عشر دينارا", previous,  next, inflection, debug);
+    assertSuggestion("اثنتي عشر", "في اثني عشر دينارا", previous,  next, inflection, debug);
+    assertSuggestion("أربعة عشر", "في أربعة عشر دينارا", previous,  next, inflection, debug);
+    assertSuggestion("أربعة وثلاثون", "في أربعة وثلاثين دينارا", previous,  next, inflection, debug);
+    assertSuggestion("مائةٍ", "في مائة دينار", previous,  next, inflection, debug);
+    assertSuggestion("مائة وخمسة وعشرون", "في مائة وخمسة وعشرين دينارا", previous,  next, inflection, debug);
+    assertSuggestion("مائة وأربعة وثلاثين", "في مائة وأربعة وثلاثين دينارا", previous,  next, inflection, debug);
+    assertSuggestion("ألف وتسعمائة واثنان وعشرين", "في ألف وتسعمائة واثنين وعشرين دينارا", previous,  next, inflection, debug);
+    assertSuggestion("مليون ومئتان وخمسة وأربعين ألفاً وسبعمائة وواحد", "في مليون ومئتين وخمسة وأربعين ألفا وسبعمائة وواحد دينار", previous,  next, inflection, debug);
+//    assertSuggestion("مائة واثنين", "في مائة ودينارين", previous,  next, inflection, debug);
+    assertSuggestion("عشرة وآلاف", "في عشرة آلاف دينار", previous,  next, inflection, debug);
   }
 
   private void assertSuggestion(String phrase, String expectedSuggestion, String previousWord, String nextWord, String inflection, boolean debug) throws IOException {
@@ -84,10 +108,12 @@ public class ArabicNumberPhraseFilterTest {
     args.put("previousPos", "1");
     args.put("next", nextWord);
     args.put("inflect", inflection);
-    // the value -1, used to say that the last word is the given nex word
-    int nextPos = -1 ;
+      // the value -1, used to say that the last word is the given nex word
+      int nextPos = -1 ;
 //    int nextPos = tokenizer.tokenize(phrase).size() +1 ;
-    args.put("nextPos", String.valueOf(nextPos));
+      args.put("nextPos", String.valueOf(nextPos));
+
+
     // tokenlize phrase
     String fullPhrase = previousWord+" "+ phrase+ " "+ nextWord;
 //    String fullPhrase =  phrase;
@@ -109,14 +135,17 @@ public class ArabicNumberPhraseFilterTest {
     }
     else { //  debug is true
       String suggestion = "";
-      if (!ruleMatch.getSuggestedReplacements().isEmpty())
+      if (!ruleMatch.getSuggestedReplacements().isEmpty()) {
         suggestion = ruleMatch.getSuggestedReplacements().toString();
+      }
       // show only no suggestion cases
 //      if(suggestion.isEmpty() || !suggestion.startsWith("[ي"))
-      if(expectedSuggestion.isEmpty())
+      if(expectedSuggestion.isEmpty()) {
         System.out.println("مثال: " + fullPhrase + " مقترح:" + suggestion);
-      else
-        System.out.println("مثال: " + fullPhrase + " مقترح:" + suggestion + " متوقع: "+ expectedSuggestion);
+      }
+      else {
+        System.out.println("مثال: " + fullPhrase + " مقترح:" + suggestion + " متوقع: " + expectedSuggestion);
+      }
 
     }
     }

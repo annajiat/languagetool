@@ -34,6 +34,7 @@ import java.util.*;
 
 import static java.lang.Math.min;
 import static java.lang.Math.subtractExact;
+import static java.util.Arrays.asList;
 
 /**
  * Filter that maps suggestion for numeric phrases.
@@ -77,21 +78,23 @@ public class NumberPhraseFilter extends RuleFilter {
     int start_pos = (previousWordPos>0) ? previousWordPos+1: 0;
 
     int end_pos = (nextWordPos>0) ? Integer.min(nextWordPos, patternTokens.length): patternTokens.length+nextWordPos;
-    if(nextWord.isEmpty())
-    {
-      // nextWordPos m
-      // 0: no next word
-      // > 0: get position nextWordPos
-      // <0: get position related to tokens length
-      if(end_pos!=0)
-      {
-//        nextWord = patternTokens[end_pos].getToken();
-        System.out.println("endPos:"+ end_pos + "Next:"+patternTokens[end_pos].getToken());
-      }
 
-    }
+//    if(nextWord.isEmpty())
+//    {
+//      // nextWordPos m
+//      // 0: no next word
+//      // > 0: get position nextWordPos
+//      // <0: get position related to tokens length
+//      if(end_pos!=0)
+//      {
+////        nextWord = patternTokens[end_pos].getToken();
+//        System.out.println("endPos:"+ end_pos + "Next:"+patternTokens[end_pos].getToken());
+//      }
+//
+//    }
     for(int i = start_pos; i< end_pos; i++)
       numWordTokens.add(patternTokens[i].getToken().trim());
+
     String numPhrase = String.join(" ", numWordTokens);
     /* extract features from previous */
 
@@ -99,9 +102,17 @@ public class NumberPhraseFilter extends RuleFilter {
     boolean attached = false;
     String inflection = getInflectedCase(patternTokens, previousWordPos, inflectArg);
 //    System.out.println("Candidtate phrase: "+ numPhrase + "previousWord:" + previousWord +" inflect:"+inflection );
-
-    List<String> suggestionList = prepareSuggestion(numPhrase, previousWord, nextWord, feminin, attached, inflection);
-
+    List<String> suggestionList;
+    if(nextWord.isEmpty()) {
+      suggestionList = prepareSuggestion(numPhrase, previousWord, null, feminin, attached, inflection);
+    }
+    else {
+      AnalyzedTokenReadings nextWordToken = null;
+      if (end_pos >0 && end_pos <patternTokens.length) {
+        nextWordToken = patternTokens[end_pos];
+      }
+      suggestionList = prepareSuggestionWithUnits(numPhrase, previousWord, nextWordToken, feminin, attached, inflection);
+    }
     RuleMatch newMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(), match.getMessage(), match.getShortMessage());
 
     if(!suggestionList.isEmpty())
@@ -160,7 +171,7 @@ public class NumberPhraseFilter extends RuleFilter {
   }
 
   /* prepare suggestion for given phrases */
-public static  List<String> prepareSuggestion(String numPhrase, String previousWord, String nextWord, boolean feminin, boolean attached, String inflection){
+public static  List<String> prepareSuggestion(String numPhrase, String previousWord, AnalyzedTokenReadings nextWord, boolean feminin, boolean attached, String inflection){
 
     List<String> tmpsuggestionList = ArabicNumbersWords.getSuggestionsNumericPhrase(numPhrase,feminin, attached, inflection);
     List<String> suggestionList = new ArrayList<>();
@@ -172,6 +183,101 @@ public static  List<String> prepareSuggestion(String numPhrase, String previousW
   }
     return  suggestionList;
   }
+
+  /* prepare suggestion for given phrases */
+public  List<String> prepareSuggestionWithUnits(String numPhrase, String previousWord, AnalyzedTokenReadings nextWord, boolean feminin, boolean attached, String inflection) {
+
+  String defaultUnit = "دينار";
+
+  List<Map<String, String>> tmpsuggestionList = ArabicNumbersWords.getSuggestionsNumericPhraseWithUnits(numPhrase, defaultUnit, feminin, attached, inflection);
+  List<String> suggestionList = new ArrayList<>();
+  if (!tmpsuggestionList.isEmpty()) {
+    for (Map<String, String> sugMap : tmpsuggestionList) {
+      String sug = sugMap.get("phrase");
+      List<String> inflectedUnitList = inflectUnit(nextWord, sugMap);
+      for (String unit : inflectedUnitList) {
+       StringBuilder tmp = new StringBuilder();
+        if (!previousWord.isEmpty()) {
+          tmp.append(previousWord + " " );
+        }
+        tmp.append(sug);
+        if(unit!=null && !unit.isEmpty()) {
+          tmp.append(" " + unit);
+        }
+          suggestionList.add(tmp.toString());
+        }
+      }
+    }
+
+    return suggestionList;
+}
+/* get suitable forms for the given unit */
+private List<String> inflectUnit(AnalyzedTokenReadings unit, Map<String, String> sugMap) {
+  if (unit == null) {
+    return null;
+  } else {
+    String inflection = sugMap.getOrDefault("unitInflection", "");
+    String number = sugMap.getOrDefault("unitNumber", "");
+    String inflected = unit.getToken() + "{" + inflection + "+" + number + "}";
+    List<String> tmpList = new ArrayList<>();
+    List<String> inflectedList = new ArrayList<>();
+    for (AnalyzedToken tk : unit) {
+      String postag = tk.getPOSTag();
+//      String lemma = tk.getLemma();
+      if (tagmanager.isNoun(postag) && !tagmanager.isDefinite(postag) && !tagmanager.hasPronoun(postag)) {
+        // add inflection flag
+        if (inflection == "jar") {
+          postag = tagmanager.setMajrour(postag);
+        } else if (inflection == "raf3") {
+          postag = tagmanager.setMarfou3(postag);
+        } else if (inflection == "nasb") {
+          postag = tagmanager.setMansoub(postag);
+        } else {
+          postag = tagmanager.setMarfou3(postag);
+        }
+
+        // add number flag
+        if (number == "one") {
+          postag = tagmanager.setSingle(postag);
+        } else if (number == "two") {
+          postag = tagmanager.setDual(postag);
+        } else if (number == "plural") {
+          postag = tagmanager.setPlural(postag);
+
+        } else {
+          postag = tagmanager.setSingle(postag);
+
+        }
+        //  add Tanwin
+        if(number == "one" && inflection == "nasb")
+        {
+          postag = tagmanager.setTanwin(postag);
+        }
+
+        //
+        // for each potag generate a new token
+        if (!tmpList.contains(postag)) {
+          tmpList.add(postag);
+          List<String> syhthesizedList = asList(synthesizer.synthesize(tk, postag));
+          if (syhthesizedList != null && !syhthesizedList.isEmpty()) {
+            inflectedList.addAll(syhthesizedList);
+          }
+        }
+      }
+
+
+    }
+    return inflectedList;
+//    if(inflectedList.isEmpty())
+//    {
+//      return inflected + tmpList.toString();
+//    }
+//    return inflectedList.toString()+tmpList.toString();
+////    return inflectedList.toString()+tmpList.toString();
+//  }
+
+  }
+}
 private static int getPreviousPos(Map<String, String> args)
 {
   int previousWordPos =0;

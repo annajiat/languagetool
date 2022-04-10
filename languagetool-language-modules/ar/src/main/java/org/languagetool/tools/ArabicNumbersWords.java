@@ -308,6 +308,8 @@ public class ArabicNumbersWords {
 
       // get feminin from unit
       boolean feminin = isFeminin(unit);
+      String unit_inflection ="";
+      String unit_number ="";
       // inflection
       // generate phrase from number
       String numberPhrase = ArabicNumbersWords.numberToArabicWords(Integer.toString(n), feminin, true, inflection);
@@ -316,6 +318,8 @@ public class ArabicNumbersWords {
       // generate suitable unit
       if (n.equals(0)) {
         new_unit = getForm(unit, "plural", "nasb");
+        unit_inflection ="nasb";
+        unit_number = "plural";
         phrase.append("لا");
         phrase.append(" ");
         phrase.append(new_unit);
@@ -323,12 +327,16 @@ public class ArabicNumbersWords {
         // دينارا واحدا
         // دينارٍ واحدٍ
         new_unit = getForm(unit, "one", inflection);
+        unit_inflection = inflection;
+        unit_number = "one";
         phrase.append(new_unit);
         phrase.append(" ");
         phrase.append(numberPhrase);
       } else if (n.equals(2)) { // ديناران
         // دينارين
         new_unit = getForm(unit, "two", inflection);
+        unit_inflection = inflection;
+        unit_number = "two";
         phrase.append(new_unit);
       } else if (n % 100 == 1) { // مئة دينار ودينار
         // ألف دينار ودينار
@@ -341,6 +349,8 @@ public class ArabicNumbersWords {
         String new_unit_hundred =  getForm(unit, "one", "jar");
         // unit for one
         String new_unit_one =  getForm(unit, "one", inflection);
+        unit_inflection =inflection;
+        unit_number = "one";
         new_unit = new_unit_one;
         phrase.append(numberPhrase_hundred);
         phrase.append(" ");
@@ -360,6 +370,8 @@ public class ArabicNumbersWords {
         String new_unit_hundred =  getForm(unit, "one", "jar");
         // unit for two
         String new_unit_two =  getForm(unit, "two", inflection);
+        unit_inflection = inflection;
+        unit_number = "two";
         new_unit = new_unit_two;
         phrase.append(numberPhrase_hundred);
         phrase.append(" ");
@@ -371,6 +383,8 @@ public class ArabicNumbersWords {
       } else if (n % 100 >= 3 && n % 100 <= 10) { // خمسة دنانير
         // عشرة رجال
         new_unit =  getForm(unit, "plural", "jar");
+        unit_inflection ="jar";
+        unit_number = "plural";
         phrase.append(numberPhrase);
         phrase.append(" ");
         phrase.append(new_unit);
@@ -379,6 +393,8 @@ public class ArabicNumbersWords {
         // ثمانون رجلا
         // تسعة وتسعون رجلا
         new_unit =  getForm(unit, "one", "nasb");
+        unit_inflection ="nasb";
+        unit_number = "one";
         phrase.append(numberPhrase);
         phrase.append(" ");
         phrase.append(new_unit);
@@ -387,6 +403,8 @@ public class ArabicNumbersWords {
         // ثمانون ألف دينار
         // تسعة وتسعون مليون دينار
         new_unit =  getForm(unit, "one", "jar");
+        unit_inflection ="jar";
+        unit_number = "one";
         phrase.append(numberPhrase);
         phrase.append(" ");
         phrase.append(new_unit);
@@ -401,6 +419,8 @@ public class ArabicNumbersWords {
       phraseMap.put("unit", new_unit);
       phraseMap.put("number", String.valueOf(n));
       phraseMap.put("unitLemma", unit);
+      phraseMap.put("unitNumber", unit_number);
+      phraseMap.put("unitInflection", unit_inflection);
       phraseMap.put("inflection", inflection);
       phraseMap.put("feminin", String.valueOf(feminin));
       return phraseMap;
@@ -441,6 +461,31 @@ public class ArabicNumbersWords {
         inflection = "jar";
         autoPhrase = ArabicNumbersWords.numberToArabicWords(String.valueOf(x), feminin, attached, inflection);
         suggestions.add(autoPhrase);
+      }
+    }
+    return suggestions;
+  }
+  /* Generate suggestions fro  given numeric phrase if it's incorrect and wekll spelling according to spectfic options */
+  public static List<Map<String, String>> getSuggestionsNumericPhraseWithUnits(String phrase_input, String unit,  boolean feminin,  boolean attached, String inflection) {
+    List<Map<String, String>> suggestions = new ArrayList<>();
+    String phrase = ArabicStringTools.removeTashkeel(phrase_input);
+    Integer x = ArabicNumbersWords.textToNumber(phrase);
+    Map<String, String> autoPhraseMap = ArabicNumbersWords.numberToWordsWithUnitsMap(x,unit, inflection);
+    String autoPhrase = ArabicStringTools.removeTashkeel(autoPhraseMap.getOrDefault("phrase", ""));
+    if(!autoPhrase.equals(phrase))
+    {
+      // if inflection is null generate all cases
+      if(inflection!= null  && !inflection.isEmpty())
+        suggestions.add(autoPhraseMap);
+      else
+      { //Raf3
+        inflection = "raf3";
+        autoPhraseMap = ArabicNumbersWords.numberToWordsWithUnitsMap(x,unit, inflection);
+        suggestions.add(autoPhraseMap);
+        //nasb+jar
+        inflection = "jar";
+        autoPhraseMap = ArabicNumbersWords.numberToWordsWithUnitsMap(x,unit, inflection);
+        suggestions.add(autoPhraseMap);
       }
     }
     return suggestions;

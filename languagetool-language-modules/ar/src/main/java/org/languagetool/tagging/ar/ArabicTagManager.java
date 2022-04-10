@@ -314,6 +314,12 @@ public class ArabicTagManager {
   public boolean isNoun(String postag) {
     return ((postag!=null) && postag.startsWith("N"));
   }
+  /**
+   * @return true if have flag dual
+   */
+  public boolean isDual(String postag) {
+    return ((postag!=null) && getFlag(postag,"NUMBER")=='2');
+  }
 
   /**
    * @return true if have flag verb
@@ -825,6 +831,49 @@ it can be used to replace :
 
   return targetPosTag;
 
+  }
+
+  public String setSingle(String postag)
+  {
+    return setFlag(postag, "NUMBER", '1');
+  }
+
+  public  String setDual(String postag)
+  {
+    return setFlag(postag, "NUMBER", '2');
+  }
+
+  public String setPlural(String postag)
+  {
+    return setFlag(postag, "NUMBER", '3');
+  }
+
+  public  String setMajrour(String postag)
+  {
+    if(isNoun(postag)) {
+      if(isDual(postag)) {
+        return setFlag(postag, "CASE", 'A');
+      }
+      else {
+        return setFlag(postag, "CASE", 'I');
+      }
+      }
+    else  {
+      return postag;
+    }
+
+  }
+  public  String setMarfou3(String postag)
+  {
+    return setFlag(postag, "CASE", 'U');
+  }
+  public  String setMansoub(String postag)
+  {
+    return setFlag(postag, "CASE", 'A');
+  }
+  public  String setTanwin(String postag)
+  {
+    return setFlag(postag, "PRONOUN", 'n');
   }
 }
 
