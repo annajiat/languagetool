@@ -83,6 +83,9 @@ USA
      <!ENTITY number_units "ثلاث|أربع|خمس|ست|سبع|تسع|ثماني|اثنين|واحد|ثلاثة|أربعة|خمسة|ستة|سبعة|ثمانية|تسعة">
      <!ENTITY number_decades_raf3 "عشرون|ثلاثون|أربعون|خمسون|ستون|سبعون|ثمانون|تسعون">
      <!ENTITY number_decades_jar "عشرين|ثلاثين|أربعين|خمسين|ستين|سبعين|ثمانين|تسعين">
+     <!ENTITY number_dual_raf3 "ألفان|مليونان|ملياران|بليونان|مئتان|اثنان|اثنتان|اثنا|اثنتا">
+     <!ENTITY numeric_words_raf3 "و?(&number_decades_raf3;|&number_dual_raf3;)">
+     
      <!ENTITY number_2_99_jar "(&number_units;)|(&number_decades_jar;)|(&number_units;)&nbsp; و(&number_decades_jar;)">
      <!ENTITY isolated_pronouns "أنا|أنت|هو|هي|أنتما|هما|نحن|أنتم|أنتن|هم|هن">
     ]>
@@ -8063,42 +8066,43 @@ Implemented as a text rules used in rules/arabic_trans_indirect_to_direct.txt
             </rule>
             
                   <rulegroup id="syntax_numeric" name="تدقيق ألفاظ الأعداد">
-<!--                   <rule id="syntax_numeric_0001" name="تدقيق ألفاظ الأعداد"> -->
-<!--       /*
-   
-           -->
-            <!--    <pattern>
-                    <marker>
-                    <token>في</token>
-                    <token regexp="yes">&number_units;</token>
-                    <token regexp="yes">(و?)(&number_decades_raf3;)</token>
-                </marker>
-                </pattern>
-                <filter class="org.languagetool.rules.ar.NumberPhraseFilter" args="previous:\1 previousPos:1"/>
-                <message>التحقق من الأعداد
-                    </message>
-                 <example type="incorrect" correction="في خمسة وثلاثين"><marker>في خمسة وثلاثون</marker>.</example>  --> 
-<!--                 <example type="incorrect"><marker>في خمسة وثلاثون</marker>.</example>   -->
-<!--             </rule> -->
-            
-            <rule id="syntax_numeric_0001a" name="تدقيق ألفاظ الأعداد">
-<!--       /*
-   
-           -->
+                      
+             <rule id="syntax_numeric_0003" name="تدقيق ألفاظ الأعداد">
                 <pattern>
                     <marker>
                     <token>في</token>
-                    <token regexp="yes">&number_units;</token>
-                    <token regexp="yes">(و?)(&number_decades_raf3;)</token>
+                    <token postag="NN.;..[^U].*;.*" postag_regexp="yes" min="0" max="14"/>
+                      <token regexp="yes">&numeric_words_raf3;</token>
+<!--                      <token postag="NN.;..U.*;.*" postag_regexp="yes"/> -->
+                    <token postag="NN.;.*;.*" postag_regexp="yes" min="0" max="14"/>
                 </marker>
-                <token/>
+                <token postag="NJ.*" postag_regexp="yes"><exception postag="NN.*" postag_regexp="yes"/></token>
+<!--                 <token postag="N[^N].*|P.*" postag_regexp="yes"/> -->
+<!--                 <token><exception postag="NN.*" postag_regexp="yes"/></token> -->
                 </pattern>
                 <filter class="org.languagetool.rules.ar.NumberPhraseFilter" args="previous:\1 previousPos:1 nextPos:-1"/>
                 <message>التحقق من الأعداد
                     </message>
-                 <example type="incorrect" correction="في خمسة وثلاثين"><marker>في خمسة وثلاثون</marker> صندوقا.</example>   
+<!--                  <example type="incorrect"><marker>في مليونان ومئتان وخمسة وأربعون ألفاً وسبعمائة وواحد</marker> صندوق.</example>   
+                 <example type="incorrect"><marker>في مليونين ومئتان وخمسة وأربعون ألفاً وسبعمائة وواحد</marker> صندوق.</example>   
+                 <example type="incorrect"><marker>في مليونين ومئتين وخمسة وأربعون ألفاً وسبعمائة وواحد</marker> صندوق.</example>  --> 
+                <example type="incorrect" correction="في مليونين ومئتين وخمسة وأربعين ألفا وسبعمائة وواحد"><marker>في مليونان ومئتان وخمسة وأربعون ألفاً وسبعمائة وواحد</marker> صندوق.</example>   
+                 <example type="incorrect" correction="في مليونين ومئتين وخمسة وأربعين ألفا وسبعمائة وواحد"><marker>في مليونين ومئتان وخمسة وأربعون ألفاً وسبعمائة وواحد</marker> صندوق.</example>   
+                 <example type="incorrect" correction="في مليونين ومئتين وخمسة وأربعين ألفا وسبعمائة وواحد"><marker>في مليونين ومئتين وخمسة وأربعون ألفاً وسبعمائة وواحد</marker> صندوق.</example>  
+               <example type="incorrect" correction="في ثلاثين"><marker>في ثلاثون</marker> صندوقا.</example>   
+               <example type="incorrect" correction="في خمسة وثلاثين"><marker>في خمسة وثلاثون</marker> صندوقا.</example>   
+                 <example type="incorrect" correction="في خمسمائة واثنين وثلاثين"><marker>في خمسمئة واثنان وثلاثون</marker> صندوقا.</example>   
+                 <example type="incorrect" correction="في ألف وخمسمائة واثنين وثلاثين"><marker>في ألف وخمسمئة واثنين وثلاثون</marker> صندوقا.</example>   
+                 
+                 <example type="incorrect" correction="في خمسمائة وتسعة وثلاثين مليونا وتسعة وتسعين ألفا وستمائة وسبعة وثلاثين"><marker>في خمسمئة وتسعة وثلاثين مليون وتسعة وتسعون ألفا وستمئة وسبعة وثلاثين</marker> صندوقا.</example>   
+              
+                 <example type="incorrect" correction="في خمسمائة وتسعة وثلاثين مليونا وتسعة وتسعين ألفا وستمائة وسبعة وثلاثين"><marker>في خمسمئة وتسعة وثلاثون مليون وتسعة وتسعون ألفا وستمئة وسبعة وثلاثين</marker> صندوقا.</example>   
+              
+                 <example type="incorrect" correction="في خمسمائة وتسعة وثلاثين مليونا وتسعة وتسعين ألفا وستمائة وسبعة وثلاثين"><marker>في خمسمئة وتسعة وثلاثين مليون وتسعة وتسعون ألفا وستمئة وسبعة وثلاثين</marker> صندوقا.</example>   
+              
             </rule>
-
+            
+ 
             </rulegroup>
       </category>
 </rules>

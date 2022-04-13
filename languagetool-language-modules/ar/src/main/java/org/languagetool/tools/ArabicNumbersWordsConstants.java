@@ -287,6 +287,7 @@ public class ArabicNumbersWordsConstants {
     NUMBER_WORDS.put("ألف", 1000);
     NUMBER_WORDS.put("ألفا", 1000);
     NUMBER_WORDS.put("مليون", 1000000);
+    NUMBER_WORDS.put("مليونا", 1000000);
     NUMBER_WORDS.put("مليار", 1000000000);
     NUMBER_WORDS.put("ألفان", 2000);
     NUMBER_WORDS.put("ألفين", 2000);
