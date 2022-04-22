@@ -92,13 +92,13 @@ public class ArabicNumbersWordsConstants {
     arabicHundreds.add("");
     arabicHundreds.add("مائة");
     arabicHundreds.add("مئتان");
-    arabicHundreds.add("ثلاثمائة");
-    arabicHundreds.add("أربعمائة");
-    arabicHundreds.add("خمسمائة");
-    arabicHundreds.add("ستمائة");
-    arabicHundreds.add("سبعمائة");
-    arabicHundreds.add("ثمانمائة");
-    arabicHundreds.add("تسعمائة");
+    arabicHundreds.add("ثلاثمئة");
+    arabicHundreds.add("أربعمئة");
+    arabicHundreds.add("خمسمئة");
+    arabicHundreds.add("ستمئة");
+    arabicHundreds.add("سبعمئة");
+    arabicHundreds.add("ثمانمئة");
+    arabicHundreds.add("تسعمئة");
     /* Hundreds */
 
     /* Twos */
