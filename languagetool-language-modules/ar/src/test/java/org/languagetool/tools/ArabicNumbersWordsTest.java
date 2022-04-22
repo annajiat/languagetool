@@ -43,13 +43,13 @@ public class ArabicNumbersWordsTest {
 
     hundreds.put("100", "مائة");
     hundreds.put("200", "مئتان");
-    hundreds.put("300", "ثلاثمائة");
-    hundreds.put("400", "أربعمائة");
-    hundreds.put("500", "خمسمائة");
-    hundreds.put("600", "ستمائة");
-    hundreds.put("700", "سبعمائة");
-    hundreds.put("800", "ثمانمائة");
-    hundreds.put("900", "تسعمائة");
+    hundreds.put("300", "ثلاثمئة");
+    hundreds.put("400", "أربعمئة");
+    hundreds.put("500", "خمسمئة");
+    hundreds.put("600", "ستمئة");
+    hundreds.put("700", "سبعمئة");
+    hundreds.put("800", "ثمانمئة");
+    hundreds.put("900", "تسعمئة");
 
     validateNumbersMap(hundreds);
   }
@@ -117,7 +117,7 @@ public class ArabicNumbersWordsTest {
     Map<String, String> hundredThousands = new HashMap<>();
     hundredThousands.put("100000", "مائة ألف");
     hundredThousands.put("200000", "مئتا ألف");
-    hundredThousands.put("300000", "ثلاثمائة ألف");
+    hundredThousands.put("300000", "ثلاثمئة ألف");
 
     validateNumbersMap(hundredThousands);
   }
@@ -127,7 +127,7 @@ public class ArabicNumbersWordsTest {
     Map<String, String> hundredThousands = new HashMap<>();
     hundredThousands.put("100000000", "مائة مليون");
     hundredThousands.put("200000000", "مئتا مليون");
-    hundredThousands.put("300000000", "ثلاثمائة مليون");
+    hundredThousands.put("300000000", "ثلاثمئة مليون");
 
     validateNumbersMap(hundredThousands);
   }
