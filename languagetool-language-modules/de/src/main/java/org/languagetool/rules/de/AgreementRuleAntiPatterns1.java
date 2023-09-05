@@ -36,6 +36,21 @@ class AgreementRuleAntiPatterns1 {
       posRegex("SUB:.*")
     ),
     Arrays.asList(
+      tokenRegex("der|die|das"),   // "Der solchen Einsätzen gegenüber kritische Müller ..."
+      tokenRegex("solche[mn]|diese[mn]"),
+      posRegex("SUB:.*"),
+      token("gegenüber"),
+      posRegex("ADJ:.*"),
+      posRegex("SUB:.*|EIG.*")
+    ),
+    Arrays.asList(
+      tokenRegex("des|der"),   // "des wenige Jahrzehnte zuvor verstorbenen Klostergründers"
+      new PatternTokenBuilder().posRegex("ADJ:.*").min(0).build(),
+      posRegex("SUB:.*|EIG.*"),
+      token("zuvor"),
+      posRegex("PA2:.*")
+    ),
+    Arrays.asList(
       token("Ehre"),  // "Ehre, wem Ehre gebührt"
       token(","),
       token("wem"),
@@ -175,17 +190,17 @@ class AgreementRuleAntiPatterns1 {
     Arrays.asList(
       token("von"),  // "von denen viele Open-Source-Software sind"
       token("denen"),
-      tokenRegex("viele|alle|einige|manche"),
-      posRegex("SUB:.*SIN:.*"),
-      token("sind|seien|waren")
+      tokenRegex("viele|alle|einige|manche|mehrere|wenige"),
+      new PatternTokenBuilder().posRegex("SUB:.*SIN:.*").setSkip(-1).build(),
+      tokenRegex("sind|seien|sein|waren|wären")
     ),
     Arrays.asList(
       token("von"),  // "von denen die meisten Open-Source-Software sind"
       token("denen"),
       token("die"),
-      token("meisten"),
-      posRegex("SUB:.*SIN:.*"),
-      token("sind|seien|waren")
+      tokenRegex("meisten|wenigsten|besten"),
+      new PatternTokenBuilder().posRegex("SUB:.*SIN:.*").setSkip(-1).build(),
+      tokenRegex("sind|seien|sein|waren|wären")
     ),
     Arrays.asList(
       tokenRegex("die|der|den"),  // "die späten 50er Jahre"
@@ -766,10 +781,20 @@ class AgreementRuleAntiPatterns1 {
     ),
     Arrays.asList(
       // like above, but with ":", as we don't interpret this as a sentence start (but it often is)
-      csRegex("Meist(ens)?|Oft(mals)?|Häufig|Selten"),
+      csRegex("Meist(ens)?|Oft(mals)?|Häufig|Selten|Natürlich"),
       tokenRegex("sind|waren|ist"),
       token("das"),
       posRegex("SUB:.*") // Meistens sind das Frauen, die damit besser umgehen können.
+    ),
+    Arrays.asList( // Natürlich ist das Quatsch!
+      tokenRegex("ist|war"),
+      token("das"),
+      token("Quatsch")
+    ),
+    Arrays.asList( // Eine Maßnahme die Vertrauen schafft
+      tokenRegex("der|die"),
+      token("Vertrauen"),
+      new PatternTokenBuilder().matchInflectedForms().tokenRegex("schaffen").build()
     ),
     Arrays.asList(
       token("des"),
@@ -890,10 +915,167 @@ class AgreementRuleAntiPatterns1 {
       tokenRegex("1[0-9]{3}|20[0-9]{2}")
     ),
     Arrays.asList(
-      tokenRegex("Ende|Mitte|Anfang"), // "Ende letzten Jahres"
+      tokenRegex("dann|so"),
+      token("bedarf"),
+      tokenRegex("das|dies")
+    ),
+    Arrays.asList(
+      posRegex("ART.*|PRO:POS.*"),
+      posRegex("ADJ.*|PA[12].*"),
+      tokenRegex("Windows|iOS"),
+      tokenRegex("\\d+")
+    ),
+    Arrays.asList(
+      // Die letzte unter Windows 98 lauffähige Version ist 5.1.
+      posRegex("ART.*|PRO:POS.*"),
+      posRegex("ADJ.*|PA[12].*"),
+      posRegex("ADJ.*|PA[12].*"),
+      tokenRegex("Windows|iOS"),
+      tokenRegex("\\d+")
+    ),
+    Arrays.asList(
+      posRegex("ART.*|PRO:POS.*"),
+      tokenRegex("Windows|iOS"),
+      tokenRegex("\\d+")
+    ),
+    // wird empfohlen, dass Unternehmen die gefährliche Güter benötigen ...
+    Arrays.asList(
+      token("dass"),
+      new PatternTokenBuilder().posRegex("ADJ.*|PA[12].*").min(0).build(),
+      posRegex("SUB:.*PLU.*"),
+      token("die"),
+      posRegex("ADJ.*|PA[12].*"),
+      posRegex("SUB:.*"),
+      posRegex("VER:.*")
+    ),
+    Arrays.asList( // des Handelsblatt Research Institutes
+      csToken("Handelsblatt"),
+      csToken("Research"),
+      csRegex("Institute?s?")
+    ),
+    Arrays.asList( // Ich arbeite bei der Shop Apotheke im Vertrieb
+      csToken("Shop"),
+      csToken("Apotheke")
+    ),
+    Arrays.asList( // In den Prime Standard
+      csToken("Prime"),
+      csToken("Standard")
+    ),
+    Arrays.asList( // Die Nord Stream 2 AG
+      csToken("Nord"),
+      csToken("Stream")
+    ),
+    Arrays.asList( // Ein Mobiles Einsatzkommando
+      posRegex("ART.*|PRO:POS.*"),
+      csToken("Mobiles"),
+      csToken("Einsatzkommando")
+    ),
+    Arrays.asList( // Die Gen Z
+      posRegex("ART.*|PRO:POS.*"),
+      csToken("Gen"),
+      tokenRegex("[XYZ]")
+    ),
+    Arrays.asList( // Das veranlasste Bürgermeister Adam
+      tokenRegex("das|dies"),
+      csToken("veranlasste"),
+      posRegex("SUB.*")
+    ),
+    // TODO: comment in
+    // Arrays.asList(
+    //   // die gegnerischen Shooting Guards
+    //   posRegex("ART.*NOM:PLU"),
+    //   posRegex("(ADJ|PA[12]).*NOM:PLU.*"),
+    //   posRegex("SUB.*SIN.*"),
+    //   new PatternTokenBuilder().posRegex("UNKNOWN").tokenRegex("(?i)[A-ZÄÖÜ].+").build()
+    // ),
+    // Arrays.asList(
+    //   // die gegnerischen Shooting Guards
+    //   posRegex("ART.*GEN:PLU"),
+    //   posRegex("(ADJ|PA[12]).*GEN:PLU.*"),
+    //   posRegex("SUB.*SIN.*"),
+    //   new PatternTokenBuilder().posRegex("UNKNOWN").tokenRegex("(?i)[A-ZÄÖÜ].+").build()
+    // ),
+    // Arrays.asList(
+    //   // die gegnerischen Shooting Guards
+    //   posRegex("ART.*DAT:PLU"),
+    //   posRegex("(ADJ|PA[12]).*DAT:PLU.*"),
+    //   posRegex("SUB.*SIN.*"),
+    //   new PatternTokenBuilder().posRegex("UNKNOWN").tokenRegex("(?i)[A-ZÄÖÜ].+").build()
+    // ),
+    // Arrays.asList(
+    //   // die gegnerischen Shooting Guards
+    //   posRegex("ART.*AKK:PLU"),
+    //   posRegex("(ADJ|PA[12]).*AKK:PLU.*"),
+    //   posRegex("SUB.*SIN.*"),
+    //   new PatternTokenBuilder().posRegex("UNKNOWN").tokenRegex("(?i)[A-ZÄÖÜ].+").build()
+    // ),
+    // Arrays.asList(
+    //   // den leidenschaftlichen Lobpreis der texanischen Gateway Church aus
+    //   posRegex("ART.*DAT:SIN.*"),
+    //   posRegex("(ADJ|PA[12]).*DAT:SIN.*"),
+    //   posRegex("SUB.*SIN.*"),
+    //   new PatternTokenBuilder().posRegex("UNKNOWN").tokenRegex("(?i)[A-ZÄÖÜ].+").build()
+    // ),
+    // Arrays.asList(
+    //   // den leidenschaftlichen Lobpreis des texanischen Gateway Church aus
+    //   posRegex("ART.*GEN:SIN.*"),
+    //   posRegex("(ADJ|PA[12]).*GEN:SIN.*"),
+    //   posRegex("SUB.*SIN.*"),
+    //   new PatternTokenBuilder().posRegex("UNKNOWN").tokenRegex("(?i)[A-ZÄÖÜ].+").build()
+    // ),
+    // Arrays.asList(
+    //   // den leidenschaftlichen Lobpreis des texanischen Gateway Church aus
+    //   posRegex("ART.*NOM:SIN.*"),
+    //   posRegex("(ADJ|PA[12]).*NOM:SIN.*"),
+    //   posRegex("SUB.*SIN.*"),
+    //   new PatternTokenBuilder().posRegex("UNKNOWN").tokenRegex("(?i)[A-ZÄÖÜ].+").build()
+    // ),
+    // Arrays.asList(
+    //   // den leidenschaftlichen Lobpreis des texanischen Gateway Church aus
+    //   posRegex("ART.*AKK:SIN.*"),
+    //   posRegex("(ADJ|PA[12]).*AKK:SIN.*"),
+    //   posRegex("SUB.*SIN.*"),
+    //   new PatternTokenBuilder().posRegex("UNKNOWN").tokenRegex("(?i)[A-ZÄÖÜ].+").build()
+    // ),
+    Arrays.asList(
+      // Von der ersten Spielminute an machten die Münsteraner Druck und ...
+      new PatternTokenBuilder().matchInflectedForms().tokenRegex("machen").build(),
+      token("die"),
+      posRegex("SUB.*PLU.*"),
+      tokenRegex("Druck")
+    ),
+    Arrays.asList(
+      // Im Tun zu sein verhindert Prokrastination.
+      token("zu"),
+      token("sein"),
+      posRegex("VER:3:SIN.*")
+    ),
+    Arrays.asList(
+      tokenRegex("Ende|Mitte|Anfang"), // "Ende letzten Jahres" "Ende der 50er Jahre"
       new PatternTokenBuilder().posRegex("ART:DEF:GEN:.*").min(0).build(),
-      new PatternTokenBuilder().posRegex("ADJ.*:GEN:.*").matchInflectedForms().tokenRegex("dieser|(vor)?letzter|[0-9]+er").build(),
+      new PatternTokenBuilder().posRegex("ADJ.*:(GEN|DAT):.*|ZAL").matchInflectedForms().tokenRegex("dieser|(vor)?letzter|[0-9]+er").build(),
       tokenRegex("Woche|Monats|Jahr(es?|zehnts|hunderts|tausends)")
+    ),
+    Arrays.asList(
+      token("das"),
+      csToken("Boostern")
+    ),
+    Arrays.asList(
+      // Das Zeit.de-CMS / Das Zeit.de CMS
+      token("das"),
+      new PatternTokenBuilder().posRegex("(ADJ|PA[12]).+").min(0).build(),
+      csToken("Zeit"),
+      csToken("."),
+      tokenRegex("de.*")
+    ),
+    Arrays.asList(
+      token("das"),
+      csToken("verlangte"),
+      tokenRegex("Ruhe|Zeit|Geduld")
+    ),
+    Arrays.asList(
+      csToken("BMW"),
+      token("ConnectedDrive")
     ));
 
 }

@@ -406,6 +406,21 @@ EELV;EELV; S
 LREM;LREM; S
 NYC;NYC; S
 Tatoeba;Tatoeba; Z e sp
+Hudgens;Hudgens; Z e sp
+Olsen; Olsen; Z e sp
+Jdownloader;Jdownloader; Z e sp
+Arthaud;Arthaud; Z e sp
+Asselineau;Asselineau; Z e sp
+Jadot;Jadot; Z e sp
+Lassalle;Lassalle; Z e sp
+Montebourg;Montebourg; Z e sp
+Smile;Smile; Z e sp
+Pécresse; Pécresse; Z e sp
+Waechter;Waechter; Z e sp
+PortAventura;PortAventura; Z e sp
+BM;BM; S
+JT;JT; S
+jpg;jpg; S
 Minnie;Minnie; Z f sp
 Moria;Moria; Z f sp
 MoDEm; MoDem; S
@@ -449,3 +464,117 @@ paddles;paddle; N m p
 pb;pb; S
 boutasse;boutasse; N f s
 boutasses;boutasse; N f p
+e-réputation;e-reputation; N f s
+micro-ondes;micro-ondes; N m s
+cloud;cloud; N m s
+spin-off;spin-off; N m s
+spin-offs;spin-off; N m p
+Saint-Joryens;Saint-Joryens; Z e sp
+Jafar;Jafar; Z e sp
+Castex;Castex; Z e sp
+Attal;Attal;Z e sp
+quart-temps;quart-temps; N m sp
+bas-carbone;bas-carbone; J e sp
+porte-épingles;porte-épingles; N m sp
+bas-alpin;bas-alpin; N m s
+bas-alpine;bas-alpin; N f s
+bas-alpins;bas-alpin; N m p
+bas-alpines;bas-alpin; N f p
+Portes-lès-Valence;Portes-lès-Valence; Z e sp
+micro-ondes;micro-ondes; N m sp
+thaïes;thaï; N f p
+brise-vue;brise-vue; N m s
+brise-vues;brise-vue; N m s
+Bar-Mitsvah;Bar-Mitsvah; Z f sp
+asso;asso; N f s
+assos;asso; N f p
+Lego;Lego;N m s
+Legos;Lego; N m p
+Lensois;Lensois; Z e sp
+lapis;lapis; N m sp
+lapis-lazuli;lapis-lazuli; N m sp
+Lans;Lans; Z e sp
+Dumbo;Dumbo; Z e sp
+mrd;mrd; S
+mrds;mrd; S
+tutura;tutora; N m sp
+Lans-en-Vercors;Lans-en-Vercors; Z e sp
+MSN;MSN; Z e sp
+mdr;mdr; I
+allers-retours;aller-retour;N m p
+Avast;Avast; Z e sp
+Avery;Avery; Z e sp
+Avoriaz;Avoriaz; Z e sp
+Avène;Avène; Z e sp
+Award;Award; Z e sp
+Award;Awards; Z e sp
+Aznavour;Aznavour; Z e sp
+Barthez;Barthez; Z e sp
+Bartoli;Bartoli; Z e sp
+Bayrou;Bayrou; Z e sp
+Amora;Amora; Z e sp
+Roxy;Roxy; Z e sp
+Rogé;Rogé; Z e sp
+MHL;MHL; S
+lope;lope; N f s
+lopes;lope; N f p
+SES;SES; Z e sp
+Aubert;Aubert; Z e sp
+Harmon;Harmon; Z e sp
+Niro;Niro; Z e sp
+Saint-Joryen;Saint-Joryen; Z m s
+Saint-Joryenne;Saint-Joryen; Z f s
+Saint-Joryens;Saint-Joryen; Z m p
+Saint-Joryennes;Saint-Joryen; Z m p
+GAFA;GAFA; Z e sp
+DAM;DAM; Z esp
+DAS;DAS; Z e sp
+Kardashian;Kardashian; Z e sp
+Moon Boots;Moon Boots; Z e sp
+ç';cela;R dem m s
+gens;gens; N m p
+gens;gens; N f s
+blanco;blanco; N m sp
+Ana;Ana; Z f sp
+M3;M3; Z f sp
+Abrams;Abrams; Z e sp
+Worcestershire;Worcestershire; Z e sp
+Wenger;Wenger; Z e sp
+Ronda;Ronda; Z e sp
+Priscus;Priscus; Z e sp
+Motorola;Motorola; Z e sp
+Mattarella;Mattarella; Z e sp
+Kendrick;Kendrick; Z e sp
+Janssen;Janssen; Z e sp
+Audacity;Audacity; Z e sp
+Pierre-Alain;Pierre-Alain; Z m sp
+CoronaVac;CoronaVac; Z e sp
+PiCoVacc;PiCoVacc; Z e sp
+AstraZeneca;AstraZeneca; Z e sp
+BioNTech;BioNTech; Z e sp
+Janssen;Janssen; Z e sp
+Sinovac;Sinovac; Z e sp
+Sinopharm;Sinopharm; Z e sp
+TousAntiCovid;TousAntiCovid; Z e sp
+StopCovid;StopCovid; Z e sp
+FFP2;FFP2; Z e sp
+N95;N95; Z e sp
+Zoomapéro;Zoomapéro;Z e sp
+Skypéro;Skypéro;Z e sp
+vaccinophile;vaccinophile; N e s
+vaccinophiles;vaccinophile; N e p
+vaccinodrome;vaccinodrome; N m s
+vaccinodromes;vaccinodrome; N m p
+super;super; A
+inofficiel;inofficiel; J m s
+inofficielle;inofficiel; J f s
+inofficiels;inofficiel; J m p
+inofficielles;inofficiel; J f p
+orange;orange;N f s
+oranges;orange;N f p
+orange;orange;N m s
+oranges;orange;N m p
+Gonda;Gonda;Z e sp
+Bottas;Bottas;Z e sp
+Véra;Véra;Z e sp
+Okinawa;Okinawa; Z e sp

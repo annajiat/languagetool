@@ -12,6 +12,10 @@
 
 # All correct words should be properly tagged in the tagger dictionary or in added.txt 
 
+Millán-Astray*
+chupa-chups
+Epstein-Barr*
+Nur-sultán+
 ecce-homo+
 sopla-gaitas+
 sub-total+

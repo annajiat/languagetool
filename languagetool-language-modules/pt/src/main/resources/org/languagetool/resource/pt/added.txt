@@ -1,7 +1,7 @@
 # A part-of-speech dictionary that's used additionally to the binary dictionary (*.dict).
 #
-# Copyright © 2016-2021 Marco A.G.Pinto (www.marcoagpinto.com)
-# Copyright © 2016-2021 Tiago F. Santos (tiagofsantos81@sapo.pt)
+# Copyright © 2016-2022 Marco A.G.Pinto (www.marcoagpinto.com)
+# Copyright © 2016-2022 Tiago F. Santos (tiagofsantos81@sapo.pt)
 #
 # This does not add words to the spell checker, see hunspell/spelling.txt for that.
 #
@@ -9,6 +9,25 @@
 # Format: three tab-separated fields: fullform baseform postags
 #
 # Note: Put diminutives under the same lemma as the base word (such as "cãozito" instead of "cão") — 2021-01-16
+#
+#
+# Structure of this file:
+#  - OBSCENE WORDS
+#  - Palavras português do Brasil - pt-BR
+#  - Infinitivos comprimidos em falta VMX0000
+#  - Numbers
+#  - Months abbreviated
+#  - Mozilla
+#  - Microsoft
+#  - LibreOffice
+#  - Google
+#  - Software / OSes / Computers
+#  - Rael / Raël
+#  - KARATE/MARTIAL ARTS
+#  - TAXONOMIC WORDS IN LATIN
+#  - Proper Names, including places, universities and organizations
+#  - Proper Names, including places, universities and organizations (Extracted from the Portuguese dictionary of Minho University using Proofing Tool GUI)
+#
 #
 abstract	abstract	NCMS000
 abstracts	abstract	NCMP000
@@ -492,6 +511,7 @@ bijutarias	bijutaria	NCFP000
 bilinear	bilinear	AQ0CS0
 bimodalidade	bimodalidade	NCFS000
 bioassinatura	bioassinatura	NCFS000
+bioassinaturas	bioassinatura	NCFP000
 biofilme	biofilme	NCMS000
 biofilmes	biofilme	NCMP000
 biogeográfica	biogeográfico	AQ0FS0
@@ -621,9 +641,10 @@ capeta	capeta	AQ0CS0
 capetas	capeta	NCCS000
 capitéis	capitel	NCMP000
 capuchino	capuchino	NCMS000
+cara	cara	NCMS000
+caras	cara	NCMP000
 caraças	caraças	NCMN000
-caralhada	caralhada	NCFS000
-caralhadas	caralhada	NCFP000
+caraças	caraças	I
 cardinalidade	cardinalidade	NCFS000
 cardinalidades	cardinalidade	NCFP000
 carica	carica	NCFS000
@@ -639,6 +660,8 @@ carquilhas	carquilha	NCFP000
 cash	cash	NCMS000
 cash-flow	cash-flow	NCMS000
 cash-flows	cash-flow	NCMP000
+catano	catano	NCMS000
+catano	catano	I
 cataplana	cataplana	NCFS000
 cataplanas	cataplana	NCFP000
 caterva	caterva	NCFS000
@@ -821,8 +844,6 @@ comportamentalismo	comportamentalismo	NCMS000
 comprovável	comprovável	AQ0CS0
 comuneiro	comuneiro	NCMS000
 comuneiros	comuneiro	NCMP000
-cona	cona	NCFS000
-conas	cona	NCFP000
 concavidade	concavidade	NCFS000
 concavidades	concavidade	NCFP000
 conceitualmente	conceitual	AQ0CS0
@@ -981,6 +1002,9 @@ curinga	curinga	NCFS000
 curinga	curinga	NCMS000
 curingas	curinga	NCFP000
 curingas	curinga	NCMP000
+cuscar	cuscar	VMN0000
+cuscar	cuscar	VMSF1S0
+cuscar	cuscar	VMSF3S0
 cúspide	cúspide	NCFS000
 cúspides	cúspide	NCFP000
 customizado	customizar	VMP00SM
@@ -1009,6 +1033,7 @@ defiro	deferir	VMIP1S0
 demand	demand	NCFS000
 demasiado	demasiado	RG
 demiti	demitir	VMX0000
+demo	demo	NCFS000
 denisovana	denisovano	NCFS000
 denisovanas	denisovano	NCFP000
 denisovano	denisovano	NCMS000
@@ -1250,6 +1275,8 @@ dobermanes	dobermane	NCFP000
 dobermanes	dobermane	NCMP000
 docilidade	docilidade	NCFS000
 docilidades	docilidade	NCFP000
+doidamente	doído	RG
+doidamente	doido	RG
 dólmen	dólmen	NCMS000
 dólmenes	dólmen	NCMP000
 dólmens	dólmen	NCMP000
@@ -1465,10 +1492,6 @@ espionagem	espionagem	NCFS000
 espionagens	espionagem	NCFP000
 esporângio	esporângio	NCMS000
 esporângios	esporângio	NCMP000
-esporra	esporra	NCFS000
-esporradela	esporradela	NCFS000
-esporradelas	esporradela	NCFP000
-esporras	esporra	NCFP000
 esq	esq	AQ0MS0
 esq	esq	NCMS000
 esqualiforme	esqualiforme	AQ0CS0
@@ -1608,6 +1631,7 @@ fartazanas	fartazana	NCFP000
 fãs	fã	NCCP000
 fashion	fashion	NCFS000
 FC	FC	NPMS000
+febre-amarela	febre-amarela	NCFS000
 feiarrão	feio	AQ0MS0
 femorais	femoral	AQ0CP0
 femoral	femoral	AQ0CS0
@@ -1804,6 +1828,7 @@ grã-cruz	grã-cruz	NCCS000
 grã-cruzes	grã-cruz	NCCP000
 graduando	graduando	NCMS000
 graduandos	graduando	NCMP000
+grafite	grafite	NCMS000
 grafito	grafito	NCMS000
 grafitos	grafito	NCMP000
 grafo	grafo	NCMS000
@@ -1817,6 +1842,8 @@ grená	grená	AQ0CN0
 grená	grená	NCMS000
 grenás	grená	AQ0CN0
 grenás	grená	NCMP000
+guedelha	guedelha	NCMS000
+guedelhas	guedelha	NCMP000
 hail	hail	I
 hambúrgueres	hambúrguer	NCMP000
 haploide	haploide	AQ0CS0
@@ -2175,6 +2202,8 @@ letã	letão	AQ0FS0
 letã	letão	NCFS000
 letão	letão	AQ0MS0
 letão	letão	NCMS000
+liberação	liberação	NCFS000
+liberações	liberação	NCFP000
 libreto	libreto	NCMS000
 libretos	libreto	NCMP000
 licenciante	licenciante	AQ0CS0
@@ -2356,6 +2385,8 @@ mentideiro	mentideiro	NCMS000
 mentideiros	mentideiro	NCMP000
 mento	mento	NCMS000
 mentos	mento	NCMP000
+mercantilidade	mercantilidade	NCFS000
+mercantilidades	mercantilidade	NCFP000
 merdice	merdice	NCFS000
 merdices	merdice	NCFP000
 merdilheiro	merdilheiro	NCMS000
@@ -2589,6 +2620,8 @@ odontólogos	odontólogo	NCMP000
 offside	offside	AQ0CN0
 offside	offside	NCMS000
 olhadinha	olhada	NCFS000
+ómicron	ómicron	NCMS000
+omícrones	ómicron	NCMP000
 omissa	omitir	VMP00SF
 omissas	omitir	VMP00PF
 omisso	omitir	VMP00SM
@@ -2639,6 +2672,8 @@ ortomórficos	ortomórfico	AQ0MP0
 osteopata	osteopata	NCFS000
 osteopatas	osteopata	NCFP000
 otimamente	ótimo	RG
+ótimo	ótimo	RG
+óptimo	óptimo	RG
 outputs	output	NCMP000
 ouvi	ouvir	VMX0000
 óvni	óvni	NCMS000
@@ -2683,6 +2718,8 @@ panzer	panzer	NCMS000
 paper	paper	NCMS000
 papers	paper	NCMP000
 papilomavírus	papilomavírus	NCMN000
+parabém	parabém	I
+parabéns	parabém	I
 paralaxe	paralaxe	NCFS000
 paralaxes	paralaxe	NCFP000
 parametrização	parametrização	NCFS000
@@ -2841,10 +2878,13 @@ pores	pôr	VMN02S0
 pormos	pôr	VMN01P0
 porreiraço	porreiraço	AQ0MS0
 porreiraços	porreiraço	AQ0MP0
+porta-moedas	porta-moedas	NCMN000
 portável	portável	AQ0CS0
 portefólio	portefólio	NCMS000
 portefólios	portefólio	NCMP000
 portuguesmente	portuguesmente	RG
+postagem	postagem	NCFS000
+postagens	postagem	NCFP000
 poster	poster	NCMS000
 póster	póster	NCMS000
 pósteres	póster	NCMP000
@@ -2930,6 +2970,7 @@ profiro	proferir	VMIP1S0
 profissionalizante	profissionalizante	AQ0CS0
 profissionalizantes	profissionalizante	AQ0CP0
 proibitivos	proibitivo	AQ0MP0
+pronto	pronto	RG
 prostíbulo	prostíbulo	NCMS000
 prostíbulos	prostíbulo	NCMP000
 protanopia	protanopia	NCFS000
@@ -2950,10 +2991,6 @@ pundonor	pundonor	NCMS000
 pundonores	pundonor	NCMP000
 pungência	pungência	NCFS000
 pungências	pungência	NCFP000
-puta	puta	NCFS000
-putanheiro	putanheiro	NCMS000
-putanheiros	putanheiro	NCMP000
-putas	putas	NCFP000
 putativamente	putativo	RG
 quantificador	quantificador	NCMS000
 quantificadores	quantificador	NCMP000
@@ -3106,6 +3143,8 @@ recorridos	recorrer	VMP00PM
 recorríei	recorrer	VMII2P0
 recorríeis	recorrer	VMII2P0
 recorro	recorrer	VMIP1S0
+recortada	recortar	VMP00SF
+recortado	recortar	VMP00SM
 recursiva	recursivo	AQ0FS0
 recursivamente	recursivamente	RG
 recursivas	recursivo	AQ0FP0
@@ -3124,12 +3163,14 @@ reenquadramentos	reenquadramento	NCMP000
 refletância	refletância	NCFS000
 refletâncias	refletância	NCFP000
 reflexologia	reflexologia	NCFS000
+reforçar	reforçar	VMN01S0
 refutabilidade	refutabilidade	NCFS000
 regabofe	regabofe	NCMS000
 regabofes	regabofe	NCMP000
 regata	regata	NCFS000
 regatas	regata	NCFP000
 reggae	reggae	NCMS000
+reggaeton	reggaeton	NCMS000
 regravação	regravação	NCFS000
 regravações	regravações	NCFP000
 reiki	reiki	NCMS000
@@ -3162,6 +3203,8 @@ relaxes	relaxar	VMSP2S0
 reli	reler	VMIS1S0
 relocalização	relocalização	NCFS000
 remediação	remediação	NCFS000
+remover	remover	VMN01S0
+remover	remover	VMN03S0
 reparatória	reparatório	AQ0FS0
 reparatórias	reparatório	AQ0FP0
 reparatório	reparatório	AQ0MS0
@@ -3170,6 +3213,8 @@ repentista	repentista	AQ0CS0
 repentista	repentista	NCCS000
 repentistas	repentista	AQ0CP0
 repentistas	repentista	NCCP000
+replicável	replicável	AQ0CS0
+reputacional	reputacional	AQ0CS0
 requerer	requerer	VMN0000
 réquiem	réquiem	NCMS000
 requiem	requiem	NCMS000
@@ -3177,10 +3222,6 @@ resistiva	resistivo	AQ0FS0
 resistivas	resistivo	AQ0FP0
 resistivo	resistivo	AQ0MS0
 resistivos	resistivo	AQ0MP0
-resolvida	resolver	VMP00SF
-resolvidas	resolver	VMP00PF
-resolvido	resolver	VMP00SM
-resolvidos	resolver	VMP00PM
 ressurreto	ressurreto	AQ0MS0
 ressurreto	ressurreto	NCMS000
 reter	reter	VMN0000
@@ -3190,9 +3231,12 @@ retoma	retoma	VMN01S0
 retoma	retoma	VMN03S0
 retomas	retoma	NCFP000
 retomas	retoma	VMIP2S0
+retoricamente	retoricamente	RG
 retransmitida	retransmitir	VMP00SF
 retransmitidas	retransmitir	VMP00PF
 retrátil	retrátil	AQ0CS0
+retroescavadora	retroescavadora	NCFS000
+retroescavadoras	retroescavadora	NCFP000
 retrovírus	retrovírus	NCMN000
 reumatoide	reumatoide	AQ0CS0
 revanchismo	revanchismo	NCMS000
@@ -3852,21 +3896,58 @@ zwingliano	zwingliano	AQ0MS0
 zwingliano	zwingliano	NCMS000
 zwinglianos	zwingliano	AQ0MP0
 zwinglianos	zwingliano	NCMP000
+###################
+# OBSCENE WORDS ###
+###################
+caralhada	caralhada	NCFS000
+caralhadas	caralhada	NCFP000
+caralhão	caralhão	I
+caralhão	caralhão	NCMS000
+caralho	caralho	I
+caralho	caralho	NCMS000
+caralhões	caralhão	I
+caralhões	caralhão	NCMP000
+caralhos	caralho	I
+caralhos	caralho	NCMP000
+cona	cona	NCFS000
+conaça	conaça	NCFS000
+conaças	conaça	NCFP000
+conas	cona	NCFP000
+esporra	esporra	NCFS000
+esporradela	esporradela	NCFS000
+esporradelas	esporradela	NCFP000
+esporras	esporra	NCFP000
+puta	puta	NCFS000
+putanheiro	putanheiro	NCMS000
+putanheiros	putanheiro	NCMP000
+putas	putas	NCFP000
+putazinha	putazinha	NCFS000
+putazinhas	putazinha	NCFP000
+putéfia	putéfia	NCFS000
+putéfias	putéfia	NCFP000
+putinha	putinha	NCFS000
+putinhas	putinha	NCFP000
+putona	putão	NCFS000
+putonas	putão	NCFP000
 ##########################################
 # Palavras português do Brasil - pt-BR ###
 ##########################################
 #
-# REMEMBER TO ADD MALE/FEMALE RULES SPECIFIC FOR "SANDUÍCHE", "CAIXA", "ESTEPE" AND "CARA"
+# REMEMBER TO ADD MALE/FEMALE RULES SPECIFIC FOR "SANDUÍCHE", "ESTEPE"
 acrônimo	acrônimo	NCMS000
 acrônimos	acrônimo	NCMP000
 codinome	codinome	NCMS000
 codinomes	codinome	NCMP000
+colônia	colônia	NCFS000
+colônias	colônia	NCFP000
 esporte	esporte	NCMS000
 esportes	esporte	NCMP000
 estepe	estepe	NCMS000
 estepes	estepe	NCMP000
 freqüência	freqüência	NCFS000
 freqüências	freqüência	NCFP000
+ômicron	ômicron	NCMS000
+ômicrons	ômicron	NCMP000
 sanduíche	sanduíche	NCMS000
 sanduíches	sanduíche	NCMP000
 time	time	NCMS000
@@ -4371,6 +4452,7 @@ Writer	Writer	NPMN000
 # Google ###
 ############
 Gmail	Gmail	NPMS000
+gmail	gmail	NCMS000
 google	google	NCFS000
 Google	Google	NPFS000
 Chrome	Chrome	NPMS000
@@ -4381,6 +4463,7 @@ add-on	add-on	NCMS000
 add-ons	add-on	NCMP000
 AI	AI	NCFS000
 AmigaOS	AmigaOS	NPMS000
+Android	Android	NPMS000
 app	app	NCFS000
 apps	app	NCFP000
 ASCII	ASCII	NCMN000
@@ -4400,17 +4483,17 @@ backups	backup	NCMP000
 Bing	Bing	NPMS000
 Birdy	Birdy	NPMS000
 bit	bit	NCMS000
-bits	bit	NCMP000
 bitcoin	bitcoin	NCMS000
 bitcoins	bitcoin	NCMP000
+bits	bit	NCMP000
 blogue	blogar	VMM03S0
 blogue	blogar	VMSP1S0
 blogue	blogar	VMSP3S0
 blogue	blogue	NCMS000
 blogues	blogue	NCMP000
-bluetooth	bluetooth	NCMS000
 blu-ray	blu-ray	NCMS000
 blu-rays	blu-ray	NCMP000
+bluetooth	bluetooth	NCMS000
 boid	boid	NCMS000
 boids	boid	NCMP000
 bookmark	bookmark	NCMS000
@@ -4465,13 +4548,15 @@ download	download	NCMS000
 downloads	download	NCMP000
 downtime	downtime	NCMS000
 drive	drive	NCCS000
-drives	drive	NCCP000
 driver	driver	NCMS000
 drivers	driver	NCMP000
+drives	drive	NCCP000
 e-bullying	e-bullying	NCMS000
 e-commerce	e-commerce	NCMS000
 e-democracy	e-democracy	NCFS000
 e-learning	e-learning	NCMS000
+e-mail	e-mail	NCMS000
+e-mails	e-mail	NCMP000
 e-manual	e-manual	NCMS000
 e-manuals	e-manual	NCMP000
 e-newsletter	e-newsletter	NCFS000
@@ -4483,8 +4568,8 @@ exabit	exabit	NCMS000
 exabits	exabit	NCMP000
 exabyte	exabyte	NCMS000
 exabytes	exabyte	NCMP000
-FAQ	FAQ	NCFS000
 FAQ	FAQ	NCFP000
+FAQ	FAQ	NCFS000
 feeder	feeder	NCMS000
 feeders	feeder	NCMP000
 FreeBSD	FreeBSD	NPMS000
@@ -4493,6 +4578,7 @@ FTP	FTP	NCMS000
 gadget	gadget	NCMS000
 gadgets	gadget	NCMP000
 gateway	gateway	NCMS000
+gateways	gateway	NCMP000
 gigabit	gigabit	NCMS000
 gigabits	gigabit	NCMP000
 gigabyte	gigabyte	NCMS000
@@ -4514,8 +4600,8 @@ homepage	homepage	NCFS000
 homepages	homepage	NCFP000
 host	host	NCMS000
 hosts	host	NCMP000
-Hunspell	Hunspell	NPMS000
 HTML	HTML	NCMN000
+Hunspell	Hunspell	NPMS000
 inputs	input	NCMP000
 interface	interface	NCCS000
 interfaces	interface	NCCP000
@@ -4525,6 +4611,7 @@ IRCop	IRCop	AQ0CS0
 IRCop	IRCop	NCCS000
 IRCops	IRCop	AQ0CP0
 IRCops	IRCop	NCCP000
+Java	Java	NPMS000
 kilobit	kilobit	NCMS000
 kilobits	kilobit	NCMP000
 kilobyte	kilobyte	NCMS000
@@ -4532,10 +4619,11 @@ kilobytes	kilobyte	NCMP000
 Kubuntu	Kubuntu	NPMS000
 LanguageTool	LanguageTool	NPMSO00
 Life	Life	NPMS000
+Linux	Linux	NPMS000
 loop	loop	NCMS000
-loops	loop	NCMP000
 looping	looping	NCMS000
 loopings	looping	NCMP000
+loops	loop	NCMP000
 Lubuntu	Lubuntu	NPMS000
 Mac	Mac	NPMS000
 macOS	macOS	NPMS000
@@ -4565,10 +4653,11 @@ nicknames	nickname	NCMP000
 NickServ	NickServ	NPMS000
 off	off	AQ0CN0
 on	on	AQ0CN0
+Pascal	Pascal	NPMS000
 password	password	NCFS000
 passwords	password	NCFP000
 patch	patch	NCMS000
-patchs	patch	NCMP000
+patches	patch	NCMP000
 PC	PC	NCMS000
 PDA	PDA	NCMS000
 PDAs	PDA	NCMP000
@@ -4579,26 +4668,18 @@ petabits	petabit	NCMP000
 petabyte	petabyte	NCMS000
 petabytes	petabyte	NCMP000
 PGP	PGP	NPMS000
-pixel	pixel	NCMS000
-pixels	pixel	NCMP000
-píxel	píxel	NCMS000
-píxeis	píxel	NCMP000
-pixelização	pixelização	NCFS000
 Photoshop	Photoshop	NPMS000
+píxeis	píxel	NCMP000
+píxel	píxel	NCMS000
+pixel	pixel	NCMS000
+pixelização	pixelização	NCFS000
+pixels	pixel	NCMP000
 Pootle	Pootle	NPMS000
 powerbank	powerbank	NCMS000
 powerbanks	powerbank	NCMP000
 PowerPC	PowerPC	NCMN000
 PTnet	PTnet	NPFS000
 PureBasic	PureBasic	NPMS000
-putazinha	putazinha	NCFS000
-putazinhas	putazinha	NCFP000
-putéfia	putéfia	NCFS000
-putéfias	putéfia	NCFP000
-putinha	putinha	NCFS000
-putinhas	putinha	NCFP000
-putona	putão	NCFS000
-putonas	putão	NCFP000
 Python	Python	NPMS000
 ransomware	ransomware	NCMS000
 reboot	reboot	NCMS000
@@ -4606,12 +4687,12 @@ RISC	RISC	NCMS000
 roadmap	roadmap	NCMS000
 roadmaps	roadmap	NCMP000
 roaming	roaming	NCMS000
-royalty	royalty	NCMS000
 royalties	royalty	NCMP000
+royalty	royalty	NCMS000
 scam	scam	NCMS000
-scams	scam	NCMP000
 scammer	scammer	NCMS000
 scammers	scammer	NCMP000
+scams	scam	NCMP000
 scanners	scanner	NCMP000
 screenshot	screenshot	NCMS000
 screenshots	screenshot	NCMP000
@@ -4647,11 +4728,14 @@ underscore	underscore	NCMS000
 underscores	underscore	NCMP000
 Unicode	Unicode	NCMN000
 University	University	NPFS000
+Unix	Unix	NPMS000
+update	update	NCMS000
+updates	update	NCMP000
 upload	upload	NCMS000
 uploads	upload	NCMP000
 uptime	uptime	NCMS000
-USB	USB	NCMS000
 USB	USB	AQ0CN0
+USB	USB	NCMS000
 VDI	VDI	NPFS000
 VPN	VPN	NCFS000
 web	web	NCFN000
@@ -4662,13 +4746,14 @@ webmaster	webmaster	NCMS000
 webmasters	webmaster	NCMP000
 webpage	webpage	NCFS000
 webpages	webpage	NCFP000
+Windows	Windows	NPMS000
 wireless	wireless	AQ0CN0
 wireless	wireless	NCMS000
-Windows	Windows	NPMS000
 x64	x64	NCMN000
 x86	x86	NCMN000
 Xiaomi	Xiaomi	NPMS000
 XML	XML	NCMN000
+Xperia	Xperia	NPMS000
 Xubuntu	Xubuntu	NPMS000
 yottabit	yottabit	NCMS000
 yottabits	yottabit	NCMP000
@@ -4709,6 +4794,8 @@ raëlianos	raëliano	NCMP000
 #########################
 # KARATE/MARTIAL ARTS ###
 #########################
+aikidoka	aikidoka	NCCS000
+aikidokas	aikidoka	NCCP000
 aiquidô	aiquidô	NPMS000
 Chojun	Chojun	NPMS000
 dan	dan	NCMS000
@@ -4719,6 +4806,8 @@ Goju-Ryu	Goju-Ryu	NPMS000
 Higaonna	Higaonna	NPMS000
 IOGKF	IOGKF	NPFS000
 Karate-Do	Karate-Do	NPMS000
+karateka	karateka	NCCS000
+karatekas	karateka	NCCP000
 kata	kata	NCFS000
 kata	kata	NCMS000
 kyu	kyu	NCMS000
@@ -4934,6 +5023,7 @@ Aleister	Aleister	NPMS000
 Alex	Alex	NPMS000
 Alexander	Alexander	NPMS000
 Alexeyevich	Alexeyevich	NPMS000
+Alf	Alf	NPMS000
 Algéria	Algéria	NPFSG00
 Alibaba	Alibaba	NPMS000
 Alisson	Alisson	NPMS000
@@ -5025,6 +5115,7 @@ CITES	CITES	NPFS000
 Citius	Citius	NPMS000
 Claudia	Claudia	NPFS000
 Clausewitz	Clausewitz	NPMS000
+CNPD	CNPD	NPFS000
 Coentrão	Coentrão	NPCS000
 Colbert	Colbert	NPMS000
 Conan	Conan	NPMS000
@@ -5050,6 +5141,7 @@ Daguerre	Daguerre	NPMS000
 Dalí	Dalí	NPMS000
 Dana	Dana	NPFS000
 Danielle	Danielle	NPFS000
+Dawkins	Dawkins	NPMS000
 DARPA	DARPA	NPFS000
 Delpierre	Delpierre	NPMS000
 Dempster	Dempster	NPMS000
@@ -5118,6 +5210,7 @@ Gevaerd	Gevaerd	NPMS000
 Giovanna	Giovanna	NPFS000
 Gleiser	Gleiser	NPMS000
 Glenn	Glenn	NPMS000
+Globo	Globo	NPFS000
 Goes	Goes	NPMS000
 Gotardo	Gotardo	NPMS000
 Graciete	Graciete	NPFS000
@@ -5175,6 +5268,8 @@ Khachaturian	Khachaturian	NPMS000
 Khomeini	Khomeini	NPMS000
 Kim	Kim	NPMS000
 Kropotkin	Kropotkin	NPMS000
+Kullervo	Kullervo	NPMS000
+Labrousse	Labrousse	NPFS000
 Laden	Laden	NPMS000
 Lajes	Lajes	NPCNG00
 Lanchester	Lanchester	NPMS000
@@ -5192,6 +5287,7 @@ Luiz	Luiz	NPMS000
 Lula	Lula	NPMS000
 Madeira	Madeira	NPFSG00
 Maláui	Maláui	NCMSG00
+Manaia	Manaia	NPMS000
 Marcelina	Marcelina	NPFS000
 Marco	Marco	NPMS000
 Mariazinha	Mariazinha	NPFS000
@@ -5199,6 +5295,7 @@ Maricá	Maricá	NCMSG00
 Markow	Markow	NPMS000
 Marmot	Marmot	NPMS000
 Marquinho	Marquinho	NPMS000
+Marquito	Marquito	NPMS000
 Marta	Marta	NPFS000
 Marty	Marty	NPMS000
 MathWorld	MathWorld	NPMS000
@@ -5308,6 +5405,7 @@ Snow	Snow	NPMS000
 Snowden	Snowden	NPMS000
 Sommerville	Sommerville	NPMS000
 Sotero	Sotero	NPMS000
+Sputnik	Sputnik	NPMS000
 SRS	SRS	NPMS000
 Steckling	Steckling	NPMS000
 Suméria	Suméria	NPFS000
@@ -5356,6 +5454,7 @@ Worten	Worten	NPFS000
 Wright	Wright	NPMS000
 Wuhan	Wuhan	NPFSG00
 WWF	WWF	NPCS000
+Xico	Xico	NPMS000
 Zeeman	Zeeman	NPMS000
 Zezualdo	Zezualdo	NPMS000
 Zhang	Zhang	NPMS000
@@ -5363,10 +5462,6 @@ Zhang	Zhang	NPMS000
 # Proper Names, including places, universities and organizations                                                  ###
 # Extracted from the Portuguese dictionary of Minho University using Proofing Tool GUI - LAST UPDATED: 2021-01-16 ###
 #####################################################################################################################
-Java	Java	NPMS000
-Linux	Linux	NPMS000
-Pascal	Pascal	NPMS000
-Unix	Unix	NPMS000
 Aachen	Aachen	NPMSG00
 Aalborg	Aalborg	NPMSG00
 Aarhus	Aarhus	NPMSG00
@@ -6973,5 +7068,241 @@ Zita	Zita	NPFS000
 Zodíaco	Zodíaco	NPMS000
 Zulmira	Zulmira	NPFS000
 Zurique	Zurique	NPMSG00
-e-mail	e-mail	NCMS000
-e-mails	e-mail	NCMP000
+resolva	resolver	VMM03S0
+resolva	resolver	VMSP1S0
+resolva	resolver	VMSP3S0
+resolvais	resolver	VMM02P0
+resolvais	resolver	VMSP2P0
+resolvam	resolver	VMM03P0
+resolvam	resolver	VMSP3P0
+resolvamo	resolver	VMM01P0
+resolvamos	resolver	VMM01P0
+resolvamos	resolver	VMSP1P0
+resolvas	resolver	VMM02S0
+resolvas	resolver	VMSP2S0
+resolve	resolver	VMIP3S0
+resolve	resolver	VMM02S0
+resolvei	resolver	VMIP2P0
+resolvei	resolver	VMM02P0
+resolveis	resolver	VMIP2P0
+resolvem	resolver	VMIP3P0
+resolvemo	resolver	VMIP1P0
+resolvemo	resolver	VMIS1P0
+resolvemos	resolver	VMIP1P0
+resolvemos	resolver	VMIS1P0
+resolvendo	resolver	VMG0000
+resolver	resolver	VMN0000
+resolver	resolver	VMSF1S0
+resolver	resolver	VMSF3S0
+resolvera	resolver	VMIM1S0
+resolvera	resolver	VMIM2S0
+resolvera	resolver	VMIM3S0
+resolveram	resolver	VMIM3P0
+resolveram	resolver	VMIS3P0
+resolveras	resolver	VMIM2S0
+resolverdes	resolver	VMSF2P0
+resolverei	resolver	VMIF1S0
+resolvereis	resolver	VMIF2P0
+resolverem	resolver	VMSF3P0
+resolveremos	resolver	VMIF1P0
+resolveres	resolver	VMSF2S0
+resolveria	resolver	VMIC1S0
+resolveria	resolver	VMIC3S0
+resolveriam	resolver	VMIC3P0
+resolverias	resolver	VMIC2S0
+resolvermos	resolver	VMSF1P0
+resolverá	resolver	VMIF3S0
+resolverás	resolver	VMIF2S0
+resolverão	resolver	VMIF3P0
+resolveríamos	resolver	VMIC1P0
+resolveríeis	resolver	VMIC2P0
+resolves	resolver	VMIP2S0
+resolvesse	resolver	VMSI1S0
+resolvesse	resolver	VMSI3S0
+resolvessem	resolver	VMSI3P0
+resolvesses	resolver	VMSI2S0
+resolveste	resolver	VMIS2P0
+resolveste	resolver	VMIS2S0
+resolvestes	resolver	VMIS2P0
+resolveu	resolver	VMIS3S0
+resolvi	resolver	VMIS1S0
+resolvia	resolver	VMII1S0
+resolvia	resolver	VMII2S0
+resolvia	resolver	VMII3S0
+resolviam	resolver	VMII3P0
+resolvias	resolver	VMII2S0
+resolvida	resolver	VMP00SF
+resolvidas	resolver	VMP00PF
+resolvido	resolver	VMP00SM
+resolvidos	resolver	VMP00PM
+resolvo	resolver	VMIP1S0
+resolvê	resolver	VMX0000
+resolvêramo	resolver	VMIM1P0
+resolvêramos	resolver	VMIM1P0
+resolvêrei	resolver	VMIM2P0
+resolvêreis	resolver	VMIM2P0
+resolvêsseis	resolver	VMSI2P0
+resolvêssemos	resolver	VMSI1P0
+resolvíamo	resolver	VMII1P0
+resolvíamos	resolver	VMII1P0
+resolvíei	resolver	VMII2P0
+resolvíeis	resolver	VMII2P0
+remova	remover	VMM03S0
+remova	remover	VMSP1S0
+remova	remover	VMSP3S0
+removais	remover	VMM02P0
+removais	remover	VMSP2P0
+removam	remover	VMM03P0
+removam	remover	VMSP3P0
+removamo	remover	VMM01P0
+removamos	remover	VMM01P0
+removamos	remover	VMSP1P0
+removas	remover	VMM02S0
+removas	remover	VMSP2S0
+remove	remover	VMIP3S0
+remove	remover	VMM02S0
+removei	remover	VMIP2P0
+removei	remover	VMM02P0
+removeis	remover	VMIP2P0
+removem	remover	VMIP3P0
+removemo	remover	VMIP1P0
+removemo	remover	VMIS1P0
+removemos	remover	VMIP1P0
+removemos	remover	VMIS1P0
+removendo	remover	VMG0000
+remover	remover	VMN0000
+remover	remover	VMSF1S0
+remover	remover	VMSF3S0
+removera	remover	VMIM1S0
+removera	remover	VMIM2S0
+removera	remover	VMIM3S0
+removeram	remover	VMIM3P0
+removeram	remover	VMIS3P0
+removeras	remover	VMIM2S0
+removerdes	remover	VMSF2P0
+removerei	remover	VMIF1S0
+removereis	remover	VMIF2P0
+removerem	remover	VMSF3P0
+removeremos	remover	VMIF1P0
+removeres	remover	VMSF2S0
+removeria	remover	VMIC1S0
+removeria	remover	VMIC3S0
+removeriam	remover	VMIC3P0
+removerias	remover	VMIC2S0
+removermos	remover	VMSF1P0
+removerá	remover	VMIF3S0
+removerás	remover	VMIF2S0
+removerão	remover	VMIF3P0
+removeríamos	remover	VMIC1P0
+removeríeis	remover	VMIC2P0
+removes	remover	VMIP2S0
+removesse	remover	VMSI1S0
+removesse	remover	VMSI3S0
+removessem	remover	VMSI3P0
+removesses	remover	VMSI2S0
+removeste	remover	VMIS2P0
+removeste	remover	VMIS2S0
+removestes	remover	VMIS2P0
+removeu	remover	VMIS3S0
+removi	remover	VMIS1S0
+removia	remover	VMII1S0
+removia	remover	VMII2S0
+removia	remover	VMII3S0
+removiam	remover	VMII3P0
+removias	remover	VMII2S0
+removida	remover	VMP00SF
+removidas	remover	VMP00PF
+removido	remover	VMP00SM
+removidos	remover	VMP00PM
+removo	remover	VMIP1S0
+removê	remover	VMX0000
+removêramo	remover	VMIM1P0
+removêramos	remover	VMIM1P0
+removêrei	remover	VMIM2P0
+removêreis	remover	VMIM2P0
+removêsseis	remover	VMSI2P0
+removêssemos	remover	VMSI1P0
+removíamo	remover	VMII1P0
+removíamos	remover	VMII1P0
+removíei	remover	VMII2P0
+removíeis	remover	VMII2P0
+reforce	reforçar	VMM03S0
+reforce	reforçar	VMSP1S0
+reforce	reforçar	VMSP3S0
+reforcei	reforçar	VMIS1S0
+reforceis	reforçar	VMM02P0
+reforceis	reforçar	VMSP2P0
+reforcem	reforçar	VMM03P0
+reforcem	reforçar	VMSP3P0
+reforcemo	reforçar	VMM01P0
+reforcemos	reforçar	VMM01P0
+reforcemos	reforçar	VMSP1P0
+reforces	reforçar	VMM02S0
+reforces	reforçar	VMSP2S0
+reforça	reforçar	VMIP3S0
+reforça	reforçar	VMM02S0
+reforçada	reforçar	VMP00SF
+reforçadas	reforçar	VMP00PF
+reforçado	reforçar	VMP00SM
+reforçados	reforçar	VMP00PM
+reforçai	reforçar	VMIP2P0
+reforçai	reforçar	VMM02P0
+reforçais	reforçar	VMIP2P0
+reforçam	reforçar	VMIP3P0
+reforçamo	reforçar	VMIP1P0
+reforçamos	reforçar	VMIP1P0
+reforçando	reforçar	VMG0000
+reforçar	reforçar	VMN0000
+reforçar	reforçar	VMN03S0
+reforçar	reforçar	VMSF1S0
+reforçar	reforçar	VMSF3S0
+reforçara	reforçar	VMIM1S0
+reforçara	reforçar	VMIM2S0
+reforçara	reforçar	VMIM3S0
+reforçaram	reforçar	VMIM3P0
+reforçaram	reforçar	VMIS3P0
+reforçaras	reforçar	VMIM2S0
+reforçardes	reforçar	VMSF2P0
+reforçarei	reforçar	VMIF1S0
+reforçareis	reforçar	VMIF2P0
+reforçarem	reforçar	VMSF3P0
+reforçaremos	reforçar	VMIF1P0
+reforçares	reforçar	VMSF2S0
+reforçaria	reforçar	VMIC1S0
+reforçaria	reforçar	VMIC3S0
+reforçariam	reforçar	VMIC3P0
+reforçarias	reforçar	VMIC2S0
+reforçarmos	reforçar	VMSF1P0
+reforçará	reforçar	VMIF3S0
+reforçarás	reforçar	VMIF2S0
+reforçarão	reforçar	VMIF3P0
+reforçaríamos	reforçar	VMIC1P0
+reforçaríeis	reforçar	VMIC2P0
+reforças	reforçar	VMIP2S0
+reforçasse	reforçar	VMSI1S0
+reforçasse	reforçar	VMSI3S0
+reforçassem	reforçar	VMSI3P0
+reforçasses	reforçar	VMSI2S0
+reforçaste	reforçar	VMIS2P0
+reforçaste	reforçar	VMIS2S0
+reforçastes	reforçar	VMIS2P0
+reforçava	reforçar	VMII1S0
+reforçava	reforçar	VMII2S0
+reforçava	reforçar	VMII3S0
+reforçavam	reforçar	VMII3P0
+reforçavas	reforçar	VMII2S0
+reforço	reforçar	VMIP1S0
+reforçou	reforçar	VMIS3S0
+reforçá	reforçar	VMX0000
+reforçámo	reforçar	VMIS1P0
+reforçámos	reforçar	VMIS1P0
+reforçáramo	reforçar	VMIM1P0
+reforçáramos	reforçar	VMIM1P0
+reforçárei	reforçar	VMIM2P0
+reforçáreis	reforçar	VMIM2P0
+reforçásseis	reforçar	VMSI2P0
+reforçássemos	reforçar	VMSI1P0
+reforçávamo	reforçar	VMII1P0
+reforçávamos	reforçar	VMII1P0
+reforçávei	reforçar	VMII2P0
+reforçáveis	reforçar	VMII2P0

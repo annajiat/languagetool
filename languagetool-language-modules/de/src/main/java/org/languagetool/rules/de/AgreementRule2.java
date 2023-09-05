@@ -53,7 +53,10 @@ public class AgreementRule2 extends Rule {
     asList(regex("Nachhaltig"), posRegex("SUB:NOM:.*"), pos("VER:INF:SFT")),  // 'nachhaltig Yoga praktizieren'
     asList(regex("\\d0er"), regex("Jahren?")),
     asList(token("Schwäbisch"), token("Hall")),
-    asList(token("Voller"), token("Mitleid")),
+    asList(regex("echt|absolut|voll|total"), regex("Wahnsinn|Klasse")),
+    asList(pos("SENT_START"), pos("ADJ:PRD:GRU"), posRegex("SUB:NOM:SIN:NEU:INF")),  // "Ruhig Schlafen & Zentral Wohnen"
+    asList(tokenRegex("voll|voller"), posRegex("SUB:NOM:SIN:.*")),  // "Voller Mitleid", "Voller Mitleid"
+    asList(token("einzig"), posRegex("SUB:NOM:.*")),  // "Einzig Fernschüsse brachten Erfolgsaussichten"
     asList(token("Smart"), token("Updates")),
     asList(token("Intelligent"), token("Design")),
     asList(token("Alternativ"), token("Berufserfahrung")),  // "Alternativ Berufserfahrung im Bereich ..."
@@ -116,6 +119,7 @@ public class AgreementRule2 extends Rule {
     asList(token("Personal"), tokenRegex("(Computer|Coach|Trainer|Brand).*")),
     asList(tokenRegex("Digital|Regional|Global|Bilingual|International|National|Visual|Final|Rapid|Dual|Golden"), tokenRegex("(Initiative|Connection|Bootcamp|Leadership|Sales|Community|Service|Management|Board|Identity|City|Paper|Transfer|Transformation|Power|Shopping|Brand|Master|Gate|Drive).*")),
     asList(token("Smart"), tokenRegex("(Service|Home|Meter|City|Hall|Shopper|Shopping).*")),
+    asList(token("International"), tokenRegex("Society|Olympic|Space")),
     asList(token("GmbH"))
   );
   private final Supplier<List<DisambiguationPatternRule>> antiPatterns;

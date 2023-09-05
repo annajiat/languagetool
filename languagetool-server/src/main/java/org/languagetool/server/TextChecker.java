@@ -331,7 +331,7 @@ abstract class TextChecker {
         }
       }
     } catch (NumberFormatException ex) {
-      log.warn("Could not parse textSessionId '" + parameters.get("textSessionId") + "' as long: " + ex.getMessage());
+      log.info("Could not parse textSessionId '" + parameters.get("textSessionId") + "' as long: " + ex.getMessage());
     }
 
     String abTest = null;
@@ -352,11 +352,7 @@ abstract class TextChecker {
     if (limits.hasPremium()) {
       enableHiddenRules = false;
     }
-    UserConfig userConfig = new UserConfig(dictWords, getRuleValues(parameters), config.getMaxSpellingSuggestions(),
-      limits.getPremiumUid(), dictName, limits.getDictCacheSize(), null, filterDictionaryMatches, abTest, textSessionId,
-      !limits.hasPremium() && enableHiddenRules);
 
-    //print("Check start: " + text.length() + " chars, " + langParam);
     boolean autoDetectLanguage = getLanguageAutoDetect(parameters);
     List<String> preferredVariants = getPreferredVariants(parameters);
     if (parameters.get("noopLanguages") != null && !autoDetectLanguage) {
@@ -370,6 +366,16 @@ abstract class TextChecker {
     DetectedLanguage detLang = getLanguage(aText.getPlainText(), parameters, preferredVariants, noopLangs, preferredLangs,
       parameters.getOrDefault("ld", "control").equalsIgnoreCase("test"));
     Language lang = detLang.getGivenLanguage();
+
+    List<Rule> userRules = getUserRules(limits, lang, dictGroups);
+    UserConfig userConfig =
+      new UserConfig(dictWords, userRules,
+                     getRuleValues(parameters), config.getMaxSpellingSuggestions(),
+                     limits.getPremiumUid(), dictName, limits.getDictCacheSize(),
+                     null, filterDictionaryMatches, abTest, textSessionId,
+                     !limits.hasPremium() && enableHiddenRules);
+
+    //print("Check start: " + text.length() + " chars, " + langParam);
 
     // == temporary counting code ======================================
     /*
@@ -446,15 +452,15 @@ abstract class TextChecker {
     try {
       future = executorService.submit(() -> {
         try (MDC.MDCCloseable c = MDC.putCloseable("rID", LanguageToolHttpHandler.getRequestId(httpExchange))) {
-          log.info("Starting text check on {} chars; params: {}", length, params);
+          log.debug("Starting text check on {} chars; params: {}", length, params);
           long time = System.currentTimeMillis();
           List<CheckResults> results = getRuleMatches(aText, lang, motherTongue, parameters, params, userConfig, detLang, preferredLangs,
             preferredVariants, f -> ruleMatchesSoFar.add(new CheckResults(Collections.singletonList(f), Collections.emptyList())));
-          log.info("Finished text check in {}ms. Starting suggestion generation.", System.currentTimeMillis() - time);
+          log.debug("Finished text check in {}ms. Starting suggestion generation.", System.currentTimeMillis() - time);
           time = System.currentTimeMillis();
           // generate suggestions, otherwise this is not part of the timeout logic and not properly measured in the metrics
           results.stream().flatMap(r -> r.getRuleMatches().stream()).forEach(RuleMatch::computeLazySuggestedReplacements);
-          log.info("Finished suggestion generation in {}ms, returning results.", System.currentTimeMillis() - time);
+          log.debug("Finished suggestion generation in {}ms, returning results.", System.currentTimeMillis() - time);
           return results;
         }
       });
@@ -685,6 +691,15 @@ abstract class TextChecker {
     return db.getWords(limits, groups, RowBounds.NO_ROW_OFFSET, RowBounds.NO_ROW_LIMIT);
   }
 
+  private List<Rule> getUserRules(UserLimits limits, Language lang, List<String> groups) {
+    if (limits.getPremiumUid() != null && DatabaseAccess.isReady()) {
+      DatabaseAccess db = DatabaseAccess.getInstance();
+      return db.getRules(limits, lang, groups);
+    } else {
+      return Collections.emptyList();
+    }
+  }
+
   protected void checkParams(Map<String, String> parameters) {
     if (parameters.get("text") == null && parameters.get("data") == null) {
       throw new BadRequestException("Missing 'text' or 'data' parameter");
@@ -884,6 +899,11 @@ abstract class TextChecker {
     final boolean inputLogging;
 
     final boolean regressionTestMode; // no fallbacks for remote rules, retries, enable all rules
+
+    QueryParams() {
+      this(Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList(),
+           false, false, false, false, false, false, JLanguageTool.Mode.ALL, JLanguageTool.Level.DEFAULT, null);
+    }
 
     QueryParams(List<Language> altLanguages, List<String> enabledRules, List<String> disabledRules, List<CategoryId> enabledCategories, List<CategoryId> disabledCategories,
                 boolean useEnabledOnly, boolean useQuerySettings, boolean allowIncompleteResults, boolean enableHiddenRules, boolean premium, boolean enableTempOffRules, JLanguageTool.Mode mode, JLanguageTool.Level level, @Nullable String callback) {

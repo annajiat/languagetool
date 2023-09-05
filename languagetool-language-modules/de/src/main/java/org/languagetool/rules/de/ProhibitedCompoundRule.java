@@ -49,6 +49,14 @@ public class ProhibitedCompoundRule extends Rule {
   private static final List<Pair> lowercasePairs = Arrays.asList(
           // NOTE: words here must be all-lowercase
           // NOTE: no need to add words from confusion_sets.txt, they will be used automatically (if starting with uppercase char)
+          new Pair("beine", "Körperteil", "biene", "Insekt"),
+          new Pair("rebe", "Weinrebe", "reibe", "Küchenreibe"),
+          new Pair("lande", null, "landes", null),
+          new Pair("ass", "Spielkarte", "pass", "Reisepass; Übergang durch ein Gebirge"),
+          new Pair("türmer", "Turmwächter", "türme", "Plural von 'Turm' (Bauwerk)"),
+          new Pair("soge", "ziehende Strömungen", "sorge", "bedrückendes Gefühl"),
+          new Pair("panne", "technischer Defekt", "spanne", "Zeitraum"),
+          new Pair("elfer", "Elfmeter", "helfer", "Person, die hilft"),
           new Pair("bau", "Bauwerk, Baustelle", "baum", "Pflanze"),
           new Pair("gase", "Plural von 'Gas' (Aggregatzustand)", "gasse", "kleine Straße"),
           new Pair("ekel", "Abscheu", "enkel", "Kind eines eigenen Kindes"),
@@ -115,6 +123,12 @@ public class ProhibitedCompoundRule extends Rule {
   private static LinguServices linguServices;
   private static final List<String> ignoreWords = Arrays.asList("Die", "De");
   private static final List<String> blacklistRegex = Arrays.asList(
+    "stromkreis",  // vs. reis/reise
+    "Lande(basis|basen|region|gebiets?|gebieten?|regionen|betriebs?|betrieben?|offizieren?|bereichs?|bereichen?|einrichtung|einrichtungen|massen?|plans?|versuchs?|versuchen?)",  // vs. Landes
+    "Model(vertrags?|verträgen?|erfahrung|erfahrungen|szene)",
+    "(Raum|Surf|Jazz|Herbst|Gymnastik|Normal)schuhen?",
+    "preis",  // Getränkepreis etc.
+    "reisähnlich(e|e[nmrs])?",
     "reisender",  // Ägyptenreisender etc.
     "[a-zöäüß]+sender",  // wg. sende/sender, z.B. bremsender, abzulassender
     "gra(ph|f)ische?",  // kosmografisch etc.
@@ -127,6 +141,141 @@ public class ProhibitedCompoundRule extends Rule {
     "Gra(ph|f)it"   // Grafit/Graphit
   );
   private static final Set<String> blacklist = new HashSet<>(Arrays.asList(
+          "Bankangabe",  // vs. band
+          "Bankangaben",  // vs. band
+          "Lehrbecken",  // vs. ecken
+          "Strohseide",  // vs. seile
+          "Filtermaschine",  // vs. Folter
+          "Filtermaschinen",  // vs. Folter
+          "Kenncode",  // vs. ode
+          "Kenncodes",  // vs. ode
+          "Sicherheitshalt",  // vs. haft
+          "Sicherheitshalts",  // vs. haft
+          "Sicherheitshalte",  // vs. haft
+          "Wandschalter",  // vs. hand
+          "Wandschalters",  // vs. hand
+          "Wildgericht",  // vs. wald
+          "Wildgerichte",  // vs. wald
+          "Haltungskonzept",  // vs. haft
+          "Schenkelbiene",  // vs. beine
+          "Schenkelbienen",  // vs. beine
+          "Felsenbiene",  // vs. beine
+          "Felsenbienen",  // vs. beine
+          "Killerbiene",  // vs. beine
+          "Killerbienen",  // vs. beine
+          "Investitionsbetrug",  // vs. betrag
+          "Investitionsbetruges",  // vs. betrag
+          "Investitionsbetrugs",  // vs. betrag
+          "Luftwert",  // vs. Lust
+          "Luftwerte",  // vs. Lust
+          "Luftwerts",  // vs. Lust
+          "Luftwertes",  // vs. Lust
+          "Luftwerten",  // vs. Lust
+          "Gegenschall",  // vs. schale
+          "Kontenvorgänge",  // vs. Kosten
+          "Militärbunker",  // vs. funker
+          "Gemüseboxen",  // vs. boden
+          "Suchwunsch",  // vs. Buch
+          "Pflanzerden",  // vs. enden
+          "Kriegsflucht", // vs. frucht
+          "Reisekabel",  // vs. fabel
+          "Schutzboxen",
+          "Wandbeschichtung",  // vs. Band
+          "Maschinenbrand",  // vs. bank
+          "Badehilfe",  // vs. Lade
+          "Badehilfen",  // vs. Lade
+          "Backprogramm",  // vs. Pack
+          "Backprogramme",
+          "Backprogrammen",
+          "Backfunktion",
+          "Backleistung",
+          "Winterblues",
+          "Klickverbindung",
+          "Klickverbindungen",
+          "Traumschuhe",  // vs Schule
+          "Traumschuhen",  // vs Schule
+          "Schulware",  // vs Schuh
+          "Schulwaren",  // vs krisen
+          "Konzernkreisen",  // vs krisen
+          "Strandmotiv",  // vs stand
+          "Strandmotive",  // vs stand
+          "Strandmotiven",  // vs stand
+          "Tiersammelstelle",  // vs eier
+          "Tiersammelstellen",  // vs eier
+          "Verkaufserlebnis",  // vs verlauf
+          "Eisgenuss",  // vs ess
+          "Oberhardt",  // vs eber
+          "Hundebett",  // vs fett
+          "Artengesetz",  // vs arm
+          "Mietpartner",  // vs mit
+          "Mietpartners",  // vs mit
+          "Mietpartnern",  // vs mit
+          "Mieterlebnis",  // vs mit
+          "Paketkasten",  // vs karten
+          "Ausnahmefirmen",  // vs formen
+          "Schreibraten",  // vs bart
+          "Treppentransport",  // vs truppen
+          "Treppentransports",  // vs truppen
+          "Treppentransporte",  // vs truppen
+          "Treppentransporten",  // vs truppen
+          "Familienvillen",  // vs willen
+          "Kampweg",  // vs kampf
+          "Kampwegs",  // vs kampf
+          "Werbemodel",  // vs modell
+          "Werbemodels",  // vs modell
+          "Schuhreinigung",  // vs schul
+          "Luftrad",  // vs rat
+          "Luftrads",  // vs rat
+          "Waschgel",  // vs geld
+          "Waschgels",  // vs geld
+          "Absatzzeile",  // vs ziele
+          "Absatzzeilen",  // vs ziele
+          "Standardzeile",  // vs ziele
+          "Standardzeilen",  // vs ziele
+          "Reisspezialität",  // vs eis
+          "Reisspezialitäten",  // vs eis
+          "Kommunikationsgewerbe",  // vs gewebe
+          "Kunststoffgewerbe",  // vs gewebe
+          "Obstring",  // vs ost
+          "Obstringen",  // vs ost
+          "Mietinformation",  // vs mit
+          "Mietinformationen",  // vs mit
+          "Bergtrasse",  // vs rasse
+          "Privatprofil",  // vs profit
+          "Spezialölen",  // vs öfen
+          "Ladedock",  // vs deck
+          "Ladedocks",  // vs deck
+          "Fahrtenregler",  // vs segler
+          "Fahrtenreglern",  // vs segler
+          "Fahrtenreglers",  // vs segler
+          "Körperakne",  // vs akte
+          "Mitarbeiterakte",  // vs aktie
+          "Mitarbeiterakten",  // vs aktien
+          "Frontschaden",  // vs frost
+          "Testgebühr",  // vs fest
+          "Testgebühren",  // vs fest
+          "Energiegeld",  // vs feld
+          "Kontaktermittlung",  // vs vermittlung
+          "Flutnacht",  // vs blut
+          "Salztank",  // vs bank
+          "Kursformat",  // vs kurz
+          "Kursformate",  // vs kurz
+          "Kursformaten",  // vs kurz
+          "Kursseite",  // vs kurz
+          "Kursseiten",  // vs kurz
+          "Ladekarte",  // vs lage
+          "Ladekarten",  // vs lage
+          "Schneehose",  // vs hase
+          "Schneehosen",  // vs hase
+          "Außendusche",  // vs augen
+          "Außenduschen",  // vs augen
+          "Nachbauteile",  // vs bar
+          "Nachbauteilen",  // vs bar
+          "Außenbar",  // vs bau
+          "Modelfigur",  // vs modell
+          "Kurzangebot",  // vs kur
+          "Kurzangebote",  // vs kur
+          "Kurzangeboten",  // vs kur
           "Verschwörungsideologe",  // vs ideologie
           "Verschwörungsideologen",  // vs ideologie
           "Maklerkollege",  // vs maler
@@ -940,7 +1089,15 @@ public class ProhibitedCompoundRule extends Rule {
           "marktdurchdringendem",
           "Zukunftsbaum", // vs raum
           "Zukunftsbaums", // vs raum
-          "Zukunftsbaumes" // vs raum
+          "Zukunftsbaumes", // vs raum
+          "Rasenwurzel", // vs nasen
+          "Rasenwurzeln", // vs nasen
+          "Wandlungskapital", // vs Handlungskapital
+          "Wandlungskapitals", // vs Handlungskapital
+          "Themenboxen", // vs bogen
+          "Superyacht", // vs macht
+          "Testbestellung", // vs fest
+          "Testbestellungen" // vs fest
   ));
 
   // have per-class static list of these and reference that in instance
@@ -1119,7 +1276,7 @@ public class ProhibitedCompoundRule extends Rule {
       long variantCount = lm.getCount(variant);
       //float factor = variantCount / (float)Math.max(wordCount, 1);
       //System.out.println("word: " + wordPart + " (" + wordCount + "), variant: " + variant + " (" + variantCount + "), factor: " + factor + ", pair: " + pair);
-      if (variantCount > 0 && wordCount == 0 && !blacklist.contains(wordPart) && !isMisspelled(variant) && blacklistRegex.stream().noneMatch(k -> wordPart.matches(".*" + k + ".*"))) {
+      if (variantCount > getThreshold() && wordCount == 0 && !blacklist.contains(wordPart) && !isMisspelled(variant) && blacklistRegex.stream().noneMatch(k -> wordPart.matches(".*" + k + ".*"))) {
         String msg;
         if (pair.part1Desc != null && pair.part2Desc != null) {
           msg = "Möglicher Tippfehler. " + uppercaseFirstChar(pair.part1) + ": " + pair.part1Desc + ", " + uppercaseFirstChar(pair.part2) + ": " + pair.part2Desc;
@@ -1140,6 +1297,10 @@ public class ProhibitedCompoundRule extends Rule {
     }
     partsStartPos += wordPart.length() + 1;
     return partsStartPos;
+  }
+
+  int getThreshold() {
+    return 0;
   }
 
   private String cleanId(String id) {

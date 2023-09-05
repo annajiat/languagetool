@@ -2,8 +2,8 @@
 #
 # Separar melhor entre grupos (redundâncias, verbosidade e clichês). Considerar nova classe.
 #
-# © 2017–2021 Tiago F. Santos (tiagofsantos81@sapo.pt)
-# © 2018–2021 Marco A.G.Pinto (www.marcoagpinto.com)
+# © 2017–2022 Tiago F. Santos (tiagofsantos81@sapo.pt)
+# © 2018–2022 Marco A.G.Pinto (www.marcoagpinto.com)
 #
 # Licensed under LGPL.
 #
@@ -26,6 +26,7 @@ a inversão de papéis entre os dois=a inversão de papéis
 à luz de=APAGAR|considerando
 à luz do facto de que=porque
 à luz do fato de que=porque
+a não ser que=exceto se
 a natureza da=a
 a natureza das=as
 a natureza do=o
@@ -75,7 +76,9 @@ ativos valioso=ativos
 breve momento=instante
 cada incidente separado=cada incidente
 capacidade de adaptação à mudança=resiliência
+capacidade de adaptação às mudanças=resiliência
 capacidade de adaptar à mudança=resiliência
+capacidade de adaptar às mudanças=resiliência
 causar o maior=maximizar o
 causar o menor=minimizar o
 cheio até capacidade=capaz
@@ -97,6 +100,7 @@ conforme segue abaixo relacionado=relacionado a seguir
 considerada como=APAGAR
 consideradas como=APAGAR
 da melhor forma possível=o melhor possível
+daqui em diante=doravante
 dar a volta à=contornar a
 dar a volta às=contornar as
 dar a volta ao=contornar o
@@ -133,6 +137,7 @@ durante o curso de=durante|enquanto
 é apenas uma questão de tempo antes=eventualmente
 é capaz de=pode
 é contra a lei=é ilegal|é ilícito
+é dado como=é considerado
 é de esperar=é expetável
 é dose única=é unidose
 é eficaz na sua capacidade=é eficaz
@@ -144,6 +149,7 @@ durante o curso de=durante|enquanto
 e tal como=tal como
 economicamente desfavorecido=pobre
 em conexão com=com
+em conformidade com=conforme|segundo|consoante
 em essência=APAGAR
 em excesso de=mais de
 em referência a=sobre|sobre a
@@ -159,6 +165,8 @@ erro inadvertido=erro
 erro não intencional=erro
 erros inadvertidos=erros
 erros não intencionais=erros
+erro de ortografia=erro ortográfico
+erros de ortografia=erros ortográficos
 escrutínio rigoroso=controlo
 está bem ciente de que=entende
 estavam presentes=assistiram
@@ -200,6 +208,7 @@ lembranças passadas=memórias
 levamos a seu conhecimento=informamos
 levantar voo=descolar|decolar
 lista de abreviaturas=glossário
+mais à frente=mais adiante
 mais ou menos=APAGAR|ESPECIFICAR|aproximadamente
 mais preferível=preferível
 momento propício=ocasião|oportunidade
@@ -276,6 +285,8 @@ possíveis cursos de ação=escolhas
 possíveis cursos de acção=escolhas
 possível curso de ação=escolha
 possível curso de acção=escolha
+pouco éticas=reprováveis
+pouco ético=reprovável
 pouco mais ou menos=aproximadamente
 pra além disso=além disso
 pra efeitos de=para
@@ -307,6 +318,9 @@ sobre o assunto de=sobre
 somos de opinião que=acreditamos, consideramos
 tão cedo quanto for possível=logo que possível
 tão cedo quanto possível=logo que possível
+# try to create rules with two below: https://internal1.languagetool.org/regression-tests/via-http/2022-02-20/pt-PT/result_java_PT_WORDINESS_REPLACE.html
+# tão grande=enorme
+# tão grandes=enormes
 têm como objectivo=visam|pretendem|procuram
 tem como objectivo=visa|pretende|procura
 têm como objetivo=visam|pretendem|procuram
@@ -339,6 +353,9 @@ vidas reais=realidades
 vimos solicitar=solicitamos
 vítima que morreu=vítima mortal
 vítimas que morreram=vítimas mortais
+voltamos a repetir que=reforçamos que
+voltámos a repetir que=reforçámos que
+volto a repetir que=reforço que
 #
 #######################
 # GRUPOS DE  REGRAS ###
@@ -362,12 +379,16 @@ andaram para a frente=avançaram
 caminharam para a frente=avançaram
 # AVANÇAR/RECUAR *END*
 #
-# CAPACIDADE(S) ATAQUE/DEFESA *START*
+# CAPACIDADE(S)/ESTRATÉGIA(S) ATAQUE/DEFESA *START*
 capacidade de ataque=capacidade ofensiva
 capacidades de ataque=capacidades ofensivas
 capacidade de defesa=capacidade defensiva
 capacidades de defesa=capacidades defensivas
-# CAPACIDADE(S) ATAQUE/DEFESA *END*
+estratégia de ataque=estratégia ofensiva
+estratégias de ataque=estratégias ofensivas
+estratégia de defesa=estratégia defensiva
+estratégias de defesa=estratégias defensivas
+# CAPACIDADE(S)/ESTRATÉGIA(S) ATAQUE/DEFESA *END*
 #
 # DAR UMA +ÇÃO → VERBO_INFINITIVO *START*
 dar uma explicação da=explicar a

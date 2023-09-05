@@ -155,6 +155,13 @@ public class CaseRuleTest {
     assertGood("Wahrscheinlich müssten sie das überarbeiten");
     assertGood("Assistenzsysteme warnen rechtzeitig vor Gefahren.");
     assertGood("Jeremy Schulte rannte um sein Leben.");
+    assertGood("Er arbeitet im Bereich Präsidiales.");
+    assertGood("Er spricht Sunnitisch & Schiitisch.");
+    assertGood("Er sagte, Geradliniges und Krummliniges sei unvergleichbar.");
+    assertGood("Dort erfahren sie Kurioses und Erstaunliches zum Zusammenspiel von Mensch und Natur.");
+    assertGood("Dabei unterscheidet die Shareware zwischen Privatem und Dienstlichem bei Fahrten ebenso wie bei Autos.");
+    assertGood("Besucher erwartet Handegefertigtes, Leckeres und Informatives rund um den Hund.");
+    assertGood("Der Unterschied zwischen Vorstellbarem und Machbarem war niemals geringer.");
     assertGood("Das war Fiete Lang.");
     assertGood("Wenn du an das glaubst, was du tust, kannst du Großes erreichen.");
     assertGood("Dann hat er Großes erreicht.");
@@ -190,6 +197,7 @@ public class CaseRuleTest {
     assertGood("Ist das eine Frage ? Müsste das nicht anders sein?");
     assertGood("Das ist ein Satz !!! Das auch.");
     assertGood("Liebe Kund:in");
+    assertGood("Wir sollten das mal labeln.");
 
     // https://github.com/languagetool-org/languagetool/issues/1515:
     assertGood("▶︎ Dies ist ein Test");
@@ -214,7 +222,12 @@ public class CaseRuleTest {
     assertBad("Sie Vertraute niemandem.");
     assertBad("Beten Lernt man in Nöten.");
     assertBad("Ich habe Heute keine Zeit.");
+    assertBad("Er sagte, Geradliniges und krummliniges sei unvergleichbar.");
+    assertBad("Er sagte, ein Geradliniges und Krummliniges Konzept ist nicht tragbar.");
     assertBad("Ä Was?");
+    assertBad("… die preiswerte Variante unserer Topseller im Bereich Alternativ Mehle.");
+    assertBad("…  jahrzehntelangen Mitstreitern und vielen Freunden aus Nah und Fern.");
+    assertBad("Hi und Herzlich willkommen auf meiner Seite.");
     //assertBad("Ich gehe gerne Joggen.");
     assertBad("Er ist Groß.");
     assertBad("Die Zahl ging auf Über 1.000 zurück.");
@@ -390,11 +403,13 @@ public class CaseRuleTest {
     assertGood("Sie/Er hat Schuld.");
     assertGood("Das war irgendein Irrer.");
     assertGood("Wir wagen Neues.");
+    assertGood("Grundsätzlich gilt aber: Essen Sie, was die Einheimischen Essen.");
     assertGood("Vielleicht reden wir später mit ein paar Einheimischen.");
     assertBad("Das existiert im Jazz zunehmend nicht mehr Bei der weiteren Entwicklung des Jazz zeigt sich das.");
     assertGood("Das denken zwar viele, ist aber total falsch.");
     assertGood("Ich habe nix Besseres gefunden.");
     assertGood("Ich habe nichts Besseres gefunden.");
+    assertGood("Ich habe noch Dringendes mitzuteilen.");
 
     // uppercased adjective compounds
     assertGood("Er isst UV-bestrahltes Obst.");

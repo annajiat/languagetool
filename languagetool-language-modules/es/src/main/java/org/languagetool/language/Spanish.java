@@ -211,6 +211,8 @@ public class Spanish extends Language implements AutoCloseable {
       case "CONFUSIONS": return 40;
       case "NO_SEPARADO": return 40;
       case "PARTICIPIO_MS": return 40;
+      case "EL_NO_TILDE": return 40; // greater than SE_CREO
+      case "SE_CREO": return 35; // greater than DIACRITICS --> or less than DIACRITICS_VERB_N_ADJ ????
       case "DIACRITICS": return 30;
       case "POR_CIERTO": return 30;
       case "LO_LOS": return 30;
@@ -219,7 +221,6 @@ public class Spanish extends Language implements AutoCloseable {
       case "P_EJ": return 30; // greater than other typography rules
       //case "ESPACIO_DESPUES_DE_PUNTO": return 25; // greater than other typography rules
       case "AGREEMENT_ADJ_NOUN_AREA": return 30; // greater than AGREEMENT_DET_NOUN
-      case "SE_CREO": return 25; // less than DIACRITICS_VERB_N_ADJ
       case "PRONOMBRE_SIN_VERBO": return 25; // inside CONFUSIONS, but less than other rules ?
       case "AGREEMENT_DET_ABREV": return 25; // greater than AGREEMENT_DET_NOUN
       case "MUCHO_NF": return 25; // greater than AGREEMENT_DET_NOUN
@@ -252,6 +253,14 @@ public class Spanish extends Language implements AutoCloseable {
       case "SPANISH_WORD_REPEAT_RULE": return -150;
       case "UPPERCASE_SENTENCE_START": return -200;
     }
+
+    if (id.startsWith("AI_ES_HYDRA_LEO")) { // prefer more specific rules (also speller)
+      if (id.startsWith("AI_ES_HYDRA_LEO_MISSING_COMMA")) {
+        return -51; // prefer comma style rules.
+      }
+      return -11;
+    }
+
     //STYLE is -50
     return super.getPriorityForId(id);
   }
@@ -277,5 +286,16 @@ public class Spanish extends Language implements AutoCloseable {
       newRuleMatches.add(newMatch);
     }
     return newRuleMatches;
+  }
+
+  @Override
+  public List<Rule> getRelevantRemoteRules(ResourceBundle messageBundle, List<RemoteRuleConfig> configs, GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List<Language> altLanguages, boolean inputLogging) throws IOException {
+    List<Rule> rules = new ArrayList<>(super.getRelevantRemoteRules(
+      messageBundle, configs, globalConfig, userConfig, motherTongue, altLanguages, inputLogging));
+
+    // no description needed - matches based on automatically created rules with descriptions provided by remote server
+    rules.addAll(GRPCRule.createAll(this, configs, inputLogging,
+      "AI_ES_", "INTERNAL - dynamically loaded rule supported by remote server"));
+    return rules;
   }
 }

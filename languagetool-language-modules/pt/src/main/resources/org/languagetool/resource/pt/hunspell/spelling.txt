@@ -1,7 +1,7 @@
 # Portuguese words of all variants.
 #
-# Copyright © 2016-2021 Marco A.G.Pinto (www.marcoagpinto.com)
-# Copyright © 2016-2021 Tiago F. Santos (tiagofsantos81@sapo.pt)
+# Copyright © 2016-2022 Marco A.G.Pinto (www.marcoagpinto.com)
+# Copyright © 2016-2022 Tiago F. Santos (tiagofsantos81@sapo.pt)
 #
 # After validation, add here words suggested by users.
 #
@@ -9,6 +9,30 @@
 #
 # For specific variant words, comment the word before adding it,
 # so it will be added to the specific dictionary later.
+#
+#
+# Structure of this file:
+#  - OBSCENE WORDS
+#  - Antes e depois de Cristo
+#  - Abreviaturas CTT
+#  - Estrangeirismos 2
+#  - Química
+#  - Raças de cavalos
+#  - Raças de cães
+#  - Greek letters
+#  - List of Companies from OpenData500
+#  - Rael / Raël
+#  - Months abbreviated
+#  - KARATE/MARTIAL ARTS
+#  - TAXONOMIC WORDS IN LATIN
+#  - PROPER NAMES, INCLUDING PLACES, UNIVERSITIES AND ORGANIZATIONS
+#  - ALPHABET LETTERS
+#  - Google
+#  - COMPUTERS RELATED
+#  - INTERNETÊS
+#  - CURRENCY CODES (ISO 4217)
+#  - ROMAN NUMERALS
+#
 #
 abdominoplastia
 abdominoplastias
@@ -647,6 +671,7 @@ bioanalíticas
 bioanalítico
 bioanalíticos
 bioassinatura
+bioassinaturas
 biociência
 biociências
 biodegradação
@@ -905,10 +930,6 @@ capotamento
 capotamentos
 capuchino
 caquexia
-caralhada
-caralhadas
-caralho
-caralhos
 Caramulo
 carbamazepina
 carcinogénea
@@ -978,6 +999,7 @@ Catabola
 catalepsia
 catamarã
 catamarãs
+catano
 Catarino
 catastrofista
 catastrofistas
@@ -1086,7 +1108,6 @@ Chokwé
 choninhas
 choupa
 choupas
-Chrome
 Chromecast
 Chromium
 chunga
@@ -1224,8 +1245,6 @@ complexificações
 comportamentalismo
 comuneiro
 comuneiros
-cona
-conas
 conceitualmente
 concheiro
 concheiros
@@ -1393,6 +1412,7 @@ cultuar
 curare
 curgete
 curgetes
+cuscar
 Cusco
 cuscuz
 cúspide
@@ -1623,6 +1643,7 @@ dógicas
 dógico
 dógicos
 dói-dóis
+doidamente
 dólmen
 dólmenes
 dólmens
@@ -1981,10 +2002,6 @@ espigão
 espigões
 espinocelular
 espinocelulares
-esporra
-esporradela
-esporradelas
-esporras
 esquálida
 esquálidas
 esquálido
@@ -2216,6 +2233,7 @@ fê-la
 fê-las
 fê-lo
 fê-los
+febre-amarela
 feed
 feiarrão
 Feirense
@@ -3260,6 +3278,7 @@ laplaciano
 lapouço
 lapouços
 Lara
+larguinhos
 lastimavelmente
 Launchy
 Laurissilva
@@ -3303,6 +3322,8 @@ LG
 LGBT
 liana
 lianas
+liberação
+liberações
 libertarianismo
 libertarianismos
 LibertyView
@@ -3591,6 +3612,8 @@ mentorias
 mentos
 MEO
 Mercalli
+mercantilidade
+mercantilidades
 Mercedes-Benz
 Mercês
 merdice
@@ -4154,6 +4177,8 @@ oligossacarídeo
 oligossacarídeos
 Olívia
 OLX
+ómicron
+omícrones
 Ondjiva
 OnePlus
 ONGs
@@ -4585,6 +4610,7 @@ póquer
 porreiraço
 porreiraços
 Porsche
+porta-moedas
 portefólio
 portefólios
 portossantense
@@ -4593,6 +4619,8 @@ Portucel
 portuguesmente
 posologia
 posologias
+postagem
+postagens
 póster
 pósteres
 potamódroma
@@ -4748,23 +4776,11 @@ purpurinas
 Pushkin
 pústula
 pústulas
-puta
-putanheiro
-putanheiros
-putas
 putativa
 putativamente
 putativas
 putativo
 putativos
-putazinha
-putazinhas
-putéfia
-putéfias
-putinha
-putinhas
-putona
-putonas
 PuTTY
 PVP
 Pyeongchang
@@ -4927,6 +4943,7 @@ replicável
 represamento
 represamentos
 Repsol
+reputacional
 réquiem
 reset
 ressabiada
@@ -6031,6 +6048,33 @@ zwingliana
 zwinglianas
 zwingliano
 zwinglianos
+###################
+# OBSCENE WORDS ###
+###################
+caralhada
+caralhadas
+caralhão
+caralho
+caralhões
+caralhos
+cona
+conas
+esporra
+esporradela
+esporradelas
+esporras
+puta
+putanheiro
+putanheiros
+putas
+putazinha
+putazinhas
+putéfia
+putéfias
+putinha
+putinhas
+putona
+putonas
 ############################
 # Antes e depois de Cristo #
 ############################
@@ -8757,8 +8801,10 @@ on-label
 physalis
 pouf
 poufes
+reggaeton
 startup
 startups
+stealth
 tablet
 tablets
 tawnie
@@ -9969,6 +10015,8 @@ dez
 #########################
 # KARATE/MARTIAL ARTS ###
 #########################
+aikidoka
+aikidokas
 aiquidô
 Budokan
 Chojun
@@ -9978,6 +10026,8 @@ Goju-Ryu
 IOGKF
 Higaonna
 karategi
+karateka
+karatekas
 Karate-Do
 kata
 Kenwa
@@ -10194,6 +10244,7 @@ Aleister
 Alex
 Alexander
 Alexeyevich
+Alf
 Algéria
 Alibaba
 AliExpress
@@ -10270,6 +10321,7 @@ Cíntia
 Citius
 Claudia
 Clausewitz
+CNPD
 Colbert
 Conan
 Constantina
@@ -10291,6 +10343,7 @@ Daguerre
 Dalí
 Dana
 Danielle
+Dawkins
 Defense Advanced Research Projects Agency
 Delpierre
 Dempster
@@ -10367,6 +10420,7 @@ Gary
 Gevaerd
 Giovanna
 Glenn
+Globo
 Goes
 Golias
 Goodman
@@ -10473,6 +10527,8 @@ Kevin
 Khomeini
 Kim
 Kropotkin
+Kullervo
+Labrousse
 Lanchester
 Langton
 Lapidus
@@ -10486,6 +10542,7 @@ Luana
 Luiz
 Lula
 Madeira
+Manaia
 Marcelina
 Mariazinha
 Maricá
@@ -10493,6 +10550,7 @@ Marine Corps
 Markow
 Marmot
 Marquinho
+Marquito
 Marta
 Marty
 MathWorld
@@ -10585,6 +10643,7 @@ Snow
 Snowden
 Sommerville
 Sotero
+Sputnik
 Steckling
 Suméria
 Surrey
@@ -10631,6 +10690,7 @@ World Trade Center
 Worten
 Wright
 Wuhan
+Xico
 Zeeman
 Zezualdo
 Zhang
@@ -10664,6 +10724,14 @@ w
 x
 y
 z
+############
+# Google ###
+############
+Chrome
+gmail
+Gmail
+google
+Google
 #######################
 # COMPUTERS RELATED ###
 #######################
@@ -10672,6 +10740,7 @@ add-on
 add-ons
 AI
 AmigaOS
+Android
 app
 applet
 applets
@@ -10792,14 +10861,11 @@ framework
 FreeBSD
 FTP
 gateway
+gateways
 gigabit
 gigabits
 GIMP
 GitHub
-GMail
-Gmail
-google
-Google
 GPU
 GPUs
 GT
@@ -10879,7 +10945,7 @@ overwrite
 p-value
 p-values
 patch
-patchs
+patches
 PDA
 PDAs
 pen drive
@@ -10949,6 +11015,8 @@ underscore
 underscores
 Unicode
 UPC
+update
+updates
 uptime
 user friendly
 vCard
@@ -10965,6 +11033,7 @@ WebTranslateIt
 width
 Windows
 WordPress
+Xperia
 Xubuntu
 yottabit
 yottabits
@@ -10979,6 +11048,7 @@ ZX
 ################
 # INTERNETÊS ###
 ################
+bbiab
 lol
 omg
 rotfl
@@ -11161,6 +11231,7 @@ Cooper
 Bernard
 Cynthia
 Campbell
+CPF
 Fred
 Ryan
 Brown

@@ -59,31 +59,18 @@ public class FrenchTest {
   }
   
   @Test
-  public void testRepeatedPatternRules() throws IOException {
+  public void testRules() throws IOException {
     Language lang = new French();
-    JLanguageTool tool = new JLanguageTool(lang);
-        
-    List<RuleMatch> matches = tool.check("J’adore l’esprit et le son de cette guitare qui convient à tous les styles et en particulier à ce que j’ai envie faire ! J’adore l’esprit et le son de cette guitare qui convient à tous les styles et en particulier à ce que j’ai envie faire !");
-    assertEquals(1, matches.size());
-    assertEquals(199, matches.get(0).getFromPos());
+    JLanguageTool lt = new JLanguageTool(lang);
+   
+    // In some (unclear) circumstances, matches in these sentences and rules are not detected by tests on XML examples #6300
     
-    matches = tool.check("J’adore l’esprit et le son de cette guitare qui convient à tous les styles et en particulier à ce que j’ai envie faire !");
+    // FRENCH_WORD_REPEAT_RULE[2]
+    List<RuleMatch> matches = lt.check("Fête des mères et remise de l'insigne \" Morts pour la France \".");
     assertEquals(0, matches.size());
-    
-    matches = tool.check("Tout d'abord, ça a l'air vrai.");
-    assertEquals(0, matches.size());
-    
-    matches = tool.check("Tout d'abord, ça a l'air vrai. Tout d'abord, ça a l'air vrai.");
-    assertEquals(0, matches.size());
-    
-    matches = tool.check("Tout d'abord, ça a l'air vrai. Tout d'abord, ça a l'air vrai. Les élections sont marquées par la dispersion entre une dizaine de partis capables d'accéder au Parlement, soit la première fois qu'autant de formations sont représentées. Cette diversité, apparue après la grave crise économique de 2008, rend plus volatile le vote des électeurs et complexifie la constitution de coalitions gouvernementales. Tout d'abord, ça a l'air vrai.");
-    assertEquals(0, matches.size());
-    
-    matches = tool.check("Tout d'abord, ça a l'air vrai. Tout d'abord, ça a l'air vrai. Tout d'abord, ça a l'air vrai.");
-    assertEquals(1, matches.size());
-    assertEquals(62, matches.get(0).getFromPos());
-    
-    
+    // ACCORD_V_QUESTION2[1]
+    List<RuleMatch> matches2 = lt.check("D'autre part je ne soutiens pas du tout le système actuel en france mais je sais qu'au train où l'on va que notre prochaine étape sera celle de la Grèce ou de l'Argentine.");
+    assertEquals(1, matches2.size());
   }
 
 }

@@ -58,7 +58,51 @@ public class GermanSpellerRuleTest {
   //
   
   @Test
-  public void filterForLanguage() {
+  public void testArtig() throws IOException {
+    GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    accept("zigarrenartig", rule);
+    accept("zigarrenartige", rule);
+    accept("zigarrenartiger", rule);
+    accept("zigarrenartiges", rule);
+    accept("zigarrenartigen", rule);
+    accept("zigarrenartigem", rule);
+    accept("handlungsartig", rule);
+    dontAccept("zigarrenartigex", rule);
+    dontAccept("handlungartig", rule);
+    dontAccept("arbeitartig", rule);
+    dontAccept("kostefrei", rule);
+    dontAccept("reglemäßig", rule);
+    dontAccept("hatfrei", rule);
+    dontAccept("geruchhemmend", rule);
+    dontAccept("aberabhängig", rule);
+  }
+
+  private void accept(String word, GermanSpellerRule rule) throws IOException {
+    assertTrue(rule.ignoreWord(Collections.singletonList(word), 0));
+  }
+
+  private void dontAccept(String word, GermanSpellerRule rule) throws IOException {
+    assertFalse(rule.ignoreWord(Collections.singletonList(word), 0));
+  }
+
+  @Test
+  public void testGetOnlySuggestions() throws IOException {
+    GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    assertThat(rule.getOnlySuggestions("autentisch").size(), is(1));
+    assertThat(rule.getOnlySuggestions("autentisch").get(0).getReplacement(), is("authentisch"));
+    assertThat(rule.getOnlySuggestions("autentischeres").size(), is(1));
+    assertThat(rule.getOnlySuggestions("autentischeres").get(0).getReplacement(), is("authentischeres"));
+    assertThat(rule.getOnlySuggestions("Autentischere").size(), is(1));
+    assertThat(rule.getOnlySuggestions("Autentischere").get(0).getReplacement(), is("Authentischere"));
+    JLanguageTool lt = new JLanguageTool(GERMAN_DE);
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("Eine autentische Sache."));
+    assertThat(matches.length, is(1));
+    assertThat(matches[0].getSuggestedReplacements().size(), is(1));
+    assertThat(matches[0].getSuggestedReplacements().get(0), is("authentische"));
+  }
+
+  @Test
+  public void testFilterForLanguage() {
     GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
     List<String> list1 = new ArrayList<>(Arrays.asList("Mafiosi s", "foo"));
     rule.filterForLanguage(list1);
@@ -532,6 +576,8 @@ public class GermanSpellerRuleTest {
     ruleCH.addIgnoreWords("Fußelmappse/N");
     assertCorrect("Fusselmappse", ruleCH, lt);
     assertCorrect("Fusselmappsen", ruleCH, lt);
+    assertCorrect("Coronapatienten", rule, lt);
+    assertCorrect("Coronapatienten.", rule, lt);
   }
 
   private void assertCorrect(String word, MyGermanSpellerRule rule, JLanguageTool lt) throws IOException {
@@ -629,6 +675,9 @@ public class GermanSpellerRuleTest {
     assertEquals(1, rule.match(lt.getAnalyzedSentence("machtS")).length);
     assertEquals(1, rule.match(lt.getAnalyzedSentence("All-Inclusive-Preis")).length);
     assertEquals(1, rule.match(lt.getAnalyzedSentence("dRanging")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Das Draufklicken")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Des Draufklickens")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("Des draufklickens")).length);
 
     // originally from spelling.txt:
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Wichtelmännchen")).length);
@@ -667,6 +716,21 @@ public class GermanSpellerRuleTest {
     
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Die blablaxx.mp3 und das sdifguds.avi bzw. die XYZXYZ.AVI")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Ausgestrahlt von 3sat")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Ein 32stel eines Loses")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Der Verlust eines 32stels eines Loses")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Ein 5tel eines Loses")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Der Verlust eines 5tels eines Loses")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("ein 100stel-Millimeter")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("ein 5tel-Gramm")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("ein 100stel-Milimeter")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("ein 5tel-Grömm")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("ein 5tl-Gramm")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("ein 100stl-Millimeter")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("ein tl-Gramm")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("ein stl-Millimeter")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("ein tel-Gramm")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("ein stel-Millimeter")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("Bitte stel dich dazu")).length);
   }
 
   @Test

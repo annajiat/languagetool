@@ -1884,7 +1884,7 @@ Battlestar Galactica	NNP
 BBC World News	NNP
 Be Informed	NNP
 Beale Street	NNP
-Beastie Boys	NNP
+Beastie Boys	NNPS
 beau geste	NN
 beau idéal	NN
 beau idéals	NNS
@@ -3486,6 +3486,7 @@ Rockaway Beach	NNP
 Rocket Internet	NNP
 Rocket League	NNP
 Rockstar Games	NNP
+Rockstar Energy	NNP
 Roger Federer	NNP
 Roger Moore	NNP
 Rolling Stones	NNP
@@ -4989,3 +4990,228 @@ Julián Castro	NNP
 Andreas Gabalier	NNP
 Melinda Gates	NNP
 Fitbit Sense	NNP
+Jean Asselborn	NNP
+Dan Bilzerian	NNP
+Abt system	NN
+Abt systems	NNS
+Brent Crude	NNP
+Brett Favre	NNP
+Aaron Rodgers	NNP
+Peyton Manning	NNP
+Green Bay Packers	NNPS
+Cleveland Browns	NNPS
+Tampa Bay Buccaneers	NNPS
+Villeroy & Boch	NNP
+Marie Juchacz	NNP
+Louise Schroeder	NNP
+Ahmad Mansour	NNP
+Otto Suhr	NNP
+Desmond Tutu	NNP
+Jacob Zuma	NNP
+Graça Machel	NNP
+Thabo Mbeki	NNP
+Tom Holland	NNP
+Kirsten Dunst	NNP
+Pepto Bismol	NNP
+Steve Nash	NNP
+Bob Cousy	NNP
+Kobe Bryant	NNP
+Bob Pettit	NNP
+Noah Gordon	NNP
+Renault Mégane	NNP
+Renault Megane	NNP
+McLaren F1	NNP
+Porsche 911	NNP
+Mazda MX5	NNP
+Glass Animals	NNP
+Fisker Ocean	NNP
+Andrzej Duda	NNP
+Renault Scénic	NNP
+Renault Grand Scénic	NNP
+Dandy Warhols	NNPS
+François Hollande	NNP
+François Fillon	NNP
+François Mitterrand	NNP
+Nicole Appleton	NNP
+Liam Gallagher	NNP
+Noel Gallagher	NNP
+Sunset Boulevard	NNP
+Sunset Strip	NNP
+Aaron Swartz	NNP
+van Gerwen	NNP
+Michael van Gerwen	NNP
+Simon Wiesenthal	NNP
+Adam Driver	NNP
+Ashley Graham	NNP
+Madden NFL	NNP
+John Madden	NNP
+EA Tiburon	NNP
+Betty White	NNP
+Marco Tozzi	NNP
+Eli Manning	NNP
+Neumayer Station	NNP
+Georg von Neumayer	NNP
+Henry Cavill	NNP
+Herod the Great	NNP
+Patton Oswalt	NNP
+Ronan Keating	NNP
+Mark Zuckerber	NNP
+Marc Andreessen	NNP
+Diffie–Hellman	NNP
+Marty McFly	NNP
+Paul Löbe	NNP
+Friedrich Ebert	NNP
+jack o'lantern	NN
+jack o'lanterns	NNS
+Jack O'Lantern	NN
+jack o'lanterns	NNS
+Jack O'Lanterns	NNS
+Merrick Garland	NNP
+Deus Ex	NNP
+Deus Ex Go	NNP
+Paul Atreides	NNP
+Benjamin Button	NNP
+Eugene Goodman	NNP
+Nigel Farage	NNP
+Willy Wonka	NNP
+Elizabeth Truss	NNP
+Liz Truss	NNP
+Hrithik Roshan	NNP
+Liz Hurley	NNP
+Nelson Mandela	NNP
+Lyndon B. Johnson	NNP
+Republika Srpska	NNP
+David Sassoli	NNP
+Antonio Tajani	NNP
+Mark Zuckerberg	NNP
+John Malkovich	NNP
+ITV News	NNP
+ITV Weekend News	NNP
+Chrome Web Store	NNP
+Ann Arbor	NNP
+Myanmar National Airlines	NNP
+Jim Farley	NNP
+MSCI Emerging Markets	NNP
+MSCI ACWI	NNP
+Hikaru Utada	NNP
+Porfirio Díaz	NNP
+Parras de la Fuente	NNP
+Bone Thugs-N-Harmony	NNP
+Wu-Tang Clan	NNP
+Three 6 Mafia	NNP
+Paige VanZant	NNP
+Leroy Merlin	NNP
+Martin Bormann	NNP
+Sergey Lavrov	NNP
+James Cleverly	NNP
+Jean-Yves Le Drian	NNP
+Trinity College	NNP
+Walter Gropius	NNP
+Marcel Breuer	NNP
+Gardasil 9	NNP
+Peggy Sue	NNP
+Meat Loaf	NNP
+Banach–Tarski	NNP
+L'Équipe	NNP
+Robin Thick	NNP
+Need for Speed Underground	NNP
+Number One Observatory Circle	NNP
+LittleBigPlanet	NNP
+LittleBIGPlanet	NNP
+Little BIG Planet	NNP
+Little Big Planet	NNP
+Carl von Ossietzky	NNP
+Carl von Clausewitz	NNP
+dos Santos	NNP
+Sergio Mattarella	NNP
+Matteo Renzi	NNP
+Ronda Rousey	NNP
+Gina Raimondo	NNP
+Lindsay Lohan	NNP
+Ron DeSantis	NNP
+Cincinnati Bengals	NNPS
+Greg Abbott	NNP
+Gustave Le Bon	NNP
+Gustave Eiffel	NNP
+Centrale des Arts	NNP
+Arsène Wenger	NNP
+Alex Ferguson	NNP
+Sean McVay	NNP
+Zac Taylor	NNP
+SoFi Stadium	NNP
+Taylor Rapp	NNP
+Jalen Ramsey	NNP
+Cam Akers	NNP
+Tyler Higbee	NNP
+Cooper Kupp	NNP
+Eric Weddle	NNP
+Matt Gay	NNP
+Ja'Marr Chase	NNP
+Joe Mixon	NNP
+Evan McPherson	NNP
+Tyler Boyd	NNP
+Jared Goff	NNP
+Matthew Stafford	NNP
+Joe Burrow	NNP
+Sienna Miller	NNP
+Kendrick Lamar	NNP
+Kalmius River	NNP
+Dizzy Gillespie	NNP
+Royal Caribbean Cruises	NNP
+Royal Caribbean Group	NNP
+René Benko	NNP
+Peter Benchley	NNP
+Cayman Brac	NNP
+Ferdinand Porsche	NNP
+Charlie Munger	NNP
+iRobot Roomba	NNP
+Keir Starmer	NNP
+Miss Piggy	NNP
+Ned Flanders	NNP
+Digital Turbine	NNP
+MGM Resorts	NNP
+Supercar Blondie	NNP
+Wye River	NNP
+Taba Summit	NNP
+Peres Center for Peace	NNP
+Shimon Peres	NNP
+Wolfgang Ischinger	NNP
+Panera Bread	NNP
+Dnieper River	NNP
+Natasha Bassett	NNP
+Union Pacific	NNP
+Union Pacific Railroad	NNP
+Nord Stream	NNP
+Simply Red	NNP
+Venice Beach	NNP
+Boardwalk Empire	NNP
+Humpty Dumpty	NNP
+Humpty Dumpties	NNPS
+Henri Nannen	NNP
+Dmytro Kuleba	NNP
+Village People	NNP
+Recep Tayyip Erdoğan	NNP
+Recep Erdoğan	NNP
+Fethullah Gülen	NNP
+Gülen Movement	NNP
+Edvard Munch	NNP
+Wassily Kandinsky	NNP
+DK Metcalf	NNP
+Dikembe Mutombo	NNP
+Kernmantle rope	NN
+Kernmantle ropes	NNS
+Maidan Nezalezhnosti	NNP
+Jimmy Kimmel	NNP
+Jimmy Fallon	NNP
+Stephen Colbert	NNP
+Seth Meyers	NNP
+David Letterman	NNP
+Conan O'Brien	NNP
+Wintershall Dea	NNP
+App Tracking Transparency	NNP
+La Stampa	NNP
+Uncle Kracker	NNP
+Novi Sad	NNP
+Banja Luka	NNP
+Red Ruthenia	NNP
+Timothy Snyder	NNP

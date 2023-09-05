@@ -72,10 +72,9 @@ Eerste Engelse Oorlog
 Eerste Golfoorlog
 Eerste Wereldoorlog
 kop van Jut
-Moeder Aarde
-Moeder Natuur
-Witte Donderdag
-Zwarte Donderdag
+Moeder Aarde=Eigennamen krijgen een hoofdletter.
+Moeder Natuur=Eigennamen krijgen een hoofdletter.
+Zwarte Donderdag=De dag van de beurskrach krijgt hoofdletters.
 mo B-akte
 Tiendaagse Veldtocht
 Middellandse Zeeklimaat
@@ -215,13 +214,14 @@ uv A-licht
 uv B-licht
 uv C-licht
 U Edele
-Oude Testament
-Nieuwe Testament
-Goede Vrijdag
-Goede Week
-Grote Beer
-Heilige Vader
-Stille Week
+Oude Testament=Het Bijbelboek krijgt hoofdletters.
+Nieuwe Testament=Het Bijbelboek krijgt hoofdletters.
+Goede Vrijdag=De kerkelijke feestdag heeft hoofdletters.
+Goede Week=Het kerkelijke tijdvak heeft hoofdletters.
+Grote Beer=Het sterrenbeeld krijgt hoofdletters.
+Heilige Vader=De paus krijgt een hoofdletter.
+Stille Week=Het kerkelijke tijdvak heeft hoofdletters.
+Witte Donderdag=De kerkelijke feestdag heeft hoofdletters.
 EK voetbal
 Bataafse Revolutie
 Belgische Revolutie
@@ -257,8 +257,6 @@ ing.
 drs.
 wifi
 hifi
-De Smet
-De Vos
 De Clercq
 Van Damme
 De Backer
@@ -267,9 +265,6 @@ Van den Broeck
 De Cock
 De Smedt
 De Meyer
-De Wilde
-De Pauw
-De Ridder
 Van Dyck
 De Groote
 Van den Bossche
@@ -278,13 +273,10 @@ Van Acker
 De Coster
 Van Hoof
 De Coninck
-De Winter
-De Witte
 Van Hove
 De Bruyne
 De Bruyn
 De Bock
-De Wolf
 De Decker
 Van Daele
 De Waele
@@ -294,7 +286,6 @@ De Keyser
 Van Goethem
 Van den Bergh
 Van den Eynde
-De Wit
 Van Camp
 De Schepper
 De Moor
@@ -315,3 +306,125 @@ Van de Voorde
 De Bie
 Van Assche
 Maria=Een maria is een beeldje, de naam is met een hoofdletter.
+Israëlische Onafhankelijkheidsdag
+Amerikaanse Onafhankelijkheidsdag
+Black Power
+Europese Raad
+Europees Parlement
+Olympische Spelen
+Olympische Zomerspelen
+Europese Centrale Bank
+Erasmus Universiteit
+Noordoostpolder
+Nederlands Film Festival
+Europese Commissie
+Nederlands als
+Wereldgezondheidsorganisatie
+Vereniging Nederlandse Gemeenten
+Rotterdamse haven
+Nederlandse volk
+Duitse leger
+Centraal Planbureau
+de Utrechtse Heuvelrug
+Europese Gemeenschappen
+Brussels Hoofdstedelijk Gewest
+Nederlands Kampioenschap
+het Belgisch Staatsblad
+Caribisch gebied
+Franse leger
+Nederlandse leger
+Nederlandse geschiedenis
+Wereldhandelsorganisatie
+Palestijnse Autoriteit
+Concertgebouworkest
+Russische Federatie
+BlackBerry
+Amerikaanse ambassade
+Europees Parlement
+Reclame Code
+Britse leger
+Middellandse Zee
+Tsjechoslowakije
+Europees Kampioenschap
+Amerikaanse Burgeroorlog
+Media Markt
+Adriatische Zee
+Front National
+Perzische Golf
+Israël niet
+Google AdWords
+Tweede Vaticaans Concilie
+Onderzoeksraad voor Veiligheid
+Amsterdam Science Park
+MacBook Pro
+Nederlandse Voedsel- en Warenautoriteit
+Nederlandse Hervormde Kerk
+Nederlandse krijgsmacht
+Christus Zijn
+Van Gogh Museum
+Kaapverdische
+ancien régime
+Europese Commissie
+Amerikaanse luchtmacht
+Michelinster
+Gerrit Rietveld Academie
+Oostbloklanden
+Vincent van
+Kaspische Zee
+BNR Nieuwsradio
+Besluit bodemkwaliteit
+Apple Store
+TivoliVredenburg
+YouTubefilmpje
+Standaardnederlands
+Tibetaans boeddhisme
+Philips Stadion
+Caraïbisch gebied
+Veerse Meer
+WordPresswebsite
+Nederlandse Kampioenschappen
+Byzantijnse Rijk
+Meertens Instituut
+Kyotoprotocol
+Belgisch leger
+Armeense Genocide
+Syrische leger
+Zeeuws-Vlaanderen
+Andesgebergte
+Franse Republiek
+NRC Handelsblad
+West-Friesland
+Hiëronymus
+Grote Oorlog
+Nationale Assemblée
+International Film Festival
+Surinamerivier
+Panamakanaal
+Besluit externe veiligheid
+Disneyfilm
+Amsterdamse binnenstad
+Warschaupact
+Windowsverkenner
+Spaanse griep
+Jeroen Bosch Ziekenhuis
+SharePoint
+Da Vinci Code
+Sallandse Heuvelrug=Dit is een specifieke regio.
+Vlaamse overheid
+Vlaamse Rand=Dit is een specifieke regio.
+Brusselse Rand=Dit is een specifieke regio.
+Europese Kampioenschappen
+prof=Een titel heeft meestal geen hoofdletters.
+algemeen directeur=Een titel heeft meestal geen hoofdletters.
+Centrum Indicatiestelling Zorg
+Leonardo da Vinci
+Nieuwkoopse Plassen
+Europese Gemeenschap voor Kolen en Staal
+Europese Economische Gemeenschap
+Europese Gemeenschap voor Atoomenergie
+Europese Akte
+Verdrag van Maastricht
+Verdrag van Amsterdam
+Verdrag van Nice
+Kralingse Bos
+Beroepsorganisatie Nederlandse Ontwerpers

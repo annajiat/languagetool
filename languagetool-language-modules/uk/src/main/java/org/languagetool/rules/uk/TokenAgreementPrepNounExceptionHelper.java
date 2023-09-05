@@ -22,7 +22,7 @@ public class TokenAgreementPrepNounExceptionHelper {
 
   //|лиш(е(нь)?)?
   private static final Pattern PART_INSERT_PATTERN = Pattern.compile("бодай|буцім(то)?|геть|дедалі|десь|іще|ледве|мов(би(то)?)?|навіть|наче(б(то)?)?|неначе(бто)?|немов(би(то)?)?|ніби(то)?"
-      + "|попросту|просто(-напросто)?|справді|усього-на-всього|хай|хоча?|якраз");
+      + "|попросту|просто(-напросто)?|справді|усього-на-всього|хай|хоча?|якраз|ж|би?");
 
   public enum Type { none, exception, skip }
   
@@ -125,7 +125,8 @@ public class TokenAgreementPrepNounExceptionHelper {
         return new RuleException(Type.exception);
       }
 
-      if( PosTagHelper.hasPosTagStart(tokens[i+1], "num")
+      if( (PosTagHelper.hasPosTagStart(tokens[i+1], "num")
+            || tokens[i+1].getToken().equals("$"))
           && (token.equals("мінус") || token.equals("плюс")
               || token.equals("мінімум") || token.equals("максимум") ) ) {
         return new RuleException(Type.exception);
@@ -270,6 +271,10 @@ public class TokenAgreementPrepNounExceptionHelper {
         return new RuleException(0);
       }
     }
+
+   // if( i < tokens.length - 1 && token.equals("їх") && PosTagHelper.hasPosTag(tokens[i+1], Pattern.compile("(adj|noun).*")) ) {
+     // return new RuleException(Type.skip);
+   // }
 
     if( token.matches("лиш(е(нь)?)?") ) {
       return new RuleException(0);

@@ -23,6 +23,7 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.synthesis.GermanSynthesizer;
+import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.*;
@@ -55,6 +56,10 @@ public class LineExpander implements org.languagetool.rules.LineExpander {
           result.add(parts[0] + "*innen");
           result.add(parts[0] + ":in");
           result.add(parts[0] + ":innen");
+          //result.add(parts[0] + "in");   // see if we can comment in these cases, too
+          //result.add(parts[0] + "innen");
+          //result.add(parts[0] + "e");
+          //result.add(parts[0] + "en");
         } else {
           try {
             String[] forms = GermanSynthesizer.INSTANCE.synthesizeForPosTags(parts[1], s -> s.startsWith("VER:"));
@@ -69,6 +74,7 @@ public class LineExpander implements org.languagetool.rules.LineExpander {
               }
             }
             result.add(parts[0] + "zu" + parts[1]);  //  "zu<verb>" is not part of forms from synthesizer
+            result.add(StringTools.uppercaseFirstChar(parts[0]) + parts[1] + "s");  //  Genitiv, e.g. "des Weitergehens"
           } catch (IOException e) {
             throw new RuntimeException(e);
           }

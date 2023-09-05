@@ -86,6 +86,17 @@ public class FrenchWordTokenizerTest {
     tokens = wordTokenizer.tokenize("sous-trai\u00ADtants");
     assertEquals(tokens.size(), 1);
     
+    tokens = wordTokenizer.tokenize("-L'homme.");
+    assertEquals(tokens.toString(), "[-, L', homme, .]");
+    tokens = wordTokenizer.tokenize("-Oui -l'homme.");
+    assertEquals(tokens.toString(), "[-, Oui,  , -, l', homme, .]");
+    
+    tokens = wordTokenizer.tokenize("Qu’est-ce que ç’a à voir ?");
+    assertEquals(tokens.toString(), "[Qu’, est, -ce,  , que,  , ç’, a,  , à,  , voir,  , ?]");
+    tokens = wordTokenizer.tokenize("Qu’est-ce que ç'a à voir ?");
+    assertEquals(tokens.toString(), "[Qu’, est, -ce,  , que,  , ç', a,  , à,  , voir,  , ?]");
+    tokens = wordTokenizer.tokenize("Ç’allait être le rêve du XVIIIe siècle.");
+    assertEquals(tokens.toString(), "[Ç’, allait,  , être,  , le,  , rêve,  , du,  , XVIIIe,  , siècle, .]");
     
     tokens = wordTokenizer.tokenize("10 000");
     assertEquals(tokens.size(), 1);

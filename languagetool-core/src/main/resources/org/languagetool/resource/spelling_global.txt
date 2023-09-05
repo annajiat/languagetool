@@ -574,11 +574,13 @@ AppleCare
 watchOS
 tvOS
 Pokémon
+Pokémon Go
 Björk
 Charles de Gaulle
 The Globe and Mail
 Madame Tussauds
 Microsoft Teams
+Microsoft Ads
 Firebase
 JavaScript
 TypeScript
@@ -2220,6 +2222,7 @@ Clearblue
 Simon & Garfunkel
 Simon and Garfunkel
 Need for Speed
+Need for Speed Underground
 Creative Commons
 Olivia Wilde
 Harry Styles
@@ -3732,3 +3735,224 @@ Padmé Amidala
 Andreas Gabalier
 Melinda Gates
 Fitbit Sense
+Jean Asselborn
+Dan Bilzerian
+Bondi Beach
+Brett Favre
+Aaron Rodgers
+Peyton Manning
+Green Bay Packers
+Cleveland Browns
+Tampa Bay Buccaneers
+Villeroy & Boch
+Marie Juchacz
+Louise Schroeder
+Ahmad Mansour
+Otto Suhr
+Desmond Tutu
+Nelson Mandela
+Jacob Zuma
+Thabo Mbeki
+Liz Hurley
+IAEA
+Tom Holland
+Zendaya
+Kirsten Dunst
+Steve Nash
+Bob Cousy
+Harlem Globetrotters
+Kobe Bryant
+Bob Pettit
+Noah Gordon
+Tim Hortons
+Renault Mégane
+Renault Megane
+McLaren F1
+Mazda MX5
+Glass Animals
+Fisker Ocean
+Teen Choice Awards
+Andrzej Duda
+Mario Party Superstars
+Renault Scénic
+Renault Grand Scénic
+Pavloxid
+Dandy Warhols
+The Dandy Warhols
+François Fillon
+François Hollande
+François Mitterrand
+Liam Gallagher
+Noel Gallagher
+Nicole Appleton
+Sunset Boulevard
+Sunset Strip
+Aaron Swartz
+Michael van Gerwen
+Simon Wiesenthal
+Adam Driver
+Ashley Graham
+Madden NFL
+John Madden
+EA Tiburon
+Siri
+Hey Siri
+Betty White
+Marco Tozzi
+Mark Zuckerberg
+Marc Andreessen
+Eli Manning
+Georg von Neumayer
+Henry Cavill
+FlixMobility
+Capgemini
+Patton Oswalt
+Diffie-Hellman
+Diffie–Hellman
+ssh-keygen
+JFK
+MrBeast
+Ronan Keating
+LineageOS
+Marty McFly
+Paul Löbe
+Friedrich Ebert
+Merrick Garland
+Paul Atreides
+Deus ex machina
+Benjamin Button
+Eugene Goodman
+Nigel Farage
+Willy Wonka
+Liz Truss
+Elizabeth Truss
+Hrithik Roshan
+HellermannTyton
+David Sassoli
+Robin Thicke
+John Malkovich
+ITV News
+ITV Weekend News
+Beastie Boys
+Myanmar National Airlines
+Jim Farley
+MSCI Emerging Markets
+MSCI ACWI
+Hikaru Utada
+Porfirio Díaz
+Bone Thugs-N-Harmony
+Wu-Tang Clan
+Three 6 Mafia
+Eazy-E
+Paige VanZant
+Leroy Merlin
+Martin Bormann
+Assembly
+WebOS
+Inkscape
+James Cleverly
+Jean-Yves Le Drian
+Trinity College
+Walter Gropius
+Marcel Breuer
+Gardasil 9
+Peggy Sue
+OpenSea
+Meat Loaf
+SingStar
+Banach–Tarski
+Banach-Tarski
+Fulbright
+Michael Kohlhaas
+Cyndi Lauper
+Number One Observatory Circle
+LittleBigPlanet
+LittleBIGPlanet
+Little BIG Planet
+Little Big Planet
+von Ossietzky
+Carl von Ossietzky
+von Clausewitz
+Carl von Clausewitz
+Sergio Mattarella
+Matteo Renzi
+Ronda Rousey
+Lindsay Lohan
+Ron DeSantis
+Los Angeles Rams
+LA Rams
+L.A. Rams
+Cincinnati Bengals
+Greg Abbott
+Gustave Le Bon
+Gustave Eiffel
+Arsène Wenger
+Alex Ferguson
+Audacity
+Sean McVay
+Zac Taylor
+SoFi Stadium
+Taylor Rapp
+Jalen Ramsey
+Cam Akers
+Tyler Higbee
+Cooper Kupp
+Eric Weddle
+Matt Gay
+Ja'Marr Chase
+Joe Mixon
+Evan McPherson
+Tyler Boyd
+Jared Goff
+Matthew Stafford
+Joe Burrow
+Sienna Miller
+Kendrick Lamar
+Mary J. Blige
+Dizzy Gillespie
+Royal Caribbean Cruises
+Royal Caribbean Group
+3-D Secure
+3D Secure
+René Benko
+Peter Benchley
+Ferdinand Porsche
+iRobot Roomba
+Charlie Munger
+Keir Starmer
+Miss Piggy
+Ned Flanders
+Union Pacific
+Union Pacific Railroad
+MGM Resorts
+Digital Turbine
+Supercar Blondie
+Peres Center for Peace
+Wolfgang Ischinger
+Panera Bread
+Natasha Bassett
+NFT
+Simply Red
+Nord Stream
+Venice Beach
+Bored Ape Yacht Club
+Bored Ape
+Boardwalk Empire
+Henri Nannen
+Dmytro Kuleba
+Village People
+Edvard Munch
+DK Metcalf
+Dikembe Mutombo
+Jimmy Kimmel
+Jimmy Fallon
+Stephen Colbert
+Seth Meyers
+David Letterman
+Conan O'Brien
+Wintershall Dea
+StatusCake
+App Tracking Transparency
+La Stampa
+Uncle Kracker
+Timothy Snyder

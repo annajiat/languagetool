@@ -132,8 +132,10 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
       if (lang.getShortCodeWithCountryAndVariant().equals("de-DE")) {
         runTestForLanguage(lang);  // tests de-DE-AT/grammar.xml
         runTestForLanguage(Languages.getLanguageForShortCode("de"));  // tests de/grammar.xml
-      } else {
-        System.out.println("Skipping " + lang + " because only de-DE gets tested for German (assuming there are no de-CH specific rules)");
+      } else if (lang.getShortCodeWithCountryAndVariant().equals("de-CH")) {
+        runTestForLanguage(lang);
+      } else{
+        System.out.println("Skipping " + lang + " because only de-DE and de-CH gets tested for German (assuming there are no de-AT specific rules)");
       }
     } else {
       if (skipCountryVariant(lang)) {
@@ -217,6 +219,9 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
     for (Rule rule : allRules) {
       if (rule.getId().equalsIgnoreCase("ID")) {
         System.err.println("WARNING: " + lang.getShortCodeWithCountryAndVariant() + " has a rule with id 'ID', this should probably be changed");
+      }
+      if (rule.getId().startsWith("DB_")) {
+        fail("Rule ID must not start with 'DB_', this prefix is reserved for internal use: " + rule.getId());
       }
       if (rule.getId().contains("[") || rule.getId().contains("]")) {
         fail("Rule ID must not contain '[...]': " + rule.getId());

@@ -46,7 +46,6 @@ import com.sun.star.presentation.XPresentationPage;
 import com.sun.star.text.XText;
 import com.sun.star.text.XTextCursor;
 import com.sun.star.uno.UnoRuntime;
-import com.sun.star.uno.XComponentContext;
 
 /**
  * Some tools to get information of LibreOffice Impress context
@@ -198,7 +197,7 @@ public class OfficeDrawTools {
   /**
    * get all paragraphs of a impress document
    */
-  public static ImpressParagraphContainer getAllParagraphs(XComponent xComponent) {
+  public static ParagraphContainer getAllParagraphs(XComponent xComponent) {
     List<String> paragraphs = new ArrayList<>();
     List<Locale> locales = new ArrayList<>();
     List<Integer> pageBegins = new ArrayList<>();
@@ -223,7 +222,7 @@ public class OfficeDrawTools {
               XText xText = UnoRuntime.queryInterface(XText.class, xShape);
               getAllParagraphsFromText(paragraphs, locales, pageBegins, xText);
             } else {
-              MessageHandler.printToLogFile("xShape " + j + " is null");
+              MessageHandler.printToLogFile("OfficeDrawTools: getAllParagraphs: xShape " + j + " is null");
             }
           }
         }
@@ -232,7 +231,7 @@ public class OfficeDrawTools {
       MessageHandler.showError(t);
     }
     OfficeDrawTools o = new OfficeDrawTools();
-    return o.new ImpressParagraphContainer(paragraphs, locales, pageBegins);
+    return o.new ParagraphContainer(paragraphs, locales, pageBegins);
   }
   
   /**
@@ -303,7 +302,7 @@ public class OfficeDrawTools {
                 return;
               }
             } else {
-              MessageHandler.printToLogFile("xShape " + j + " is null");
+              MessageHandler.printToLogFile("OfficeDrawTools: changeTextOfParagraph: xShape " + j + " is null");
             }
           }
         }
@@ -383,7 +382,7 @@ public class OfficeDrawTools {
                 return;
               }
             } else {
-              MessageHandler.printToLogFile("xShape " + j + " is null");
+              MessageHandler.printToLogFile("OfficeDrawTools: setLanguageOfParagraph: xShape " + j + " is null");
             }
           }
         }
@@ -452,7 +451,7 @@ public class OfficeDrawTools {
                 return;
               }
             } else {
-              MessageHandler.printToLogFile("xShape " + j + " is null");
+              MessageHandler.printToLogFile("OfficeDrawTools: setCurrentPage: xShape " + j + " is null");
             }
           }
         }
@@ -493,7 +492,7 @@ public class OfficeDrawTools {
               XText xText = UnoRuntime.queryInterface(XText.class, xShape);
               nParaCount = findParaInText(nParaCount, -1, xText);
             } else {
-              MessageHandler.printToLogFile("xShape " + j + " is null");
+              MessageHandler.printToLogFile("OfficeDrawTools: getParagraphFromCurrentPage: xShape " + j + " is null");
             }
           }
         }
@@ -531,7 +530,7 @@ public class OfficeDrawTools {
                 return (n == 0 ? false : true);
               }
             } else {
-              MessageHandler.printToLogFile("xShape " + j + " is null");
+              MessageHandler.printToLogFile("OfficeDrawTools: isParagraphInNotesPage: xShape " + j + " is null");
             }
           }
         }
@@ -564,7 +563,7 @@ public class OfficeDrawTools {
               XPropertySet xParaPropSet = UnoRuntime.queryInterface(XPropertySet.class, xTextCursor);
               return ((Locale) xParaPropSet.getPropertyValue("CharLocale"));
             } else {
-              MessageHandler.printToLogFile("xShape " + j + " is null");
+              MessageHandler.printToLogFile("OfficeDrawTools: getDocumentLocale: xShape " + j + " is null");
             }
           }
         }
@@ -575,12 +574,12 @@ public class OfficeDrawTools {
     return null;
   }
   
-  public class ImpressParagraphContainer {
+  public class ParagraphContainer {
     public List<String> paragraphs;
     public List<Locale> locales;
     public List<Integer> pageBegins;
     
-    ImpressParagraphContainer(List<String> paragraphs, List<Locale> locales, List<Integer> pageBegins) {
+    ParagraphContainer(List<String> paragraphs, List<Locale> locales, List<Integer> pageBegins) {
       this.paragraphs = paragraphs;
       this.locales = locales;
       this.pageBegins = pageBegins;

@@ -1,3 +1,7 @@
+cin=cinc|cine|con
+caladura|catadura=qualitat|aspecte|pinta
+carraspera=raspera|rautija|rutija|irritació
+gatillazo=arronsada|misto
 personaje=personatge
 personajes=personatges
 assoleiat=assolellat
@@ -2363,7 +2367,7 @@ umbral=llindar
 umbrals=llindars
 urbano=urbà
 USA=EUA
-vale=d'acord|val
+vale=d'acord|entesos|val
 valla=tanca|balla
 valles=tanques|balles
 vanguàrdia|vanguardia|vanguarda=avantguarda
@@ -2512,3 +2516,5 @@ curdes=kurdes
 estupent=estupend
 estupents=estupends
 # errors in tagger dictionary; unnecessary after dictionary update
+ionqui=jonqui
+ionquis=jonquis

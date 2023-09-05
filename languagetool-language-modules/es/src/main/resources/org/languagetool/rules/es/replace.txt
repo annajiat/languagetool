@@ -1,3 +1,15 @@
+hryvnia|hrivna|grivnia|jrivna|hryvna=grivna
+crimeano=crimeo
+crimeanos=crimeos
+crimeana=crimea
+crimeanas=crimeas
+absurdez=absurdidad
+houthi=hutí
+houthis|houthís=hutís|hutíes
+espúreo=espurio
+espúreos=espurios
+espúrea=espuria
+espúreas=espurias
 derrepente|derepente=de repente
 Tigrai|Tigray=Tigré
 COVID19=COVID-19
@@ -117,7 +129,10 @@ algun=algún
 # Errors in the dictionary 
 # (can be removed after updating the dictionary)
 #################################################
-espúreo=espurio
-espúreos=espurios
-espúrea=espuria
-espúreas=espurias
+insanía=insania
+insanías=insania
+Kazajstán=Kazajistán
+kazakhstano=kazajo
+kazakhstanos=kazajos
+kazakhstana=kazaja
+kazakhstanas=kazajas

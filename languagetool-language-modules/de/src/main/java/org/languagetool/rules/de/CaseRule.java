@@ -93,7 +93,16 @@ public class CaseRule extends Rule {
     "Out", // eng
     "Packet", // misspelling of "Paket" (caught by spell checker)
     "Adult", // eng
+    "Apart", // eng
+    "Different", // eng
+    "Fair", // eng
+    "Viral", // eng
+    "Tough", // eng
+    "Superb", // eng und Automodell
+    "Resilient", // eng
+    "Hexagonal", // eng
     "Responsive", // eng
+    "Anno", // Name
     "Mo",
     "Di",
     "Mi",
@@ -117,6 +126,8 @@ public class CaseRule extends Rule {
     "Linksintellektuelle",
     "Linksintellektueller",
     "Linksintellektuellen",
+    "Beschuldigte",
+    "Beschuldigten",
     "Drogenabhängige",
     "Drogenabhängiger",
     "Drogenabhängiger",
@@ -136,6 +147,8 @@ public class CaseRule extends Rule {
     "Werbetreibende",
     "Werbetreibender",
     "Werbetreibenden",
+    "Verletzter",
+    "Verletzten",
     "Werktätige",
     "Werktätiger",
     "Werktätigen",
@@ -144,7 +157,11 @@ public class CaseRule extends Rule {
     "Genesene", // temporary fix
     "Genesenen", // temporary fix
     "Geimpfte", // temporary fix
+    "Geboosterte", // temporary fix
+    "Ungeimpfte", // temporary fix
     "Geimpften", // temporary fix
+    "Geboosterten", // temporary fix
+    "Ungeimpften", // temporary fix
     "Geflüchtete", // temporary fix
     "Geflüchteten", // temporary fix
     "Projektbeteiligte", // temporary fix
@@ -196,6 +213,7 @@ public class CaseRule extends Rule {
     "Rutsch",
     "Spar",
     "Merz",
+    "Gefahren",
     "Minderjährige",
     "Minderjähriger",
     "Minderjährigen",
@@ -216,6 +234,8 @@ public class CaseRule extends Rule {
     "Vorstandsvorsitzender",
     "Vorstandsvorsitzenden",
     "Vorstandsvorsitzende",
+    "Demonstrierende",
+    "Demonstrierenden",
     "Marketingtreibende",
     "Marketingtreibender",
     "Marketingtreibenden",
@@ -260,6 +280,33 @@ public class CaseRule extends Rule {
     "Flansch",
     "WhatsApp",
     "Verschleiß",
+    "Schutzsuchende", // gendered form
+    "Schutzsuchenden", // gendered form
+    "Versicherte",
+    "Versicherten", // gendered form
+    "Cyberkriminelle",
+    "Cyberkriminellen",
+    "Kriminelle",
+    "Kriminellen",
+    "Auszubildenden",
+    "Auszubildende",
+    "Auszubildender",
+    "Lernende", // gendered form
+    "Lernender", // gendered form
+    "Lernenden", // gendered form
+    "Teilnehmende", // gendered form
+    "Teilnehmenden", // gendered form
+    "Radfahrende", // gendered form
+    "Radfahrenden", // gendered form
+    "Autofahrende", // gendered form
+    "Autofahrenden", // gendered form
+    "Auszubildene", // gendered form
+    "Auszubildenen", // gendered form
+    "Absolvierende", // gendered form
+    "Absolvierenden", // gendered form
+    "Einheimische",
+    "Einheimischen",
+    "Einheimischer",
     "Wehrbeauftragter",
     "Wehrbeauftragte",
     "Wehrbeauftragten",
@@ -280,6 +327,9 @@ public class CaseRule extends Rule {
     "Steuerbevollmächtigter",
     "Steuerbevollmächtigten",
     "Steuerbevollmächtigtem",
+    "Suchtkranken",
+    "Suchtkranke",
+    "Suchtkranker",
     "Filmschaffende",
     "Filmschaffender",
     "Filmschaffenden",
@@ -413,6 +463,9 @@ public class CaseRule extends Rule {
     "Hu", // name
     "Jenseits",
     "Abends",
+    "Stimmberechtigte",
+    "Stimmberechtigten",
+    "Stimmberechtigter",
     "Alleinerziehende",
     "Alleinerziehenden",
     "Alleinerziehender",
@@ -552,6 +605,8 @@ public class CaseRule extends Rule {
     "Verantwortlicher",
     "Verlass",
     "Verwandter",
+    "Verstorbenen",
+    "Verstorbene",
     "Vielfache",
     "Vielfaches",
     "Vorsitzender",

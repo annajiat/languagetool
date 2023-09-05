@@ -43,6 +43,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import static org.languagetool.rules.SuggestedReplacement.topMatch;
+
 @SuppressWarnings("ArraysAsListWithZeroOrOneArgument")
 public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
 
@@ -63,7 +65,14 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     "cocksucker",
     "cocksuckers",
     "coon",
+    "coon ass",
+    "coon asses",
     "cunt",
+    "double check",
+    "hard coded",
+    "hands free",
+    "faggot",
+    "faggots",
     "fuck",
     "fucker",
     "fuckhead",
@@ -79,6 +88,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     "niggaz",
     "negro",
     "nigger",
+    "nigger lip",
+    "nigger lips",
     "niggers",
     "shit",
     "shits",
@@ -347,6 +358,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().toLowerCase().startsWith("co ") &&
                    !k.getReplacement().toLowerCase().startsWith("de ") &&
                    !k.getReplacement().toLowerCase().startsWith("ex ") &&
+                   !k.getReplacement().toLowerCase().startsWith("es ") &&
                    !k.getReplacement().toLowerCase().startsWith("mid ") &&
                    !k.getReplacement().toLowerCase().startsWith("non ") &&
                    !k.getReplacement().toLowerCase().startsWith("bio ") &&
@@ -396,14 +408,18 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().toLowerCase().startsWith("ed ") &&
                    !k.getReplacement().toLowerCase().startsWith("ac ") &&
                    !k.getReplacement().toLowerCase().startsWith("al ") &&
+                   !k.getReplacement().toLowerCase().startsWith("ea ") &&
+                   !k.getReplacement().toLowerCase().startsWith("ge ") &&
                    !k.getReplacement().toLowerCase().startsWith("mu ") &&
                    !k.getReplacement().toLowerCase().startsWith("ma ") &&
                    !k.getReplacement().toLowerCase().startsWith("la ") &&
                    !k.getReplacement().toLowerCase().startsWith("bis ") &&
+                   !k.getReplacement().toLowerCase().startsWith("tar ") &&
                    !k.getReplacement().toLowerCase().startsWith("f ") &&
                    !k.getReplacement().toLowerCase().startsWith("k ") &&
                    !k.getReplacement().toLowerCase().startsWith("e ") &&
                    !k.getReplacement().toLowerCase().startsWith("c ") &&
+                   !k.getReplacement().toLowerCase().startsWith("p ") &&
                    !k.getReplacement().toLowerCase().startsWith("v ") &&
                    !k.getReplacement().toLowerCase().startsWith("s ") &&
                    !k.getReplacement().toLowerCase().startsWith("h ") &&
@@ -412,6 +428,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().toLowerCase().startsWith("t ") &&
                    !k.getReplacement().toLowerCase().startsWith("um ") &&
                    !k.getReplacement().toLowerCase().startsWith("oft ") &&
+                   !k.getReplacement().endsWith(" i") &&
                    !k.getReplacement().endsWith(" able") &&
                    !k.getReplacement().endsWith(" less") && // (e.g. permissionless)
                    !k.getReplacement().endsWith(" sly") && // unnecessary suggestion (e.g. for continuesly)
@@ -424,6 +441,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().endsWith(" ward") &&
                    !k.getReplacement().endsWith(" ability") && // interruptability
                    !k.getReplacement().endsWith(" ware") && // drinkware
+                   !k.getReplacement().endsWith(" logy") && // volcanology
                    !k.getReplacement().endsWith(" ting") && // someting
                    !k.getReplacement().endsWith(" ion") && // presention
                    !k.getReplacement().endsWith(" ions") && // sealions
@@ -440,8 +458,12 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().endsWith(" ed") &&
                    !k.getReplacement().endsWith(" al") &&
                    !k.getReplacement().endsWith(" ans") &&
+                   !k.getReplacement().endsWith(" mans") &&
                    !k.getReplacement().endsWith(" ti") &&
                    !k.getReplacement().endsWith(" de") &&
+                   !k.getReplacement().endsWith(" ea") &&
+                   !k.getReplacement().endsWith(" ge") &&
+                   !k.getReplacement().endsWith(" tar") &&
                    !k.getReplacement().endsWith(" re") &&
                    !k.getReplacement().endsWith(" e") &&
                    !k.getReplacement().endsWith(" c") &&
@@ -451,6 +473,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().endsWith(" r") &&
                    !k.getReplacement().endsWith(" um") &&
                    !k.getReplacement().endsWith(" er") &&
+                   !k.getReplacement().endsWith(" es") &&
                    !k.getReplacement().endsWith(" ex") &&
                    !k.getReplacement().endsWith(" na") &&
                    !k.getReplacement().endsWith(" gs") &&
@@ -586,7 +609,15 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
 
   protected static Map<String, List<String>> getTopSuggestions() {
     Map<String, List<String>> s = new HashMap<>();
+    s.put("retd", Arrays.asList("retd.", "retired"));
+    s.put("Retd", Arrays.asList("Retd.", "Retired"));
+    s.put("intransparent", Arrays.asList("non-transparent", "lacking transparency"));
+    s.put("repetion", Arrays.asList("repetition"));
+    s.put("Repetion", Arrays.asList("Repetition"));
+    s.put("repetions", Arrays.asList("repetitions"));
+    s.put("Repetions", Arrays.asList("Repetitions"));
     s.put("rom", Arrays.asList("room"));
+    s.put("abt", Arrays.asList("about"));
     s.put("becuz", Arrays.asList("because"));
     s.put("becus", Arrays.asList("because"));
     s.put("lullabys", Arrays.asList("lullabies"));
@@ -1115,6 +1146,12 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("params", Arrays.asList("parameters"));
     s.put("Param", Arrays.asList("Parameter"));
     s.put("Params", Arrays.asList("Parameters"));
+    s.put("amature", Arrays.asList("amateur"));
+    s.put("egoic", Arrays.asList("egoistic"));
+    s.put("tarpit", Arrays.asList("tar pit"));
+    s.put("tarpits", Arrays.asList("tar pits"));
+    s.put("Tarpit", Arrays.asList("Tar pit"));
+    s.put("Tarpits", Arrays.asList("Tar pits"));
 
     return s;
   }
@@ -1156,6 +1193,48 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     return translator;
   }
 
+  // Do not tokenize new words from spelling.txt...
+  // Multi-token words should be in multiwords.txt
+  protected boolean tokenizeNewWords() {
+    return false;
+  }
+
+  @Override
+  protected List<SuggestedReplacement> getOnlySuggestions(String word) {
+    // NOTE: only add words here that would otherwise have more than one suggestion
+    // and have apply to all variants of English (en-US, en-GB, ...):
+    if (word.matches("[Cc]emetary")) return topMatch(word.replaceFirst("emetary", "emetery"));
+    if (word.matches("[Cc]emetaries")) return topMatch(word.replaceFirst("emetaries", "emeteries"));
+    if (word.matches("[Bb]asicly")) return topMatch(word.replaceFirst("asicly", "asically"));
+    if (word.matches("[Bb]eleives?")) return topMatch(word.replaceFirst("eleive", "elieve"));
+    if (word.matches("[Bb]elives?")) return topMatch(word.replaceFirst("elive", "elieve"));
+    if (word.matches("[Bb]izzare")) return topMatch(word.replaceFirst("izzare", "izarre"));
+    if (word.matches("[Cc]ompletly")) return topMatch(word.replaceFirst("ompletly", "ompletely"));
+    if (word.matches("[Dd]issapears?")) return topMatch(word.replaceFirst("issapear", "isappear"));
+    if (word.matches("[Ff]arenheit")) return topMatch(word.replaceFirst("arenheit", "ahrenheit"));
+    if (word.matches("[Ff]reinds?")) return topMatch(word.replaceFirst("reind", "riend"));
+    if (word.matches("[Ii]ncidently")) return topMatch(word.replaceFirst("ncidently", "ncidentally"));
+    if (word.matches("[Ii]nterupts?")) return topMatch(word.replaceFirst("nterupt", "nterrupt"));
+    if (word.matches("[Ll]ollypops?")) return topMatch(word.replaceFirst("ollypop", "ollipop"));
+    if (word.matches("[Oo]cassions?")) return topMatch(word.replaceFirst("cassion", "ccasion"));
+    if (word.matches("[Oo]ccurances?")) return topMatch(word.replaceFirst("ccurance", "ccurrence"));
+    if (word.matches("[Pp]ersistant")) return topMatch(word.replaceFirst("ersistant", "ersistent"));
+    if (word.matches("[Pp]eices?")) return topMatch(word.replaceFirst("eice", "iece"));
+    if (word.matches("[Ss]eiges?")) return topMatch(word.replaceFirst("eige", "iege"));
+    if (word.matches("[Ss]upercedes?")) return topMatch(word.replaceFirst("upercede", "upersede"));
+    if (word.matches("[Tt]hreshholds?")) return topMatch(word.replaceFirst("hreshhold", "hreshold"));
+    if (word.matches("[Tt]ommorrows?")) return topMatch(word.replaceFirst("ommorrow", "omorrow"));
+    if (word.matches("[Tt]ounges?")) return topMatch(word.replaceFirst("ounge", "ongue"));
+    if (word.matches("[Ww]ierd")) return topMatch(word.replaceFirst("ierd", "eird"));
+    if (word.matches("[Jj]ist")) {
+      List<SuggestedReplacement> l = new ArrayList<>();
+      l.add(new SuggestedReplacement("just"));
+      l.add(new SuggestedReplacement("gist"));
+      return l;
+    }
+    return Collections.emptyList();
+  }
+
   private static class IrregularForms {
     final String baseform;
     final String posName;
@@ -1168,11 +1247,5 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       this.forms = forms;
     }
   }
-  
-  // Do not tokenize new words from spelling.txt... 
-  // Multi-token words should be in multiwords.txt
-  protected boolean tokenizeNewWords() {
-    return false;
-  }
-  
+
 }

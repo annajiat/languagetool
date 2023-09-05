@@ -9,6 +9,8 @@ Lluís Maria
 da Vinci
 El codi Da Vinci
 van Beethoven
+von Clausewitz
+van Gogh
 el Prat de Llobregat
 #l'Alacantí
 l'Alcalatén
@@ -151,6 +153,7 @@ edat mitjana
 Fons Monetari Internacional
 Congrés dels EUA
 Congrés dels Estats Units
+Congrés dels Estats Units d'Amèrica
 Cambra de Representants
 educació secundària
 Educació Secundària Obligatòria
@@ -274,7 +277,7 @@ parc natural dels Aiguamolls de l'Empordà
 parc natural dels Ports
 parc natural del Delta de l'Ebre
 parc natural del Delta del Llobregat
-arc natural de les Capçaleres del Ter i del Freser
+parc natural de les Capçaleres del Ter i del Freser
 Alt Pirineu
 impost sobre actes jurídics documentats
 impost d'actes jurídics documentats
@@ -290,5 +293,27 @@ Comunitat Valenciana
 País Valencià
 els Pirineus
 el Pirineu
+als Pirineus
+al Pirineu
+dels Pirineus
+del Pirineu
 comunitat autònoma
 comunitats autònomes
+Tots Sants
+variant delta
+variant delta plus
+talibà
+taliabans
+megawatt
+megawatts
+megabyte
+megabytes
+gigabyte
+gigabytes
+òmicron
+intel·ligència artificial
+banc dolent
+honoris causa
+palau de Buckingham
+llei marcial
+Rada Suprema

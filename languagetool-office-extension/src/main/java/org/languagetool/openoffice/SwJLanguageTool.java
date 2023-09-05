@@ -66,7 +66,7 @@ public class SwJLanguageTool {
     if (isRemote) {
       lt = null;
       mlt = null;
-      rlt = new LORemoteLanguageTool(language, motherTongue, config, extraRemoteRules);
+      rlt = new LORemoteLanguageTool(language, motherTongue, config, extraRemoteRules, userConfig);
       if (!rlt.remoteRun()) {
         MessageHandler.showMessage(MESSAGES.getString("loRemoteSwitchToLocal"));
         isRemote = false;
@@ -234,7 +234,7 @@ public class SwJLanguageTool {
 
   /**
    * Get a list of tokens from a sentence
-   * This Method can be used only for local checks
+   * This Method may be used only for local checks
    * Returns null for remote checks
    */
   public List<String> sentenceTokenize(String text) {
@@ -249,7 +249,7 @@ public class SwJLanguageTool {
 
   /**
    * Analyze sentence
-   * This Method can be used only for local checks
+   * This Method may be used only for local checks
    * Returns null for remote checks
    */
   public AnalyzedSentence getAnalyzedSentence(String sentence) throws IOException {

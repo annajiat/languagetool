@@ -107,6 +107,7 @@ public class AgreementRule extends Rule {
     "fast",
     "ganz",
     "geradezu",
+    "zeitweise",
     "halbwegs",
     "höchst",
     "komplett",
@@ -126,6 +127,7 @@ public class AgreementRule extends Rule {
   ));
 
   private static final Set<String> VIELE_WENIGE_LOWERCASE = new HashSet<>(Arrays.asList(
+    "manche",
     "jegliche",
     "jeglicher",
     "andere",
@@ -181,8 +183,10 @@ public class AgreementRule extends Rule {
     "etwas",
     "irgendetwas",
     "irgendwas",
+    "irgendwer",
     "was",
     "wer",
+    "wem",
     "jenen",      // "...und mit jenen anderer Arbeitsgruppen verwoben"
     "diejenigen",
     "irgendjemand", "irgendjemandes",
@@ -191,6 +195,7 @@ public class AgreementRule extends Rule {
   ));
 
   private static final Set<String> NOUNS_TO_BE_IGNORED = new HashSet<>(Arrays.asList(
+    "A",
     "Prozent",   // Plural "Prozente", trotzdem ist "mehrere Prozent" korrekt
     "Wollen",  // das Wollen
     "Gramm",
@@ -203,9 +208,9 @@ public class AgreementRule extends Rule {
     "Chief", // Chief Executive Officer
     "Carina", // Name
     "Wüstenrot", // Name
-    "Impflicht", // found by speller
     "Rückgrad", // found by speller
     "Rückgrads", // found by speller
+    "Aalen", // Plural form of "Aal" but also large city in Germany
     "Meter", // Das Meter (Objekt zum Messen)
     "Boots", // "Die neuen Boots" (englisch Stiefel)
     "Taxameter", // Beides erlaubt "Das" und "Die"
@@ -603,7 +608,7 @@ public class AgreementRule extends Rule {
       if (compoundMatch != null) {
         return compoundMatch;
       }
-      if (token3.hasPartialPosTag("ABK")) {
+      if (token3.hasPosTagStartingWith("ABK")) {
         return null;
       }
       ruleMatch = new RuleMatch(this, sentence, token1.getStartPos(), token3.getEndPos(), MSG, SHORT_MSG);
@@ -625,7 +630,7 @@ public class AgreementRule extends Rule {
       if (compoundMatch != null) {
         return compoundMatch;
       }
-      if (token4.hasPartialPosTag("ABK")) {
+      if (token4.hasPosTagStartingWith("ABK")) {
         return null;
       }
       ruleMatch = new RuleMatch(this, sentence, token1.getStartPos(), token4.getEndPos(), MSG2, SHORT_MSG);

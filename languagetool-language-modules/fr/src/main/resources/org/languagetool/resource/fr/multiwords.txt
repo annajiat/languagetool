@@ -1,5 +1,10 @@
 #French multiwords file used for chunking
 #separatorRegExp=[\t;]
+barber shop; N e sp
+en effet; A
+par ailleurs; A
+de plus en plus; A
+maintes fois; A
 Le Mans; Z m sp
 US Army;Z e sp
 Central Water Authority; Z e sp
@@ -2382,7 +2387,28 @@ African journals; Z e sp
 L'Obs; Z e sp
 Hercule Poirot; Z e sp
 mama mia; I
+Naomi Watts; Z e sp
+fab lab; N m s
+fab labs; N mp
+Notre-Dame-d'Estrées-Corbon; Z e sp
+Saint-Jean-d'Ardières; Z e sp
+Céline Dion; Z e sp
+al dente; N e sp
+dare dare; I
+Christ Church; N f sp
+oh la la; I
+Robert de Niro; Z e sp
+Porto Vecchio; Z e sp
+Miley Cyrus; Z f sp
+Johnson & Johnson; Z e sp
+Sinovac Biotech; Z e sp
+pass vaccinal; N m s
 Scarlett Johansson; Z e sp
+Cécile Borne; Z e sp
+Joint European Disruptive Initiative; Z f sp
+Cloud Security Alliance; Z f sp
+on line; A
+J&R Savard; Z e sp
 Hôpital d'Instruction des Armées; Z e sp
 Artisan Déco; Z e sp
 Audible Studios; Z e sp

@@ -146,6 +146,8 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
     assertEquals(0, rule.match(lt.getAnalyzedSentence("компьютерная")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("中文維基百科 中文维基百科")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("The statements¹ of⁷ the⁵⁰ government⁹‽")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("At 3 o'clock.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("At 3 o’clock.")).length);
     
     // test words in language-specific spelling_en-US.txt
     assertEquals(0, rule.match(lt.getAnalyzedSentence("USTestWordToBeIgnored")).length);
@@ -181,6 +183,16 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
     assertEquals(1, rule.match(lt.getAnalyzedSentence("A web-feature-drivenx-car software.")).length);
 
     assertAllMatches(lt, rule, "robinson", "Robinson", "robin son", "robins on", "Robson", "Robeson", "robins", "Roberson");
+    
+    // contractions with apostrophe
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("You're only foolin' round.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("You’re only foolin’ round.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("This is freakin' hilarious.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("It's the meal that keeps on givin'.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Don't Stop Believin'.")).length);
+    
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("wrongwordin'")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("wrongwordin’")).length);
   }
 
   @Test
@@ -377,6 +389,18 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
         System.out.println("  getErrorLimitLang: " + match.getErrorLimitLang());
       }
     }
+  }
+
+  @Test
+  public void testGetOnlySuggestions() throws IOException {
+    assertThat(rule.getOnlySuggestions("cemetary").size(), is(1));
+    assertThat(rule.getOnlySuggestions("cemetary").get(0).getReplacement(), is("cemetery"));
+    assertThat(rule.getOnlySuggestions("Cemetary").size(), is(1));
+    assertThat(rule.getOnlySuggestions("Cemetary").get(0).getReplacement(), is("Cemetery"));
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("cemetary"));
+    assertThat(matches.length, is(1));
+    assertThat(matches[0].getSuggestedReplacements().size(), is(1));
+    assertThat(matches[0].getSuggestedReplacements().get(0), is("cemetery"));
   }
 
   private void assertSuggestion(String input, String... expectedSuggestions) throws IOException {

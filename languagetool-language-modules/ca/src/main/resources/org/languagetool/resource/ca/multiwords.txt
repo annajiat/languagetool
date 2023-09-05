@@ -1,5 +1,23 @@
 #Catalan multiwords file used for chunking
 #separatorRegExp=[\t;]
+Narendra Modi;NPMSSP0
+Recep Tayyip Erdoğan;NPMSSP0
+Recep Tayyip Erdogan;NPMSSP0
+Dmitri Medvédev;NPMSSP0
+Borís Ieltsin;NPMSSP0
+Víktor Ianukóvitx;NPMSSP0
+Volodímir Zelenski;NPMSSP0
+Bernard Shaw;NPMSSP0
+Madame Pompadour;NPFSSP0
+Madame de Pompadour;NPFSSP0
+Rodrigo Rato;NPMSSP0
+Josep Maria de Sagarra;NPMSSP0
+Ansu Fati;NPMSSP0
+von Clausewitz;NPCNSP0
+Leroy Merlin;NPCNO00
+Tahrir al-Xam;NPMSO00
+Al-Xabab;NPMSO00
+Nursultan Nazarbàiev;NPMSSP0
 Pablo Casado;NPMSSP0
 Anne Applebaum;NPFSSP0
 cara o creu;NCMS000

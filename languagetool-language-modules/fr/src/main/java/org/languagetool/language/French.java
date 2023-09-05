@@ -248,15 +248,21 @@ public class French extends Language implements AutoCloseable {
       case "LEURS_LEUR": return 100; // greater than N_V
       case "DU_DU": return 100; // greater than DU_LE
       case "ACCORD_CHAQUE": return 100; // greater than ACCORD_NOMBRE
+      case "J_N2": return 100; // greater than J_N
       case "CEST_A_DIRE": return 100; // greater than A_A_ACCENT
       case "FAIRE_VPPA": return 100; // greater than A_ACCENT_A
+      case "GENS_ACCORD": return 100; // greater than AGREEMENT_POSTPONED_ADJ
       case "VIRGULE_EXPRESSIONS_FIGEES": return 100; // greater than agreement rules
       case "TRAIT_UNION": return 100; // greater than other rules for trait d'union
       case "PLURIEL_AL2": return 100; // greater than other rules for pluriel al
+      case "FR_SPLIT_WORDS_HYPHEN": return 100; // greater than MOTS_INCOMP
       case "PAS_DE_TRAIT_UNION": return 50; //  // greater than agreement rules
       case "MOTS_INCOMP": return 50; // greater than PRONSUJ_NONVERBE and DUPLICATE_DETERMINER
       case "PRIME-TIME": return 50; //  // greater than agreement rules
       case "A_VERBE_INFINITIF": return 20; // greater than PRONSUJ_NONVERBE
+      case "DE_OU_DES": return 20; // greater than PAS_ADJ
+      case "EMPLOI_EMPLOIE": return 20; // greater than MOTS_INCOMP
+      case "VOIR_VOIRE": return 20; // greater than PLACE_DE_LA_VIRGULE
       case "CAT_TYPOGRAPHIE": return 20; // greater than PRONSUJ_NONVERBE or agreement rules
       case "CAT_HOMONYMES_PARONYMES": return 20;
       case "CAT_TOURS_CRITIQUES": return 20;
@@ -278,6 +284,9 @@ public class French extends Language implements AutoCloseable {
       //case "ACCORD_COULEUR": return 1; // needs to have higher priority than agreement postponed adj
       case "R_VAVOIR_VINF": return 10; // needs higher priority than A_INFINITIF
       case "AN_EN": return 10; // needs higher priority than AN_ANNEE
+      case "APOS_M": return 10; // needs higher priority than APOS_ESPACE
+      case "ACCORD_PLURIEL_ORDINAUX": return 10; // needs higher priority than D_J
+      case "ADJ_ADJ_SENT_END": return 10; // needs higher priority than ACCORD_COULEUR
       case "SE_CE": return -10; // needs higher priority than ELISION
       case "SYNONYMS": return -10; // less than ELISION
       case "PAS_DE_SOUCIS": return 10; // needs higher priority than PAS_DE_PB_SOUCIS (premium)
@@ -286,16 +295,21 @@ public class French extends Language implements AutoCloseable {
       case "CONFUSION_PAR_PART": return -5;  // turn off completely when PART_OU_PAR is activated
       case "SONT_SON": return -5; // less than ETRE_VPPA_OU_ADJ
       case "FR_SIMPLE_REPLACE": return -10;
+      case "J_N": return -10; // needs lesser priority than D_J
       case "TE_NV": return -20; // less than SE_CE, SE_SA and SE_SES
-      case "SYNONYMES": return -20; // less than grammar rules
       case "TE_NV2": return -10; // less than SE_CE, SE_SA and SE_SES
       case "PLURIEL_AL": return -10; // less than AGREEMENT_POSTPONED_ADJ
       case "INTERROGATIVE_DIRECTE": return -10; // less than OU
       case "D_J_N": return -10; // less than J_N
+      case "FAMILIARITES": return -10; // less than grammar rules
+      case "V_J_A_R": return -10; // less than grammar rules
+      case "TRES_TRES_ADJ": return -10; // less than grammar rules
       case "IMP_PRON": return -10; // less than D_N
       case "TOO_LONG_PARAGRAPH": return -15;
       case "PREP_VERBECONJUGUE": return -20;
       case "LA_LA2": return -20; // less than LA_LA
+      case "FRENCH_WORD_REPEAT_RULE": return -20; // less than TRES_TRES_ADJ
+      case "CROIRE": return -20; // less than JE_CROIS_QUE
       case "PAS_DE_VERBE_APRES_POSSESSIF_DEMONSTRATIF": return -20;
       case "VIRGULE_VERBE": return -20; // less than grammar rules
       case "VERBES_FAMILIERS": return -25;  // less than PREP_VERBECONJUGUE + PAS_DE_VERBE_APRES_POSSESSIF_DEMONSTRATIF
@@ -304,20 +318,44 @@ public class French extends Language implements AutoCloseable {
       case "ILS_VERBE": return -50; // greater than FR_SPELLING_RULE
       case "AGREEMENT_POSTPONED_ADJ": return -50;
       case "MULTI_ADJ": return -50;
-      case "POINTS_SUSPENSIONS_SPACE": return -50; // lesser than grammar rules
+      case "ESSENTIEL": return -50; // lesser than grammar rules
+      case "CONFUSION_AL_LA": return -50; // lesser than AUX_AVOIR_VCONJ
+      case "IMPORTANT": return -50; // lesser than grammar rules
+      case "SOUHAITER": return -50; // lesser than grammar rules
+      case "CAR": return -50; // lesser than grammar rules
+      case "AIMER": return -50; // lesser than grammar rules
       case "CONFUSION_RULE_PREMIUM": return -50; // lesser than PRONSUJ_NONVERBE
       case "FR_SPELLING_RULE": return -100;
       case "ET_SENT_START": return -151; // lower than grammalecte rules
       case "MAIS_SENT_START": return -151; // lower than grammalecte rules
+      case "EN_CE_QUI_CONCERNE": return -152;  // less than MAIS_SENT_START + ET_SENT_START
+      case "EN_MEME_TEMPS": return -152;  // less than MAIS_SENT_START + ET_SENT_START
+      case "ET_AUSSI": return -152;  // less than CONFUSION_EST_ET + ET_SENT_START
+      case "MAIS_AUSSI": return -152;  // less than MAIS_SENT_START
       case "ELISION": return -200; // should be lower in priority than spell checker
+      case "POINT": return -200; // should be lower in priority than spell checker
+      case "REPETITIONS_STYLE": return -250;  // repetition style rules, usually with prefix REP_
+      case "FR_REPEATEDWORDS_EXIGER": return -250;  // repetition style rules,
+      case "POINTS_SUSPENSIONS_SPACE": return -250;  // should be lower in priority than ADJ_ADJ_SENT_END
       case "UPPERCASE_SENTENCE_START": return -300;
       case "FRENCH_WHITESPACE_STRICT": return -350; // picky; if on, it should overwrite FRENCH_WHITESPACE
+      case "TOUT_MAJUSCULES": return -400;
       case "FRENCH_WHITESPACE": return -400; // lesser than UPPERCASE_SENTENCE_START and FR_SPELLING_RULE
-
+      case "MOT_TRAIT_MOT": return -400; // lesser than UPPERCASE_SENTENCE_START and FR_SPELLING_RULE
+      case "FRENCH_WORD_REPEAT_BEGINNING_RULE": return -350; // less than REPETITIONS_STYLE
     }
+
     if (id.startsWith("grammalecte_")) {
       return -150;
     }
+
+    if (id.startsWith("AI_FR_HYDRA_LEO")) { // prefer more specific rules (also speller)
+      if (id.startsWith("AI_FR_HYDRA_LEO_MISSING_COMMA")) {
+        return -51; // prefer comma style rules.
+      }
+      return -11;
+    }
+
     return super.getPriorityForId(id);
   }
   
@@ -346,4 +384,15 @@ public class French extends Language implements AutoCloseable {
     return ruleMatches;
   }
 
+
+  @Override
+  public List<Rule> getRelevantRemoteRules(ResourceBundle messageBundle, List<RemoteRuleConfig> configs, GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List<Language> altLanguages, boolean inputLogging) throws IOException {
+    List<Rule> rules = new ArrayList<>(super.getRelevantRemoteRules(
+      messageBundle, configs, globalConfig, userConfig, motherTongue, altLanguages, inputLogging));
+
+    // no description needed - matches based on automatically created rules with descriptions provided by remote server
+    rules.addAll(GRPCRule.createAll(this, configs, inputLogging,
+      "AI_FR_", "INTERNAL - dynamically loaded rule supported by remote server"));
+    return rules;
+  }
 }

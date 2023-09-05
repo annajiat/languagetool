@@ -91,6 +91,8 @@ public class AgreementRuleTest {
     assertGood("Dieses Bild stammt von einem lange Zeit unbekannten Maler.");
     assertGood("Das Staatsoberhaupt ist der Verfassung zufolge der König.");
     assertGood("Der Ende der 1960er Jahre umgestaltete Garten ist schön.");
+    assertGood("Der Ende der achtziger Jahre umgestaltete Garten hat unter anderem ungefähr 70 verschiedene Sorten von Rosen und Volieren für exotische Vögel.");
+    assertGood("Als Vorboten des Discounthandels sind die Ende der 50er Jahre in der Bundesrepublik Deutschland wiederauflebenden Erscheinungsformen des Beziehungs-, Betriebs- und Belegschaftshandels anzusehen.");
     assertGood("Die Anfang des letzten Monats umgestaltete Veranda ist schön.");
     assertGood("Der Mitte 2001 umgestaltete Garten ist schön.");
     //assertBad("Die Bad Taste Party von Susi", "Die Bad-Taste-Party");   // not supported yet
@@ -218,6 +220,8 @@ public class AgreementRuleTest {
     assertGood("Es ist noch unklar, wann und für wen Impfungen vorgenommen werden könnten.");
     assertGood("Macht dir das Hoffnung?");
     assertGood("Mich fasziniert Macht.");
+    assertGood("Der solchen Einsätzen gegenüber kritische Hitler wurde nicht im Voraus informiert.");
+    assertGood("Gregor wählte die Gestalt des wenige Jahrzehnte zuvor verstorbenen Klostergründers.");
 
     assertGood("Wir machen das Januar.");
     assertGood("Wir teilen das Morgen mit.");
@@ -515,9 +519,11 @@ public class AgreementRuleTest {
     assertGood("Der ID.3 von Volkswagen.");
     assertGood("Der ID3 von Volkswagen.");
     assertGood("Das bedeutet Krieg!");
+    assertGood("Im Tun zu sein verhindert Prokrastination.");
 
     assertBad("Hier steht Ihre Text.");
     assertBad("Hier steht ihre Text.");
+    assertBad("Antje Last, Inhaberin des Berliner Kult Hotels Auberge, freute sich ebenfalls über die Gastronomenfamilie aus Bayern.");
 
     assertBad("Das ist doch lächerlich, was ist denn das für ein Klinik?");
     assertGood("Das ist doch lächerlich, was ist denn das für eine Klinik?");
@@ -530,6 +536,7 @@ public class AgreementRuleTest {
     assertGood("Die können sich in unserer neuen Hall of Fame verewigen.");
     assertGood("Auch, wenn das weite Teile der Bevölkerung betrifft.");
     assertGood("Hat das Einfluss auf Ihr Trinkverhalten?");
+    assertGood("Ihr wisst aber schon, dass das Blödsinn ist.");
 
     assertBad("Ich weiß nicht mehr, was unser langweiligen Thema war.");
     assertGood("Aber mein Wissen über die Antike ist ausbaufähig.");
@@ -566,10 +573,25 @@ public class AgreementRuleTest {
     assertGood("Vogue, eigentlich als B-Seite der letzten Like A Prayer-Auskopplung Keep It Together gedacht, wurde kurzfristig als eigenständige Single herausgebracht");
     assertGood("..., die laufend Gewaltsituationen ausgeliefert sind");
     assertGood("Dann folgte die Festnahme der dringend Tatverdächtigen.");
+    assertGood("Von der ersten Spielminute an machten die Münsteraner Druck und ...");
+    assertGood("Wenn diese Prognose bestätigt wird, wird empfohlen, dass Unternehmen die gefährliche Güter benötigen, die Transporte am Montag und Dienstag machen.");
 
     assertGood("Ich habe meine Projektidee (die riesiges finanzielles Potenzial hat) an einen Unternehmenspräsidenten geschickt.");
     assertGood("Als weitere Rechtsquelle gelten gelegentlich noch immer der Londoner Court of Appeal und das britische House of Lords.");
     assertGood("Die Evangelische Kirche befindet sich in der Bad Sodener Altstadt direkt neben dem Quellenpark.");
+    assertGood("Der volle Windows 10 Treibersupport");
+    assertGood("Zugleich stärkt es die renommierte Berliner Biodiversitätsforschung.");
+    assertGood("Der Windows 10 Treibersupport");
+    assertGood("Kennt irgendwer Tipps wie Kopfhörer länger halten?");
+    assertGood("George Lucas 1999 über seine sechsteilige Star Wars Saga.");
+    assertGood("… und von denen mehrere Gegenstand staatsanwaltlicher Ermittlungen waren.");
+    assertGood("Natürlich ist das Quatsch!");
+    assertGood("Die Xi Jinping Ära ist …");
+    assertGood("Die letzte unter Windows 98 lauffähige Version ist 5.1.");
+    assertGood("Das veranlasste Bürgermeister Adam, selbst tätig zu werden, denn er wollte es nicht zulassen, dass in seiner Stadt Notleidende ohne Hilfe dastehen.");
+    assertGood("Die südlichste Düsseldorfer Rheinbrücke ist die Fleher Brücke, eine Schrägseilbrücke mit dem höchsten Brückenpylon in Deutschland und einer Vielzahl von fächerförmig angeordneten Seilen.");
+    assertGood("Ein zeitweise wahres Stakkato an einschlägigen Patenten, das Benz & Cie.");
+    assertGood("Wem Rugby nicht sehr geläufig ist, dem wird auch das Six Nations nicht viel sagen.");
     // TODO: not yet detected:
     //assertBad("Erst recht wir fleißiges Arbeiter.");
     //assertBad("Erst recht ich fleißiges Arbeiter.");
@@ -661,6 +683,8 @@ public class AgreementRuleTest {
     assertGood("...damit diese ausreichend Sauerstoff geben.");
     assertGood("...als auch die jedem zukommende Freiheit.");
     assertGood("...als auch die daraus jedem zukommende Freiheit.");
+    assertGood("Damit zeigen wir, wie bedeutungsreich manche deutsche Begriffe sein können.");  // http://mediawiki.ids-mannheim.de/VarGra/index.php/Starke_/_schwache_Flexion_des_Adjektivs_und_Substantivs_nach_Artikelw%C3%B6rtern,_artikelartigen_W%C3%B6rtern_und_Pronomen
+    assertGood("Damit zeigen wir, wie bedeutungsreich manche deutschen Begriffe sein können.");
 
     // incorrect sentences:
     assertBad("Er hatte ein anstrengenden Tag",
